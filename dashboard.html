@@ -199,17 +199,60 @@
             align-items: center;
         }
 
-        /* Encryption Status Badge */
-        .encryption-status-badge {
-            background: var(--gradient-hybrid);
-            color: white;
-            padding: 8px 20px;
+        /* Encryption Status Badges */
+        .encryption-badges {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .encryption-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
             border-radius: 20px;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+            border: 2px solid;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .encryption-badge.classical {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .encryption-badge.quantum {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        .status-light.active {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .status-light.inactive {
+            background: var(--danger);
+            box-shadow: 0 0 10px var(--danger);
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
         }
 
         .agent-status {
@@ -932,6 +975,11 @@
                 flex-direction: column;
             }
             
+            .encryption-badges {
+                order: -1;
+                justify-content: center;
+            }
+            
             .nav-tabs {
                 overflow-x: scroll;
                 -webkit-overflow-scrolling: touch;
@@ -1017,8 +1065,16 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <div class="encryption-status-badge">
-                        CLASSICAL + QUANTUM ACTIVE
+                    <!-- Separate Encryption Badges -->
+                    <div class="encryption-badges">
+                        <div class="encryption-badge classical">
+                            <div class="status-light active" id="classicalStatus"></div>
+                            <span>CLASSICAL</span>
+                        </div>
+                        <div class="encryption-badge quantum">
+                            <div class="status-light active" id="quantumStatus"></div>
+                            <span>QUANTUM</span>
+                        </div>
                     </div>
                     <div class="agent-status" onclick="showAgentShutdownModal()">
                         <span class="agent-icon">🤖</span>
@@ -1288,6 +1344,8 @@
         let chatOpen = false;
         let agentActive = true;
         let cliMode = false;
+        let classicalActive = true;
+        let quantumActive = true;
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', () => {
@@ -1305,6 +1363,13 @@
             setInterval(() => {
                 updateMetrics();
             }, 3000);
+
+            // Simulate encryption status changes occasionally
+            setInterval(() => {
+                if (Math.random() > 0.97) {
+                    simulateEncryptionStatusChange();
+                }
+            }, 10000);
         });
 
         // Add feed item
@@ -1375,6 +1440,41 @@
             const decisionsEl = document.getElementById('decisionsPerMin');
             const decisions = 2.3 + Math.random() * 0.3;
             decisionsEl.textContent = decisions.toFixed(1) + 'K';
+        }
+
+        // Simulate encryption status changes
+        function simulateEncryptionStatusChange() {
+            // Rarely simulate an encryption layer going offline
+            if (Math.random() > 0.8) {
+                const classicalStatus = document.getElementById('classicalStatus');
+                const quantumStatus = document.getElementById('quantumStatus');
+                
+                if (Math.random() > 0.5) {
+                    // Classical layer issue
+                    classicalActive = false;
+                    classicalStatus.className = 'status-light inactive';
+                    addFeedItem('⚠️ Classical encryption layer temporarily offline - switching to quantum-only mode', 'warning', 'EncryptionManager');
+                    
+                    // Restore after 3 seconds
+                    setTimeout(() => {
+                        classicalActive = true;
+                        classicalStatus.className = 'status-light active';
+                        addFeedItem('✅ Classical encryption layer restored - hybrid mode active', 'encryption', 'EncryptionManager');
+                    }, 3000);
+                } else {
+                    // Quantum layer issue
+                    quantumActive = false;
+                    quantumStatus.className = 'status-light inactive';
+                    addFeedItem('⚠️ Quantum encryption layer recalibrating - maintaining classical protection', 'warning', 'EncryptionManager');
+                    
+                    // Restore after 3 seconds
+                    setTimeout(() => {
+                        quantumActive = true;
+                        quantumStatus.className = 'status-light active';
+                        addFeedItem('✅ Quantum encryption layer online - hybrid mode restored', 'encryption', 'EncryptionManager');
+                    }, 3000);
+                }
+            }
         }
 
         // Show main agent details
