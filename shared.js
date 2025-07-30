@@ -625,16 +625,36 @@ class SentinelEventHandlers {
             });
         }
         
-        // Chat toggle
+        // Chat toggle - Fixed to work properly
         const chatToggle = document.querySelector('.ai-chat-toggle');
         if (chatToggle) {
-            chatToggle.addEventListener('click', () => sentinelChat.toggle());
+            // Remove any existing listeners to prevent duplicates
+            chatToggle.onclick = null;
+            chatToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (sentinelChat) {
+                    sentinelChat.toggle();
+                } else {
+                    // Fallback
+                    window.toggleChat();
+                }
+            });
         }
         
-        // Chat close
+        // Chat close button
         const chatClose = document.querySelector('.ai-chat-close');
         if (chatClose) {
-            chatClose.addEventListener('click', () => sentinelChat.toggle());
+            chatClose.onclick = null;
+            chatClose.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (sentinelChat) {
+                    sentinelChat.toggle();
+                } else {
+                    window.toggleChat();
+                }
+            });
         }
     }
     
@@ -1031,8 +1051,23 @@ window.sentinelChat = sentinelChat;
 window.SentinelUtils = SentinelUtils;
 window.SentinelEventHandlers = SentinelEventHandlers;
 
-// Legacy function exports
-window.toggleChat = () => sentinelChat?.toggle();
+// Legacy function exports - Fixed chat toggle
+window.toggleChat = () => {
+    if (sentinelChat) {
+        sentinelChat.toggle();
+    } else {
+        // Fallback for before initialization
+        SentinelState.chatOpen = !SentinelState.chatOpen;
+        const chatWindow = document.getElementById('aiChatWindow');
+        if (chatWindow) {
+            if (SentinelState.chatOpen) {
+                chatWindow.classList.add('active');
+            } else {
+                chatWindow.classList.remove('active');
+            }
+        }
+    }
+};
 window.addChatMessage = (msg, isUser, type) => sentinelChat?.addMessage(msg, isUser, type);
 window.processCommand = (cmd) => sentinelChat?.sendMessage(cmd);
 window.showAgentShutdownModal = SentinelEventHandlers.showAgentShutdownModal;
