@@ -478,6 +478,41 @@
             line-height: 1.5;
         }
 
+        /* Reset Discovery Button - Subtle */
+        .reset-discovery-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.6;
+        }
+
+        .reset-discovery-btn:hover {
+            background: rgba(0, 204, 255, 0.05);
+            border-color: rgba(0, 204, 255, 0.3);
+            color: var(--secondary);
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+
+        .reset-discovery-btn span:first-child {
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        .reset-discovery-btn:hover span:first-child {
+            transform: rotate(180deg);
+        }
+
         /* Sub-Agent Status - Adaptive */
         .sub-agent-status {
             background: linear-gradient(135deg, rgba(0, 204, 255, 0.1) 0%, rgba(0, 255, 136, 0.05) 100%);
@@ -1163,6 +1198,98 @@
             }
         }
 
+        // Rescan Infrastructure Functions
+        function showRescanModal() {
+            const modal = document.getElementById('rescanModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeRescanModal() {
+            const modal = document.getElementById('rescanModal');
+            modal.style.display = 'none';
+        }
+
+        function confirmRescan() {
+            closeRescanModal();
+            
+            // Show rescan progress in chat
+            if (!chatOpen) {
+                toggleChat();
+            }
+            
+            addChatMessage('🔄 Infrastructure rescan initiated...', false, 'system');
+            
+            // Simulate rescan process with realistic steps
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Stopping current discovery processes...', false, 'system');
+            }, 500);
+            
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Clearing discovery cache and resetting configuration...', false, 'system');
+            }, 1200);
+            
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Re-initializing adaptive detection engine...', false, 'system');
+            }, 2000);
+            
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Discovery process reset complete. Please reconfigure your environment.', false, 'system');
+                
+                // Reset to initial state
+                resetToInitialState();
+            }, 3000);
+        }
+
+        function resetToInitialState() {
+            // Clear saved scale preference to force re-selection
+            localStorage.removeItem('sentinel_scale');
+            
+            // Reset global state
+            currentScale = null;
+            ipRanges = [];
+            internalDevices = [];
+            deviceCounter = 1;
+            
+            // Hide all main sections
+            document.getElementById('subAgentStatus').style.display = 'none';
+            document.getElementById('ipRangeManager').style.display = 'none';
+            document.getElementById('dashboardInteractive').style.display = 'none';
+            document.getElementById('networkOverview').style.display = 'none';
+            document.getElementById('scanningGrid').style.display = 'none';
+            document.getElementById('deviceDiscovery').style.display = 'none';
+            
+            // Reset scale indicator
+            const scaleIndicator = document.getElementById('scaleIndicator');
+            const scaleIcon = document.getElementById('scaleIcon');
+            const scaleText = document.getElementById('scaleText');
+            
+            scaleIndicator.className = 'scale-indicator scale-individual';
+            scaleIcon.textContent = '🔍';
+            scaleText.textContent = 'DETECTING';
+            
+            // Remove scale class from body
+            document.body.className = '';
+            
+            // Clear scale option selections
+            const scaleOptions = document.querySelectorAll('.scale-option');
+            scaleOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Show environment detection
+            document.getElementById('environmentDetection').style.display = 'block';
+            
+            // Update detection title for rescan context
+            document.querySelector('.detection-title').textContent = '🔄 Network Discovery Reset';
+            document.querySelector('.detection-description').textContent = 
+                'AI Sentinel-X has reset the network discovery configuration. Please select your current infrastructure scale to restart adaptive monitoring and analysis.';
+            
+            // Add final chat message
+            setTimeout(() => {
+                addChatMessage('✅ Network discovery reset complete. Environment detection reinitialized. Please select your infrastructure scale to continue.', false, 'system');
+            }, 500);
+        }
+
         .device-card:hover {
             background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 204, 255, 0.05) 100%);
             border-color: var(--primary);
@@ -1761,6 +1888,17 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Subtle Reset Option -->
+            <div style="margin-top: 30px; text-align: center; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <button class="reset-discovery-btn" onclick="showRescanModal()" title="Restart network discovery and re-detect infrastructure">
+                    <span>🔄</span>
+                    <span>Reset Discovery Process</span>
+                </button>
+                <p style="font-size: 12px; color: var(--text-secondary); margin-top: 8px; opacity: 0.7;">
+                    Use if infrastructure has changed significantly
+                </p>
+            </div>
         </div>
 
         <!-- Sub-Agent Status -->
@@ -1849,6 +1987,33 @@
             
             <div class="discovery-grid" id="deviceGrid">
                 <!-- Devices will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Rescan Infrastructure Modal -->
+    <div class="modal-overlay" id="rescanModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">🔄 Reset Network Discovery</h2>
+            </div>
+            <div class="modal-content">
+                <p><strong>Reset Discovery Configuration</strong></p>
+                <p>This will reset the network discovery process and return to environment detection. Use this when:</p>
+                <ul style="margin: 15px 0; padding-left: 20px; color: var(--text-secondary);">
+                    <li>Infrastructure scale has changed significantly</li>
+                    <li>Network topology requires re-evaluation</li>
+                    <li>Need to reconfigure monitoring scope</li>
+                    <li>Testing different deployment scenarios</li>
+                    <li>Organizational structure has changed</li>
+                </ul>
+                <p style="color: var(--warning); font-size: 14px; margin-top: 20px;">
+                    ⚠️ <strong>Note:</strong> This will return you to the environment selection screen. Current session monitoring will be reset.
+                </p>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="confirmRescan()">Reset Discovery Process</button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeRescanModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -3073,6 +3238,8 @@
                     closeModal();
                 } else if (event.target.id === 'addRangeModal') {
                     closeAddRangeModal();
+                } else if (event.target.id === 'rescanModal') {
+                    closeRescanModal();
                 }
             }
         }
