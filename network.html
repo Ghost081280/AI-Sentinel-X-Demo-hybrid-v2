@@ -681,25 +681,25 @@
             background: #ff6b35;
         }
 
-        /* Scale Pricing */
-        .scale-pricing {
-            font-size: 18px;
+        /* Scale Coverage instead of pricing */
+        .scale-coverage {
+            font-size: 16px;
             font-weight: bold;
             color: var(--primary);
             text-align: center;
-            padding: 15px;
+            padding: 12px;
             background: rgba(0, 255, 136, 0.1);
             border-radius: 10px;
             border: 1px solid rgba(0, 255, 136, 0.3);
         }
 
-        .business .scale-pricing {
+        .business .scale-coverage {
             color: #9333ea;
             background: rgba(147, 51, 234, 0.1);
             border-color: rgba(147, 51, 234, 0.3);
         }
 
-        .enterprise .scale-pricing {
+        .enterprise .scale-coverage {
             color: #ff6b35;
             background: rgba(255, 107, 53, 0.1);
             border-color: rgba(255, 107, 53, 0.3);
@@ -2036,14 +2036,14 @@
         <div class="environment-detection" id="environmentDetection">
             <div class="detection-title">🎯 Intelligent Network Discovery</div>
             <div class="detection-description">
-                AI Sentinel-X can automatically discover and analyze your network infrastructure to recommend the optimal security deployment. Click "Auto-Scan Network" to detect your environment, or choose your preferred solution below.
+                AI Sentinel-X will automatically discover and analyze your network infrastructure to configure optimal security monitoring. Your license includes base protection - additional monitoring can be configured based on your actual needs.
             </div>
             
             <div class="auto-scan-section">
                 <button class="auto-scan-btn" onclick="startAutoScan()" id="autoScanBtn">
                     <span class="scan-icon">🔍</span>
                     <span class="scan-text">Auto-Scan My Network</span>
-                    <span class="scan-subtitle">Detect infrastructure & recommend solution</span>
+                    <span class="scan-subtitle">Detect infrastructure & configure monitoring</span>
                 </button>
                 <div class="scan-progress" id="scanProgress" style="display: none;">
                     <div class="progress-bar">
@@ -2054,41 +2054,41 @@
             </div>
             
             <div class="solution-divider">
-                <span>Or choose your deployment solution:</span>
+                <span>Or manually configure your deployment:</span>
             </div>
             
             <div class="scale-options">
                 <div class="scale-option individual" onclick="selectScale('individual')">
                     <div class="scale-header">
                         <div class="scale-icon">🌐</div>
-                        <div class="scale-badge starter">STARTER</div>
+                        <div class="scale-badge starter">ESSENTIAL</div>
                     </div>
-                    <div class="scale-title">Essential Protection</div>
-                    <div class="scale-subtitle">Single Server • VPS • Cloud Instance</div>
+                    <div class="scale-title">Single Server Protection</div>
+                    <div class="scale-subtitle">Individual Server • VPS • Cloud Instance</div>
                     <div class="scale-features">
                         <div class="feature">✓ Real-time threat monitoring</div>
                         <div class="feature">✓ Hybrid-resistant encryption</div>
                         <div class="feature">✓ Automated incident response</div>
-                        <div class="feature">✓ 24/7 AI protection</div>
+                        <div class="feature">✓ Basic network discovery</div>
                     </div>
-                    <div class="scale-pricing">Starting at $49/month</div>
+                    <div class="scale-coverage">Monitors: 1 IP address</div>
                 </div>
                 
                 <div class="scale-option business" onclick="selectScale('business')">
                     <div class="scale-header">
                         <div class="scale-icon">🏢</div>
-                        <div class="scale-badge professional">PROFESSIONAL</div>
+                        <div class="scale-badge professional">BUSINESS</div>
                     </div>
-                    <div class="scale-title">Business Security</div>
-                    <div class="scale-subtitle">Multi-Site • 2-50 IP Ranges</div>
+                    <div class="scale-title">Multi-Site Security</div>
+                    <div class="scale-subtitle">Small-Medium Business • Multi-Location</div>
                     <div class="scale-features">
                         <div class="feature">✓ Everything in Essential</div>
                         <div class="feature">✓ Cross-location correlation</div>
                         <div class="feature">✓ Advanced threat intelligence</div>
                         <div class="feature">✓ Business compliance reports</div>
-                        <div class="feature">✓ Priority support</div>
+                        <div class="feature">✓ Extended monitoring range</div>
                     </div>
-                    <div class="scale-pricing">Starting at $199/month</div>
+                    <div class="scale-coverage">Monitors: Up to 50 IP addresses</div>
                 </div>
                 
                 <div class="scale-option enterprise" onclick="selectScale('enterprise')">
@@ -2096,22 +2096,22 @@
                         <div class="scale-icon">🏭</div>
                         <div class="scale-badge enterprise">ENTERPRISE</div>
                     </div>
-                    <div class="scale-title">Enterprise Defense</div>
+                    <div class="scale-title">Global Infrastructure Defense</div>
                     <div class="scale-subtitle">Data Centers • Global Infrastructure</div>
                     <div class="scale-features">
-                        <div class="feature">✓ Everything in Professional</div>
+                        <div class="feature">✓ Everything in Business</div>
                         <div class="feature">✓ Global threat correlation</div>
                         <div class="feature">✓ Custom threat modeling</div>
                         <div class="feature">✓ SOC integration & APIs</div>
-                        <div class="feature">✓ Dedicated security team</div>
+                        <div class="feature">✓ Unlimited monitoring scope</div>
                     </div>
-                    <div class="scale-pricing">Contact for pricing</div>
+                    <div class="scale-coverage">Monitors: Unlimited IP addresses</div>
                 </div>
             </div>
             
             <div class="solution-footer">
-                <p>🛡️ All solutions include quantum-resistant encryption, real-time AI monitoring, and instant threat response</p>
-                <p>📞 Need help choosing? <a href="#" onclick="requestConsultation()">Schedule a free security consultation</a></p>
+                <p>🛡️ Your base license includes essential protection. Additional monitoring capabilities can be configured based on your actual infrastructure needs.</p>
+                <p>📊 Usage-based billing ensures you only pay for what you actually need to monitor.</p>
             </div>
         </div>
 
@@ -2167,11 +2167,10 @@
             <div class="interactive-header">
                 <h2 class="interactive-title" id="interactiveTitle">Network Discovery Dashboard</h2>
                 <div class="auto-scan-controls">
-                    <button class="scan-toggle" id="scanToggle" onclick="toggleScanning()">Auto-Scan Active</button>
-                    <span style="color: var(--text-secondary); font-size: 14px;" id="scanDetails">External + Internal</span>
+                    <span style="color: var(--text-secondary); font-size: 14px;" id="scanDetails">Continuous Monitoring Active</span>
                     <button class="reset-config-btn" onclick="showRescanModal()" title="Reset network discovery and reconfigure environment">
                         <span class="icon">🔄</span>
-                        <span>Reset</span>
+                        <span>Reset Configuration</span>
                     </button>
                 </div>
             </div>
