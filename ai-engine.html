@@ -1,0 +1,1762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Engine | AI Sentinel-X</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --secondary: #00ccff;
+            --accent: #7c3aed;
+            --danger: #ff0044;
+            --warning: #ffaa00;
+            --success: #00ff88;
+            --bg-dark: #0a0e1a;
+            --bg-darker: #060912;
+            --bg-card: rgba(10, 20, 40, 0.8);
+            --border: rgba(0, 255, 136, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #8892b0;
+            --gradient-1: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            --gradient-2: linear-gradient(135deg, #7c3aed 0%, #00ccff 100%);
+            --gradient-shield: linear-gradient(135deg, #1a4d2e 0%, #00ff88 50%, #00ccff 100%);
+            --gradient-neural: linear-gradient(135deg, #7c3aed 0%, #ff00ff 50%, #00ccff 100%);
+            --gradient-quantum: linear-gradient(135deg, #ff00ff 0%, #7c3aed 50%, #00ccff 100%);
+            --gradient-hybrid: linear-gradient(135deg, #00ff88 0%, #7c3aed 50%, #00ccff 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Consolas', 'Monaco', monospace;
+            background: var(--bg-darker);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated Dot Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .dot-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(0, 255, 136, 0.15) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: dotMove 40s linear infinite;
+        }
+
+        @keyframes dotMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header - Same as other pages */
+        .header {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px 35px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        /* Logo */
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-shield {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-shield);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            position: relative;
+            animation: shieldPulse 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes shieldPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo-eye {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--bg-darker);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-iris {
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+        }
+
+        .rotating-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--primary);
+        }
+
+        .dot:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+        .dot:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
+        .dot:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-tagline {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* Encryption Status Badges */
+        .encryption-badges {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .encryption-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .encryption-badge.classical {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .encryption-badge.quantum {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        .status-light.active {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .status-light.inactive {
+            background: var(--danger);
+            box-shadow: 0 0 10px var(--danger);
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .agent-status:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .agent-icon {
+            font-size: 20px;
+        }
+
+        .agent-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .agent-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .agent-status-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 0, 68, 0.3);
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: var(--danger);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 0, 68, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: var(--bg-card);
+            padding: 12px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            backdrop-filter: blur(15px);
+        }
+
+        .nav-tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--border);
+            color: var(--primary);
+        }
+
+        .nav-tab.active {
+            background: var(--gradient-1);
+            color: var(--bg-darker);
+            font-weight: bold;
+        }
+
+        /* Main Agent Status */
+        .main-agent-status {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(0, 255, 136, 0.1) 100%);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-agent-status::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+            animation: neuralPulse 15s linear infinite;
+        }
+
+        @keyframes neuralPulse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .main-agent-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-agent-title {
+            font-size: 28px;
+            font-weight: bold;
+            background: var(--gradient-neural);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .main-agent-subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .agent-metrics {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .agent-metric {
+            text-align: center;
+        }
+
+        .agent-metric-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .agent-metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Main Grid */
+        .ai-engine-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Neural Network Visualization */
+        .neural-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .neural-visualization {
+            flex: 1;
+            min-height: 400px;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(124, 58, 237, 0.1) 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .neural-canvas {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .neural-overlay-info {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .neural-stats {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .neural-stat {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-top: 5px;
+        }
+
+        /* Sub-Agents Control Panel */
+        .subagents-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .subagents-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 20px;
+            flex: 1;
+        }
+
+        .subagent-item {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 255, 136, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .subagent-item:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(124, 58, 237, 0.05) 100%);
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .subagent-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .subagent-icon {
+            font-size: 24px;
+        }
+
+        .subagent-details {
+            flex: 1;
+        }
+
+        .subagent-name {
+            font-weight: bold;
+            font-size: 15px;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .subagent-description {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .subagent-activity {
+            font-size: 11px;
+            color: var(--accent);
+            font-style: italic;
+        }
+
+        .subagent-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+        }
+
+        .status-text {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--success);
+            text-transform: uppercase;
+        }
+
+        /* Training & Optimization Section */
+        .training-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(20px);
+            margin-bottom: 25px;
+        }
+
+        .training-progress {
+            margin-top: 20px;
+        }
+
+        .progress-item {
+            margin-bottom: 20px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-label {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .progress-value {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 10px;
+            transition: width 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Autonomous Actions Log */
+        .actions-log-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(20px);
+        }
+
+        .actions-log {
+            height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-top: 20px;
+        }
+
+        .action-item {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(124, 58, 237, 0.02) 100%);
+            border-left: 3px solid var(--accent);
+            padding: 15px 18px;
+            margin-bottom: 12px;
+            border-radius: 0 10px 10px 0;
+            animation: actionSlide 0.3s ease;
+        }
+
+        @keyframes actionSlide {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .action-item.critical {
+            border-left-color: var(--danger);
+            background: linear-gradient(135deg, rgba(255, 0, 68, 0.05) 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        .action-item.warning {
+            border-left-color: var(--warning);
+            background: linear-gradient(135deg, rgba(255, 170, 0, 0.05) 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        .action-item.success {
+            border-left-color: var(--success);
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        .action-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .action-type {
+            font-size: 10px;
+            color: var(--accent);
+            display: inline-block;
+            padding: 2px 6px;
+            background: rgba(124, 58, 237, 0.2);
+            border-radius: 4px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .action-message {
+            font-size: 13px;
+            line-height: 1.4;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .action-details {
+            font-size: 11px;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-detail-item {
+            display: flex;
+            gap: 4px;
+        }
+
+        /* AI Chat Widget */
+        .ai-chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .ai-chat-toggle {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+            transition: all 0.3s ease;
+            font-size: 28px;
+        }
+
+        .ai-chat-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 400px;
+            height: 600px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+        }
+
+        .ai-chat-window.active {
+            display: flex;
+            animation: chatSlideIn 0.3s ease;
+        }
+
+        @keyframes chatSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ai-chat-header {
+            background: var(--gradient-1);
+            color: var(--bg-darker);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .ai-chat-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .chat-status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--bg-darker);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .ai-chat-close {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .cli-mode-indicator {
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 0 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--warning);
+            display: none;
+        }
+
+        .cli-mode-indicator.active {
+            display: block;
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ai-message-bubble {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 15px 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .ai-message-bubble.user {
+            background: rgba(0, 204, 255, 0.1);
+            border-color: var(--secondary);
+            align-self: flex-end;
+        }
+
+        .ai-message-bubble.system {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--accent);
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .ai-message-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .ai-chat-input-container {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .ai-chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .ai-chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .ai-chat-send {
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            color: var(--bg-darker);
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Agent Shutdown Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 10px;
+        }
+
+        .modal-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-btn-primary {
+            background: var(--gradient-1);
+            color: var(--bg-darker);
+        }
+
+        .modal-btn-secondary {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1200px) {
+            .ai-engine-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .encryption-badges {
+                order: -1;
+                justify-content: center;
+            }
+            
+            .nav-tabs {
+                overflow-x: scroll;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .main-agent-status {
+                padding: 20px;
+            }
+            
+            .agent-metrics {
+                gap: 20px;
+            }
+            
+            .ai-chat-window {
+                width: calc(100vw - 40px);
+                height: calc(100vh - 120px);
+                right: -20px;
+                bottom: 80px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Check authentication
+        const auth = localStorage.getItem('sentinel_auth');
+        if (!auth) {
+            window.location.href = 'index.html';
+        } else {
+            const authData = JSON.parse(auth);
+            if (Date.now() - authData.timestamp > 24 * 60 * 60 * 1000) {
+                localStorage.removeItem('sentinel_auth');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="dot-grid"></div>
+    </div>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Header - Same as other pages -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo-container">
+                        <div class="rotating-dots">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <div class="logo-shield">
+                            <div class="logo-eye">
+                                <div class="logo-iris"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="brand-info">
+                        <h1 class="brand-name">AI SENTINEL-X</h1>
+                        <p class="brand-tagline">Autonomous Cyber Defense</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <!-- Separate Encryption Badges -->
+                    <div class="encryption-badges">
+                        <div class="encryption-badge classical">
+                            <div class="status-light active" id="classicalStatus"></div>
+                            <span>CLASSICAL</span>
+                        </div>
+                        <div class="encryption-badge quantum">
+                            <div class="status-light active" id="quantumStatus"></div>
+                            <span>QUANTUM</span>
+                        </div>
+                    </div>
+                    <div class="agent-status" onclick="showAgentShutdownModal()">
+                        <span class="agent-icon">🤖</span>
+                        <div class="agent-info">
+                            <span class="agent-title">AI Agent Active</span>
+                            <span class="agent-status-text" id="agentModeText">Autonomous with Manual Override</span>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="handleLogout()">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <a href="dashboard.html" class="nav-tab">
+                <span>🏠</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="threats.html" class="nav-tab">
+                <span>🛡️</span>
+                <span>Threats</span>
+            </a>
+            <a href="network.html" class="nav-tab">
+                <span>🌐</span>
+                <span>Network</span>
+            </a>
+            <a href="defense.html" class="nav-tab">
+                <span>⚔️</span>
+                <span>Defense</span>
+            </a>
+            <a href="#" class="nav-tab active">
+                <span>🧠</span>
+                <span>AI Engine</span>
+            </a>
+            <a href="encryption.html" class="nav-tab">
+                <span>🔐</span>
+                <span>Encryption</span>
+            </a>
+            <a href="analytics.html" class="nav-tab">
+                <span>📊</span>
+                <span>Analytics</span>
+            </a>
+            <a href="settings.html" class="nav-tab">
+                <span>⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <!-- Main Agent Status -->
+        <div class="main-agent-status">
+            <div class="main-agent-content">
+                <div class="main-agent-title">🤖 MAIN AGENT OPERATIONAL</div>
+                <div class="main-agent-subtitle">Autonomous AI orchestrating all sub-agents with hybrid encryption</div>
+                <div class="agent-metrics">
+                    <div class="agent-metric">
+                        <div class="agent-metric-value" id="subAgentsActive">6</div>
+                        <div class="agent-metric-label">Sub-Agents Active</div>
+                    </div>
+                    <div class="agent-metric">
+                        <div class="agent-metric-value" id="decisionsPerMin">2.4K</div>
+                        <div class="agent-metric-label">Decisions/Min</div>
+                    </div>
+                    <div class="agent-metric">
+                        <div class="agent-metric-value">99.8%</div>
+                        <div class="agent-metric-label">ML Accuracy</div>
+                    </div>
+                    <div class="agent-metric">
+                        <div class="agent-metric-value" id="systemUptime">99.98%</div>
+                        <div class="agent-metric-label">Uptime</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="ai-engine-grid">
+            <!-- Neural Network Visualization -->
+            <div class="neural-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Neural Network Activity</h2>
+                </div>
+                <div class="neural-visualization">
+                    <canvas class="neural-canvas" id="neuralCanvas"></canvas>
+                    <div class="neural-overlay-info">
+                        <div class="neural-stats">
+                            <div class="neural-stat">
+                                <div class="stat-label">Nodes</div>
+                                <div class="stat-value" id="neuralNodes">2,847</div>
+                            </div>
+                            <div class="neural-stat">
+                                <div class="stat-label">Connections</div>
+                                <div class="stat-value" id="neuralConnections">14.2K</div>
+                            </div>
+                            <div class="neural-stat">
+                                <div class="stat-label">Learning Rate</div>
+                                <div class="stat-value">0.001</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub-Agents Control Panel -->
+            <div class="subagents-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Sub-Agent Orchestra</h2>
+                </div>
+                <div class="subagents-list">
+                    <div class="subagent-item" onclick="viewSubAgent('ThreatScanner')">
+                        <div class="subagent-info">
+                            <div class="subagent-icon">🛡️</div>
+                            <div class="subagent-details">
+                                <div class="subagent-name">ThreatScanner</div>
+                                <div class="subagent-description">Analyzing 147K events/sec</div>
+                                <div class="subagent-activity">7 active threats detected</div>
+                            </div>
+                        </div>
+                        <div class="subagent-status">
+                            <div class="status-dot"></div>
+                            <div class="status-text">ACTIVE</div>
+                        </div>
+                    </div>
+
+                    <div class="subagent-item" onclick="viewSubAgent('NetworkMapper')">
+                        <div class="subagent-info">
+                            <div class="subagent-icon">🌐</div>
+                            <div class="subagent-details">
+                                <div class="subagent-name">NetworkMapper</div>
+                                <div class="subagent-description">Monitoring 247 devices</div>
+                                <div class="subagent-activity">12 new devices today</div>
+                            </div>
+                        </div>
+                        <div class="subagent-status">
+                            <div class="status-dot"></div>
+                            <div class="status-text">ACTIVE</div>
+                        </div>
+                    </div>
+
+                    <div class="subagent-item" onclick="viewSubAgent('DefenseOrchestrator')">
+                        <div class="subagent-info">
+                            <div class="subagent-icon">⚔️</div>
+                            <div class="subagent-details">
+                                <div class="subagent-name">DefenseOrchestrator</div>
+                                <div class="subagent-description">8 honeypots deployed</div>
+                                <div class="subagent-activity">124 attacks neutralized</div>
+                            </div>
+                        </div>
+                        <div class="subagent-status">
+                            <div class="status-dot"></div>
+                            <div class="status-text">ACTIVE</div>
+                        </div>
+                    </div>
+
+                    <div class="subagent-item" onclick="viewSubAgent('EncryptionManager')">
+                        <div class="subagent-info">
+                            <div class="subagent-icon">🔐</div>
+                            <div class="subagent-details">
+                                <div class="subagent-name">EncryptionManager</div>
+                                <div class="subagent-description">Hybrid mode active</div>
+                                <div class="subagent-activity">2.1M crypto ops/sec</div>
+                            </div>
+                        </div>
+                        <div class="subagent-status">
+                            <div class="status-dot"></div>
+                            <div class="status-text">ACTIVE</div>
+                        </div>
+                    </div>
+
+                    <div class="subagent-item" onclick="viewSubAgent('AnalyticsEngine')">
+                        <div class="subagent-info">
+                            <div class="subagent-icon">📊</div>
+                            <div class="subagent-details">
+                                <div class="subagent-name">AnalyticsEngine</div>
+                                <div class="subagent-description">Processing 2.4M metrics</div>
+                                <div class="subagent-activity">99.8% accuracy</div>
+                            </div>
+                        </div>
+                        <div class="subagent-status">
+                            <div class="status-dot"></div>
+                            <div class="status-text">ACTIVE</div>
+                        </div>
+                    </div>
+
+                    <div class="subagent-item" onclick="viewSubAgent('LogAgent')">
+                        <div class="subagent-info">
+                            <div class="subagent-icon">📝</div>
+                            <div class="subagent-details">
+                                <div class="subagent-name">LogAgent</div>
+                                <div class="subagent-description">Securing audit trails</div>
+                                <div class="subagent-activity">All logs Dilithium signed</div>
+                            </div>
+                        </div>
+                        <div class="subagent-status">
+                            <div class="status-dot"></div>
+                            <div class="status-text">ACTIVE</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Training & Optimization Section -->
+        <div class="training-section">
+            <div class="panel-header">
+                <h2 class="panel-title">AI Training & Optimization</h2>
+                <span style="color: var(--text-secondary); font-size: 14px;">Continuous learning enabled</span>
+            </div>
+            <div class="training-progress">
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Threat Pattern Recognition</span>
+                        <span class="progress-value" id="threatLearning">94.7%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 94.7%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Network Behavior Analysis</span>
+                        <span class="progress-value" id="networkLearning">89.2%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 89.2%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Anomaly Detection Model</span>
+                        <span class="progress-value" id="anomalyLearning">96.1%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 96.1%"></div>
+                    </div>
+                </div>
+
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-label">Response Optimization</span>
+                        <span class="progress-value" id="responseLearning">91.8%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 91.8%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Autonomous Actions Log -->
+        <div class="actions-log-section">
+            <div class="panel-header">
+                <h2 class="panel-title">Autonomous AI Actions</h2>
+                <div class="live-indicator" style="display: flex; align-items: center; gap: 10px; color: var(--danger); font-size: 13px; font-weight: bold; text-transform: uppercase;">
+                    <div style="width: 10px; height: 10px; background: var(--danger); border-radius: 50%; animation: pulse 2s ease-in-out infinite;"></div>
+                    <span>LIVE</span>
+                </div>
+            </div>
+            <div class="actions-log" id="actionsLog">
+                <!-- Action items will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Shutdown Modal -->
+    <div class="modal-overlay" id="agentShutdownModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">⚠️ Agent Control Toggle</h2>
+            </div>
+            <div class="modal-content">
+                Toggle autonomous mode? When paused, manual control remains available through the AI chat bot CLI. System will fallback to local control mode if external APIs are offline.
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="confirmAgentShutdown()">Toggle Agent Mode</button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Widget -->
+    <div class="ai-chat-widget">
+        <div class="ai-chat-window" id="aiChatWindow">
+            <div class="ai-chat-header">
+                <div class="ai-chat-status">
+                    <span class="chat-status-dot"></span>
+                    <span>MAIN AGENT ONLINE</span>
+                </div>
+                <span class="ai-chat-close" onclick="toggleChat()">×</span>
+            </div>
+            <div class="cli-mode-indicator" id="cliModeIndicator">
+                ⚠️ CLI MODE - Main Agent Offline
+            </div>
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <div class="ai-message-bubble">
+                    I am the Main Agent orchestrating all sub-agents. I coordinate ThreatScanner, NetworkMapper, DefenseOrchestrator, EncryptionManager, AnalyticsEngine, and LogAgent. All communications use hybrid encryption. How can I assist you?
+                </div>
+                <div class="ai-message-time">Just now</div>
+            </div>
+            <div class="ai-chat-input-container">
+                <input 
+                    type="text" 
+                    class="ai-chat-input" 
+                    id="aiChatInput" 
+                    placeholder="Command the Main Agent or query sub-agents..."
+                    onkeypress="handleChatKeyPress(event)"
+                >
+                <button class="ai-chat-send" onclick="sendChatMessage()">SEND</button>
+            </div>
+        </div>
+        <div class="ai-chat-toggle" onclick="toggleChat()">🤖</div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        // Global variables
+        let chatOpen = false;
+        let agentActive = true;
+        let cliMode = false;
+        let classicalActive = true;
+        let quantumActive = true;
+
+        // Neural network visualization
+        function initNeuralVisualization() {
+            const canvas = document.getElementById('neuralCanvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            const nodes = [];
+            const connections = [];
+            const nodeCount = 45;
+            
+            // Generate nodes
+            for (let i = 0; i < nodeCount; i++) {
+                nodes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3,
+                    radius: Math.random() * 3 + 2,
+                    activity: Math.random()
+                });
+            }
+            
+            // Generate connections
+            nodes.forEach((node1, i) => {
+                nodes.slice(i + 1).forEach((node2, j) => {
+                    if (Math.random() > 0.85) {
+                        connections.push({ from: i, to: i + j + 1, strength: Math.random() });
+                    }
+                });
+            });
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Update nodes
+                nodes.forEach(node => {
+                    node.x += node.vx;
+                    node.y += node.vy;
+                    node.activity = Math.sin(Date.now() * 0.001 + node.x * 0.01) * 0.5 + 0.5;
+                    
+                    if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+                    if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+                });
+                
+                // Draw connections
+                connections.forEach(conn => {
+                    const node1 = nodes[conn.from];
+                    const node2 = nodes[conn.to];
+                    if (!node1 || !node2) return;
+                    
+                    const opacity = conn.strength * 0.5;
+                    const pulse = Math.sin(Date.now() * 0.003) * 0.3 + 0.7;
+                    
+                    ctx.strokeStyle = `rgba(124, 58, 237, ${opacity * pulse})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(node1.x, node1.y);
+                    ctx.lineTo(node2.x, node2.y);
+                    ctx.stroke();
+                });
+                
+                // Draw nodes
+                nodes.forEach(node => {
+                    const intensity = node.activity;
+                    const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 2);
+                    gradient.addColorStop(0, `rgba(0, 255, 136, ${intensity * 0.8 + 0.2})`);
+                    gradient.addColorStop(1, 'rgba(0, 255, 136, 0)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.radius * (intensity * 0.5 + 0.5), 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        // View sub-agent details
+        function viewSubAgent(agentName) {
+            if (!chatOpen) {
+                toggleChat();
+            }
+            
+            setTimeout(() => {
+                addChatMessage(`Main Agent: Connecting to ${agentName}...`, false, 'system');
+                
+                setTimeout(() => {
+                    const agentDetails = {
+                        'ThreatScanner': 'Currently analyzing 147K events/second. 7 active threats being handled. ML confidence: 99.8%. All data encrypted with AES-256-GCM + Kyber-1024.',
+                        'NetworkMapper': 'Monitoring 247 devices across network. Discovered 12 new devices today. External scan via Shodan API active. All communications hybrid encrypted.',
+                        'DefenseOrchestrator': '8 honeypots active. 124 attacks neutralized today. Response time: 0.3s average. All actions logged with Dilithium signatures.',
+                        'EncryptionManager': 'Hybrid mode: Classical + Post-Quantum active. Processing 2.1M crypto operations/second. Key rotation every 24 hours. NIST compliant.',
+                        'AnalyticsEngine': 'Processing 2.4M metrics/hour. ML accuracy: 99.8%. 847 predictions generated today. All analytics protected with hybrid encryption.',
+                        'LogAgent': 'Securing all audit trails. Every log entry signed with Dilithium-3. Compliance ready: SOC2, ISO27001. Tamper-proof storage active.'
+                    };
+                    
+                    addChatMessage(`${agentName}: ${agentDetails[agentName]}`, false);
+                }, 800);
+            }, 300);
+        }
+
+        // Add autonomous action
+        function addAutonomousAction(type, message, details = []) {
+            const log = document.getElementById('actionsLog');
+            const item = document.createElement('div');
+            item.className = `action-item ${type}`;
+            
+            const time = new Date().toLocaleTimeString();
+            const detailsHtml = details.map(d => `
+                <div class="action-detail-item">
+                    <span style="opacity: 0.7;">${d.label}:</span>
+                    <span>${d.value}</span>
+                </div>
+            `).join('');
+            
+            item.innerHTML = `
+                <div class="action-time">${time}</div>
+                <div class="action-type">${type.toUpperCase()}</div>
+                <div class="action-message">${message}</div>
+                <div class="action-details">${detailsHtml}</div>
+            `;
+            
+            log.insertBefore(item, log.firstChild);
+            
+            // Keep only last 20 actions
+            while (log.children.length > 20) {
+                log.removeChild(log.lastChild);
+            }
+        }
+
+        // Update metrics
+        function updateMetrics() {
+            // Update decisions per minute
+            const decisions = document.getElementById('decisionsPerMin');
+            const current = parseFloat(decisions.textContent.replace('K', ''));
+            decisions.textContent = (current + 0.1).toFixed(1) + 'K';
+            
+            // Update neural stats
+            const nodes = document.getElementById('neuralNodes');
+            nodes.textContent = (parseInt(nodes.textContent.replace(',', '')) + Math.floor(Math.random() * 5)).toLocaleString();
+            
+            // Update training progress
+            const progressElements = [
+                { id: 'threatLearning', max: 95 },
+                { id: 'networkLearning', max: 92 },
+                { id: 'anomalyLearning', max: 97 },
+                { id: 'responseLearning', max: 94 }
+            ];
+            
+            progressElements.forEach(prog => {
+                const element = document.getElementById(prog.id);
+                const current = parseFloat(element.textContent.replace('%', ''));
+                if (current < prog.max && Math.random() > 0.7) {
+                    const newValue = Math.min(prog.max, current + 0.1);
+                    element.textContent = newValue.toFixed(1) + '%';
+                    element.parentElement.nextElementSibling.firstElementChild.style.width = newValue + '%';
+                }
+            });
+        }
+
+        // Generate autonomous actions
+        const autonomousActions = [
+            { type: 'success', msg: 'Main Agent coordinated ThreatScanner response to SQL injection', details: [{ label: 'Target', value: '/api/users' }, { label: 'Response', value: '0.2s' }] },
+            { type: 'warning', msg: 'DefenseOrchestrator deployed new honeypot on port 2222', details: [{ label: 'Location', value: 'DMZ' }, { label: 'Type', value: 'SSH' }] },
+            { type: 'success', msg: 'EncryptionManager completed hybrid key rotation', details: [{ label: 'Algorithm', value: 'Kyber-1024' }, { label: 'Duration', value: '1.2s' }] },
+            { type: 'critical', msg: 'AnalyticsEngine detected anomalous traffic pattern', details: [{ label: 'Confidence', value: '94.7%' }, { label: 'Action', value: 'Alert sent' }] },
+            { type: 'success', msg: 'NetworkMapper discovered vulnerable IoT device', details: [{ label: 'IP', value: '192.168.1.245' }, { label: 'CVE', value: 'CVE-2024-1234' }] },
+            { type: 'warning', msg: 'LogAgent detected log tampering attempt', details: [{ label: 'Source', value: 'Internal' }, { label: 'Status', value: 'Blocked' }] }
+        ];
+
+        // Modal functions
+        function showAgentShutdownModal() {
+            const modal = document.getElementById('agentShutdownModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('agentShutdownModal');
+            modal.style.display = 'none';
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        }
+
+        function confirmAgentShutdown() {
+            agentActive = !agentActive;
+            
+            // Update header status
+            const agentStatus = document.querySelector('.agent-status');
+            const agentTitle = document.querySelector('.agent-title');
+            const agentStatusText = document.querySelector('.agent-status-text');
+            
+            if (agentActive) {
+                agentStatus.style.background = 'rgba(0, 255, 136, 0.1)';
+                agentStatus.style.borderColor = '#00ff88';
+                agentTitle.textContent = 'AI Agent Active';
+                agentTitle.style.color = 'var(--primary)';
+                agentStatusText.textContent = 'Autonomous with Manual Override';
+            } else {
+                agentStatus.style.background = 'rgba(255, 170, 0, 0.1)';
+                agentStatus.style.borderColor = '#ffaa00';
+                agentTitle.textContent = 'AI Agent Paused';
+                agentTitle.style.color = '#ffaa00';
+                agentStatusText.textContent = 'Manual Control Only';
+            }
+            
+            closeModal();
+            
+            // Show notification in chat
+            if (chatOpen) {
+                const status = agentActive ? 'resumed autonomous operation' : 'switched to manual control mode';
+                addChatMessage(`⚠️ Main Agent has ${status}. CLI mode available if external connections fail.`, false, 'system');
+            }
+        }
+
+        // Chat functionality
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            const chatWindow = document.getElementById('aiChatWindow');
+            
+            if (chatOpen) {
+                chatWindow.classList.add('active');
+            } else {
+                chatWindow.classList.remove('active');
+            }
+        }
+
+        function addChatMessage(message, isUser = false, type = 'normal') {
+            const messagesContainer = document.getElementById('aiChatMessages');
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message-bubble ${isUser ? 'user' : ''} ${type}`;
+            messageDiv.textContent = message;
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'ai-message-time';
+            timeDiv.textContent = new Date().toLocaleTimeString();
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.appendChild(timeDiv);
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('aiChatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Add user message
+                addChatMessage(message, true);
+                input.value = '';
+                
+                // Process command (using shared.js functionality)
+                processCommand(message);
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        // Logout handler
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout? The AI agent will continue protecting your systems autonomously.')) {
+                localStorage.removeItem('sentinel_auth');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initNeuralVisualization();
+            
+            // Initial actions
+            addAutonomousAction('success', 'Main Agent initialized all sub-agents', [
+                { label: 'Sub-Agents', value: '6' },
+                { label: 'Status', value: 'All Online' }
+            ]);
+            
+            // Auto-generate actions
+            setInterval(() => {
+                const action = autonomousActions[Math.floor(Math.random() * autonomousActions.length)];
+                addAutonomousAction(action.type, action.msg, action.details);
+                updateMetrics();
+            }, 8000);
+            
+            // Update metrics
+            setInterval(updateMetrics, 3000);
+        });
+    </script>
+</body>
+</html>
