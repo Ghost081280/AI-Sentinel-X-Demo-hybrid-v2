@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threat Detection | AI Sentinel-X</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --secondary: #00ccff;
+            --accent: #7c3aed;
+            --danger: #ff0044;
+            --warning: #ffaa00;
+            --success: #00ff88;
+            --bg-dark: #0a0e1a;
+            --bg-darker: #060912;
+            --bg-card: rgba(10, 20, 40, 0.8);
+            --border: rgba(0, 255, 136, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #8892b0;
+            --gradient-1: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            --gradient-danger: linear-gradient(135deg, #ff0044 0%, #ff6644 100%);
+            --gradient-quantum: linear-gradient(135deg, #7c3aed 0%, #ff00ff 50%, #00ccff 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Consolas', 'Monaco', monospace;
+            background: var(--bg-darker);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Dot Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .dot-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle, rgba(0, 255, 136, 0.15) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: dotMove 40s linear infinite;
+        }
+
+        @keyframes dotMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 20px 30px;
+            margin: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand-title {
+            font-size: 24px;
+            font-weight: bold;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* Classical + Quantum Badge */
+        .encryption-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 20px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .agent-status:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 0, 68, 0.3);
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: var(--danger);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 0, 68, 0.1);
+        }
+
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 20px 20px 20px;
+        }
+
+        /* Sub-Agent Status */
+        .sub-agent-status {
+            background: linear-gradient(135deg, rgba(255, 0, 68, 0.1) 0%, rgba(255, 170, 0, 0.05) 100%);
+            border: 1px solid rgba(255, 0, 68, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .sub-agent-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sub-agent-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-danger);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(255, 0, 68, 0.3);
+        }
+
+        .sub-agent-details h3 {
+            font-size: 18px;
+            color: var(--danger);
+            margin-bottom: 5px;
+        }
+
+        .sub-agent-details p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .sub-agent-metrics {
+            display: flex;
+            gap: 30px;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--danger);
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Threat Grid */
+        .threat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .threat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(15px);
+        }
+
+        .threat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 0, 68, 0.3);
+        }
+
+        .threat-card.critical {
+            border-color: rgba(255, 0, 68, 0.5);
+            background: rgba(255, 0, 68, 0.05);
+        }
+
+        .threat-card.high {
+            border-color: rgba(255, 170, 0, 0.5);
+            background: rgba(255, 170, 0, 0.05);
+        }
+
+        .threat-card.medium {
+            border-color: rgba(0, 204, 255, 0.5);
+            background: rgba(0, 204, 255, 0.05);
+        }
+
+        .threat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .threat-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .threat-type {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .threat-severity {
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .severity-critical {
+            background: var(--gradient-danger);
+            color: white;
+        }
+
+        .severity-high {
+            background: linear-gradient(135deg, var(--warning) 0%, #ff8844 100%);
+            color: white;
+        }
+
+        .severity-medium {
+            background: linear-gradient(135deg, var(--secondary) 0%, #0088ff 100%);
+            color: white;
+        }
+
+        .threat-details {
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .threat-ai-status {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ai-status-text {
+            font-size: 14px;
+            color: var(--accent);
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-status-icon {
+            font-size: 18px;
+        }
+
+        /* Real-time Feed */
+        .feed-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(15px);
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .feed-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--danger);
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--danger);
+            border-radius: 50%;
+            animation: livePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+        }
+
+        .feed-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .feed-item {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 3px solid var(--danger);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            border-radius: 0 10px 10px 0;
+            animation: feedSlide 0.3s ease;
+        }
+
+        @keyframes feedSlide {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .feed-item.ai-action {
+            border-left-color: var(--accent);
+        }
+
+        .feed-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feed-message {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .feed-agent {
+            font-size: 12px;
+            color: var(--accent);
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* AI Chat Widget */
+        .ai-chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .ai-chat-toggle {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
+            transition: all 0.3s ease;
+            font-size: 28px;
+        }
+
+        .ai-chat-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .ai-chat-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 400px;
+            height: 600px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+        }
+
+        .ai-chat-window.active {
+            display: flex;
+            animation: chatSlideIn 0.3s ease;
+        }
+
+        @keyframes chatSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ai-chat-header {
+            background: var(--gradient-1);
+            color: var(--bg-darker);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .ai-chat-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .chat-status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--bg-darker);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .ai-chat-close {
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .cli-mode-indicator {
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 0 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--warning);
+            display: none;
+        }
+
+        .cli-mode-indicator.active {
+            display: block;
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ai-message-bubble {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 15px 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .ai-message-bubble.user {
+            background: rgba(0, 204, 255, 0.1);
+            border-color: var(--secondary);
+            align-self: flex-end;
+        }
+
+        .ai-message-bubble.system {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--accent);
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .ai-message-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .ai-chat-input-container {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .ai-chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .ai-chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .ai-chat-send {
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            color: var(--bg-darker);
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Agent Shutdown Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--warning);
+            margin-bottom: 10px;
+        }
+
+        .modal-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-btn-primary {
+            background: var(--gradient-1);
+            color: var(--bg-darker);
+        }
+
+        .modal-btn-secondary {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .threat-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sub-agent-status {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .ai-chat-window {
+                width: calc(100vw - 40px);
+                height: calc(100vh - 120px);
+                right: -20px;
+                bottom: 80px;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--danger);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--warning);
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Check authentication
+        const auth = localStorage.getItem('sentinel_auth');
+        if (!auth) {
+            window.location.href = 'index.html';
+        } else {
+            const authData = JSON.parse(auth);
+            if (Date.now() - authData.timestamp > 24 * 60 * 60 * 1000) {
+                localStorage.removeItem('sentinel_auth');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="dot-grid"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-left">
+                <div>
+                    <h1 class="brand-title">AI SENTINEL-X | THREAT DETECTION</h1>
+                    <p class="page-subtitle">ThreatScanner Sub-Agent Active</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="encryption-badge">
+                    <div class="status-light"></div>
+                    <span>CLASSICAL + QUANTUM ACTIVE</span>
+                </div>
+                <div class="agent-status" onclick="showAgentShutdownModal()">
+                    <span>🤖 AI Agent Active • Fully Autonomous</span>
+                </div>
+                <button class="logout-btn" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Container -->
+    <div class="container">
+        <!-- Sub-Agent Status -->
+        <div class="sub-agent-status">
+            <div class="sub-agent-info">
+                <div class="sub-agent-icon">🛡️</div>
+                <div class="sub-agent-details">
+                    <h3>ThreatScanner Sub-Agent</h3>
+                    <p>Analyzing 147K events/sec • Reports to Main Agent</p>
+                </div>
+            </div>
+            <div class="sub-agent-metrics">
+                <div class="metric">
+                    <div class="metric-value" id="activeThreats">7</div>
+                    <div class="metric-label">Active Threats</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="blockedToday">2,847</div>
+                    <div class="metric-label">Blocked Today</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">99.8%</div>
+                    <div class="metric-label">Detection Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Threat Grid -->
+        <div class="threat-grid" id="threatGrid">
+            <!-- Threats will be populated by JavaScript -->
+        </div>
+
+        <!-- Real-time Feed -->
+        <div class="feed-section">
+            <div class="feed-header">
+                <h2 class="feed-title">Sub-Agent Activity Feed</h2>
+                <div class="live-indicator">
+                    <div class="live-dot"></div>
+                    <span>LIVE</span>
+                </div>
+            </div>
+            <div class="feed-content" id="threatFeed">
+                <!-- Feed items will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Shutdown Modal -->
+    <div class="modal-overlay" id="agentShutdownModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">⚠️ Emergency AI Shutdown</h2>
+            </div>
+            <div class="modal-content">
+                Pause autonomous mode? AI actions will be disabled, but manual control remains available through the AI chat bot. If external APIs or keys are offline, the agent will fallback to local control mode.
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="confirmAgentShutdown()">Confirm Shutdown</button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Chat Widget -->
+    <div class="ai-chat-widget">
+        <div class="ai-chat-window" id="aiChatWindow">
+            <div class="ai-chat-header">
+                <div class="ai-chat-status">
+                    <span class="chat-status-dot"></span>
+                    <span>MAIN AGENT ONLINE</span>
+                </div>
+                <span class="ai-chat-close" onclick="toggleChat()">×</span>
+            </div>
+            <div class="cli-mode-indicator" id="cliModeIndicator">
+                ⚠️ CLI MODE - Main Agent Offline
+            </div>
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <div class="ai-message-bubble">
+                    Connected to Main Agent. I can route commands to ThreatScanner or other sub-agents. All threat data is protected with hybrid encryption.
+                </div>
+                <div class="ai-message-time">Just now</div>
+            </div>
+            <div class="ai-chat-input-container">
+                <input 
+                    type="text" 
+                    class="ai-chat-input" 
+                    id="aiChatInput" 
+                    placeholder="Enter command or ask about threats..."
+                    onkeypress="handleChatKeyPress(event)"
+                >
+                <button class="ai-chat-send" onclick="sendChatMessage()">SEND</button>
+            </div>
+        </div>
+        <div class="ai-chat-toggle" onclick="toggleChat()">🤖</div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        // Threat data
+        const threats = [
+            {
+                id: 1,
+                name: 'DDoS Attack - Layer 7',
+                type: 'Network Attack',
+                severity: 'critical',
+                source: '45.12.78.* (Botnet)',
+                target: 'API Gateway',
+                attempts: '45,892',
+                aiAnalysis: 'Pattern matches known botnet. 87% chance of escalation.',
+                subAgent: 'ThreatScanner',
+                status: 'Mitigating'
+            },
+            {
+                id: 2,
+                name: 'SQL Injection Attempt',
+                type: 'Web Application',
+                severity: 'critical',
+                source: '192.168.1.105',
+                target: '/api/users endpoint',
+                attempts: '127',
+                aiAnalysis: 'Payload contains DROP TABLE. Blocked by WAF.',
+                subAgent: 'ThreatScanner',
+                status: 'Blocked'
+            },
+            {
+                id: 3,
+                name: 'Brute Force Login',
+                type: 'Authentication',
+                severity: 'high',
+                source: 'Multiple IPs',
+                target: 'Admin Panel',
+                attempts: '3,247',
+                aiAnalysis: 'Credential stuffing detected. Rate limiting applied.',
+                subAgent: 'ThreatScanner',
+                status: 'Rate Limited'
+            },
+            {
+                id: 4,
+                name: 'Malware C2 Communication',
+                type: 'Malware',
+                severity: 'high',
+                source: '192.168.1.87',
+                target: 'External C2',
+                attempts: '892',
+                aiAnalysis: 'Ransomware variant. Host isolated by DefenseOrchestrator.',
+                subAgent: 'ThreatScanner → DefenseOrchestrator',
+                status: 'Isolated'
+            },
+            {
+                id: 5,
+                name: 'Port Scanning',
+                type: 'Reconnaissance',
+                severity: 'medium',
+                source: '185.220.101.*',
+                target: 'Network Perimeter',
+                attempts: '1,024',
+                aiAnalysis: 'Tor exit node. Pre-attack reconnaissance likely.',
+                subAgent: 'ThreatScanner',
+                status: 'Blocked'
+            },
+            {
+                id: 6,
+                name: 'Phishing Campaign',
+                type: 'Email Threat',
+                severity: 'high',
+                source: 'External',
+                target: 'Finance Department',
+                attempts: '89',
+                aiAnalysis: 'Spear phishing with CEO impersonation.',
+                subAgent: 'ThreatScanner',
+                status: 'Quarantined'
+            },
+            {
+                id: 7,
+                name: 'Zero-Day Exploit',
+                type: 'Unknown',
+                severity: 'medium',
+                source: 'Unknown',
+                target: 'Web Server',
+                attempts: '12',
+                aiAnalysis: 'New attack pattern detected. ML model analyzing.',
+                subAgent: 'ThreatScanner → AnalyticsEngine',
+                status: 'Analyzing'
+            }
+        ];
+
+        // Populate threats
+        function populateThreats() {
+            const grid = document.getElementById('threatGrid');
+            grid.innerHTML = '';
+            
+            threats.forEach((threat, index) => {
+                const card = document.createElement('div');
+                card.className = `threat-card ${threat.severity}`;
+                card.innerHTML = `
+                    <div class="threat-header">
+                        <div>
+                            <div class="threat-title">${threat.name}</div>
+                            <div class="threat-type">${threat.type}</div>
+                        </div>
+                        <span class="threat-severity severity-${threat.severity}">${threat.severity}</span>
+                    </div>
+                    <div class="threat-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Source</span>
+                            <span class="detail-value">${threat.source}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Target</span>
+                            <span class="detail-value">${threat.target}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Attempts</span>
+                            <span class="detail-value">${threat.attempts}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Status</span>
+                            <span class="detail-value" style="color: var(--primary);">${threat.status}</span>
+                        </div>
+                    </div>
+                    <div class="threat-ai-status">
+                        <div class="ai-status-text">
+                            <span class="ai-status-icon">🤖</span>
+                            <span>${threat.aiAnalysis}</span>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
+                            Handled by: ${threat.subAgent}
+                        </div>
+                    </div>
+                `;
+                
+                card.onclick = () => showThreatDetails(threat);
+                grid.appendChild(card);
+            });
+        }
+
+        // Show threat details
+        function showThreatDetails(threat) {
+            if (!chatOpen) {
+                toggleChat();
+            }
+            setTimeout(() => {
+                addChatMessage(`Routing to ThreatScanner sub-agent...`, false, 'system');
+                setTimeout(() => {
+                    addChatMessage(`ThreatScanner: ${threat.name} - ${threat.aiAnalysis} Current status: ${threat.status}. Handled by ${threat.subAgent}. Would you like manual control?`, false);
+                }, 800);
+            }, 300);
+        }
+
+        // Feed messages
+        const feedMessages = [
+            { msg: '🛡️ ThreatScanner blocked SQL injection on /api/login', agent: 'ThreatScanner', type: 'threat' },
+            { msg: '🤖 Main Agent coordinating response to DDoS attack', agent: 'Main Agent', type: 'ai-action' },
+            { msg: '⚡ DefenseOrchestrator isolated infected host', agent: 'DefenseOrchestrator', type: 'ai-action' },
+            { msg: '🔍 ThreatScanner detected new attack pattern', agent: 'ThreatScanner', type: 'threat' },
+            { msg: '📊 AnalyticsEngine updated threat model', agent: 'AnalyticsEngine', type: 'ai-action' },
+            { msg: '🔐 EncryptionManager rotated keys after breach attempt', agent: 'EncryptionManager', type: 'ai-action' },
+            { msg: '🎯 ThreatScanner predicted zero-day exploit', agent: 'ThreatScanner', type: 'threat' },
+            { msg: '📝 LogAgent recorded all actions with Dilithium signatures', agent: 'LogAgent', type: 'ai-action' }
+        ];
+
+        // Add feed item
+        function addFeedItem(message, agent, type = 'threat') {
+            const feed = document.getElementById('threatFeed');
+            const item = document.createElement('div');
+            item.className = `feed-item ${type}`;
+            
+            const time = new Date().toLocaleTimeString();
+            item.innerHTML = `
+                <div class="feed-time">${time}</div>
+                <div class="feed-message">${message}</div>
+                <div class="feed-agent">via ${agent}</div>
+            `;
+            
+            feed.insertBefore(item, feed.firstChild);
+            
+            // Keep only last 20 items
+            while (feed.children.length > 20) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+
+        // Update metrics
+        function updateMetrics() {
+            const blocked = document.getElementById('blockedToday');
+            const current = parseInt(blocked.textContent.replace(',', ''));
+            blocked.textContent = (current + Math.floor(Math.random() * 10)).toLocaleString();
+            
+            // Occasionally change threat count
+            if (Math.random() > 0.8) {
+                const threats = document.getElementById('activeThreats');
+                threats.textContent = Math.max(0, parseInt(threats.textContent) + Math.floor(Math.random() * 3 - 1));
+            }
+        }
+
+        // Logout handler
+        function handleLogout() {
+            if (confirm('Logout? The AI agent will continue protecting your systems.')) {
+                localStorage.removeItem('sentinel_auth');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateThreats();
+            
+            // Initial feed
+            addFeedItem('🤖 ThreatScanner sub-agent initialized', 'Main Agent', 'ai-action');
+            addFeedItem('🔐 All threat data encrypted with hybrid protection', 'EncryptionManager', 'ai-action');
+            
+            // Auto-generate feed
+            setInterval(() => {
+                const item = feedMessages[Math.floor(Math.random() * feedMessages.length)];
+                addFeedItem(item.msg, item.agent, item.type);
+                updateMetrics();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
