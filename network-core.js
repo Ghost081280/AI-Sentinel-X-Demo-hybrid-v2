@@ -22,6 +22,316 @@ function initializeEnvironmentDetection() {
         SentinelUtils.showElement('environmentDetection');
     }
 }
+function startAutoScan() {
+    const autoScanBtn = document.getElementById('autoScanBtn');
+    const scanProgress = document.getElementById('scanProgress');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    
+    // Disable button and show progress
+    autoScanBtn.disabled = true;
+    scanProgress.style.display = 'block';
+    
+    // Simulate network scanning process
+    const scanSteps = [
+        { progress: 15, text: "Detecting public IP addresses..." },
+        { progress: 30, text: "Scanning network topology..." },
+        { progress: 45, text: "Analyzing service distribution..." },
+        { progress: 60, text: "Checking geographic presence..." },
+        { progress: 75, text: "Evaluating security requirements..." },
+        { progress: 90, text: "Determining optimal solution..." },
+        { progress: 100, text: "Scan complete! Recommending deployment..." }
+    ];
+    
+    let currentStep = 0;
+    
+    const interval = setInterval(() => {
+        if (currentStep < scanSteps.length) {
+            const step = scanSteps[currentStep];
+            progressFill.style.width = step.progress + '%';
+            progressText.textContent = step.text;
+            currentStep++;
+        } else {
+            clearInterval(interval);
+            
+            // Simulate scan results and recommendation
+            setTimeout(() => {
+                const recommendation = simulateNetworkScan();
+                showScanResults(recommendation);
+            }, 1000);
+        }
+    }, 800);
+    
+    // Track scan initiation in chat
+    if (SentinelState.chatOpen) {
+        sentinelChat.addMessage('🔍 NetworkMapper: Auto-scan initiated. Analyzing your network infrastructure to recommend optimal security deployment...', false, 'system');
+    }
+}
+
+function simulateNetworkScan() {
+    // Simulate different network configurations
+    const scenarios = [
+        {
+            type: 'individual',
+            confidence: 92,
+            details: {
+                publicIPs: 1,
+                services: 6,
+                complexity: 'Low',
+                infrastructure: 'Single VPS/Cloud Instance',
+                recommendation: 'Essential Protection is perfect for your setup'
+            }
+        },
+        {
+            type: 'business',
+            confidence: 87,
+            details: {
+                publicIPs: 3,
+                services: 24,
+                complexity: 'Medium',
+                infrastructure: 'Multi-location business network',
+                recommendation: 'Professional solution recommended for your scale'
+            }
+        },
+        {
+            type: 'enterprise',
+            confidence: 94,
+            details: {
+                publicIPs: 12,
+                services: 156,
+                complexity: 'High',
+                infrastructure: 'Enterprise data center infrastructure',
+                recommendation: 'Enterprise Defense required for your scale'
+            }
+        }
+    ];
+    
+    // Randomly select a scenario (in production, this would be real network analysis)
+    return scenarios[Math.floor(Math.random() * scenarios.length)];
+}
+
+function showScanResults(recommendation) {
+    const scanProgress = document.getElementById('scanProgress');
+    const autoScanBtn = document.getElementById('autoScanBtn');
+    
+    // Hide progress, show results
+    scanProgress.style.display = 'none';
+    autoScanBtn.disabled = false;
+    autoScanBtn.innerHTML = `
+        <span class="scan-icon">✅</span>
+        <span class="scan-text">Scan Complete</span>
+        <span class="scan-subtitle">Click to rescan network</span>
+    `;
+    
+    // Create results modal or update interface
+    showScanResultsModal(recommendation);
+    
+    // Highlight recommended solution
+    highlightRecommendedSolution(recommendation.type);
+    
+    // Update chat with results
+    if (SentinelState.chatOpen) {
+        sentinelChat.addMessage(`🎯 NetworkMapper: Scan complete! Detected ${recommendation.details.infrastructure}. ${recommendation.recommendation}. Confidence: ${recommendation.confidence}%`, false, 'system');
+    }
+}
+
+function showScanResultsModal(recommendation) {
+    // Create a results modal
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.display = 'flex';
+    modal.innerHTML = `
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">🎯 Network Scan Results</h2>
+            </div>
+            <div class="modal-content">
+                <div class="scan-results-grid">
+                    <div class="result-metric">
+                        <div class="metric-icon">🌐</div>
+                        <div class="metric-label">Public IPs</div>
+                        <div class="metric-value">${recommendation.details.publicIPs}</div>
+                    </div>
+                    <div class="result-metric">
+                        <div class="metric-icon">⚙️</div>
+                        <div class="metric-label">Services</div>
+                        <div class="metric-value">${recommendation.details.services}</div>
+                    </div>
+                    <div class="result-metric">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-label">Complexity</div>
+                        <div class="metric-value">${recommendation.details.complexity}</div>
+                    </div>
+                    <div class="result-metric">
+                        <div class="metric-icon">🎯</div>
+                        <div class="metric-label">Confidence</div>
+                        <div class="metric-value">${recommendation.confidence}%</div>
+                    </div>
+                </div>
+                
+                <div class="recommendation-box">
+                    <h3>🚀 Recommended Solution</h3>
+                    <p><strong>${recommendation.details.infrastructure}</strong></p>
+                    <p>${recommendation.details.recommendation}</p>
+                </div>
+                
+                <p style="color: var(--text-secondary); text-align: center; margin-top: 20px;">
+                    The recommended solution is highlighted below. You can still choose any solution that fits your needs.
+                </p>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="acceptRecommendation('${recommendation.type}')">
+                    Accept Recommendation
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeScanResultsModal()">
+                    Choose Manually
+                </button>
+            </div>
+        </div>
+    `;
+    
+    // Add modal styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .scan-results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .result-metric {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .metric-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .metric-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .recommendation-box {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.05));
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .recommendation-box h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    document.body.appendChild(modal);
+    
+    // Close on overlay click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeScanResultsModal();
+        }
+    });
+}
+
+function closeScanResultsModal() {
+    const modal = document.querySelector('.modal-overlay');
+    if (modal && modal.querySelector('.scan-results-grid')) {
+        modal.remove();
+    }
+}
+
+function acceptRecommendation(recommendedType) {
+    closeScanResultsModal();
+    selectScale(recommendedType, true);
+}
+
+function highlightRecommendedSolution(recommendedType) {
+    // Remove any existing highlights
+    document.querySelectorAll('.scale-option').forEach(option => {
+        option.classList.remove('recommended');
+    });
+    
+    // Add highlight to recommended solution
+    const recommendedOption = document.querySelector(`.scale-option.${recommendedType}`);
+    if (recommendedOption) {
+        recommendedOption.classList.add('recommended');
+        
+        // Add a recommended badge
+        const header = recommendedOption.querySelector('.scale-header');
+        if (header && !header.querySelector('.recommended-badge')) {
+            const badge = document.createElement('div');
+            badge.className = 'recommended-badge';
+            badge.innerHTML = '⭐ RECOMMENDED';
+            header.appendChild(badge);
+        }
+        
+        // Scroll into view
+        recommendedOption.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Add CSS for recommended styling
+    const style = document.createElement('style');
+    style.textContent = `
+        .scale-option.recommended {
+            border-color: var(--secondary) !important;
+            box-shadow: 0 0 25px rgba(0, 204, 255, 0.4) !important;
+            animation: recommendedPulse 2s ease-in-out 3;
+        }
+        
+        @keyframes recommendedPulse {
+            0%, 100% { box-shadow: 0 0 25px rgba(0, 204, 255, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(0, 204, 255, 0.6); }
+        }
+        
+        .recommended-badge {
+            background: var(--gradient-2);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: badgePulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function requestConsultation() {
+    if (!SentinelState.chatOpen) {
+        sentinelChat.toggle();
+    }
+    
+    setTimeout(() => {
+        sentinelChat.addMessage('📞 Thank you for your interest in a security consultation! Our team will contact you within 24 hours to discuss your infrastructure needs and provide personalized recommendations.', false, 'system');
+        sentinelChat.addMessage('In the meantime, feel free to explore our solutions above or ask me any questions about AI Sentinel-X capabilities.', false, 'system');
+    }, 500);
+}
 
 // Select scale and configure interface
 function selectScale(scale, userSelected = true) {
@@ -1226,6 +1536,10 @@ function closeModalOnOverlay(event) {
 
 // Global function exports
 window.selectScale = selectScale;
+window.startAutoScan = startAutoScan;
+window.acceptRecommendation = acceptRecommendation;
+window.closeScanResultsModal = closeScanResultsModal;
+window.requestConsultation = requestConsultation;
 window.showAddRangeModal = showAddRangeModal;
 window.closeAddRangeModal = closeAddRangeModal;
 window.addIPRange = addIPRange;
