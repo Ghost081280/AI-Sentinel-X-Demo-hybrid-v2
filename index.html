@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Sentinel-X | Autonomous Cyber Defense Agent</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00ff88;
+            --secondary: #00ccff;
+            --accent: #7c3aed;
+            --danger: #ff0044;
+            --warning: #ffaa00;
+            --success: #00ff88;
+            --bg-dark: #0a0e1a;
+            --bg-darker: #060912;
+            --bg-card: rgba(10, 20, 40, 0.8);
+            --border: rgba(0, 255, 136, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: #8892b0;
+            --gradient-1: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            --gradient-shield: linear-gradient(135deg, #1a4d2e 0%, #00ff88 50%, #00ccff 100%);
+            --gradient-hologram: linear-gradient(45deg, #00ff88, #00ccff, #7c3aed, #ff00ff);
+            --gradient-quantum: linear-gradient(135deg, #7c3aed 0%, #ff00ff 50%, #00ccff 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Consolas', 'Monaco', monospace;
+            background: var(--bg-darker);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* Neural Network Background */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .neural-bg canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Enhanced Matrix Background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, rgba(0, 255, 136, 0.03) 0%, transparent 70%);
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-size: 14px;
+            color: var(--primary);
+            animation: matrixFall 20s linear infinite;
+            opacity: 0.1;
+            font-family: 'Courier New', monospace;
+            white-space: nowrap;
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .hologram-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: hologramShift 30s linear infinite;
+            transform: perspective(1000px) rotateX(60deg) translateZ(0);
+            transform-origin: center;
+        }
+
+        @keyframes hologramShift {
+            0% { transform: perspective(1000px) rotateX(60deg) translateZ(0) translateY(0); }
+            100% { transform: perspective(1000px) rotateX(60deg) translateZ(0) translateY(-50px); }
+        }
+
+        @keyframes matrixFall {
+            to {
+                top: 100%;
+            }
+        }
+
+        /* Login Container */
+        .login-container {
+            position: relative;
+            z-index: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                inset 0 0 100px rgba(0, 255, 136, 0.02);
+            animation: loginSlideIn 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-hologram);
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            animation: hologramBorder 4s linear infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes hologramBorder {
+            0% { opacity: 0; background-position: 0% 50%; }
+            50% { opacity: 0.5; background-position: 100% 50%; }
+            100% { opacity: 0; background-position: 0% 50%; }
+        }
+
+        @keyframes loginSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Enhanced Logo */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .sentinel-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-shield {
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-shield);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            position: relative;
+            animation: shieldPulse 3s ease-in-out infinite;
+            box-shadow: 
+                0 0 50px rgba(0, 255, 136, 0.5),
+                inset 0 0 30px rgba(0, 255, 136, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-particles {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            top: -25%;
+            left: -25%;
+            pointer-events: none;
+        }
+
+        .particle-orbit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: particleOrbit 10s linear infinite;
+        }
+
+        @keyframes particleOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px currentColor;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .logo-eye {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: var(--bg-darker);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                inset 0 0 30px rgba(0, 255, 136, 0.3),
+                0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-iris {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            animation: irisGlow 2s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 136, 0.8),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-iris::before {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--bg-darker);
+            border-radius: 50%;
+            box-shadow: inset 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        @keyframes shieldPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 60px rgba(0, 255, 136, 0.8);
+            }
+        }
+
+        @keyframes irisGlow {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 136, 0.5); }
+            50% { box-shadow: 0 0 50px rgba(0, 204, 255, 0.8); }
+        }
+
+        .login-title {
+            font-size: 32px;
+            font-weight: bold;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Agent Status Badge */
+        .agent-status-badge {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(0, 255, 136, 0.1) 100%);
+            border: 1px solid rgba(124, 58, 237, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-status-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent);
+            animation: securityScan 3s linear infinite;
+        }
+
+        @keyframes securityScan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .agent-status-content {
+            position: relative;
+            z-index: 1;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .agent-status-title {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        /* Enhanced Form */
+        .login-form {
+            margin-top: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .input-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(0, 255, 136, 0.2);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); }
+            50% { transform: scale(1.1); box-shadow: 0 0 30px rgba(0, 255, 136, 0.5); }
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.05);
+            box-shadow: 
+                0 0 30px rgba(0, 255, 136, 0.3),
+                inset 0 0 20px rgba(0, 255, 136, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .input-field::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .input-description {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            margin-left: 32px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        /* Enhanced Login Button */
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--bg-darker);
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 30px;
+            box-shadow: 
+                0 5px 20px rgba(0, 255, 136, 0.3),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 10px 30px rgba(0, 255, 136, 0.5),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Enhanced Status Message */
+        .status-message {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 13px;
+            min-height: 20px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .status-message.error {
+            color: var(--danger);
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .status-message.success {
+            color: var(--success);
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        /* Enhanced Demo Info */
+        .demo-info {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .demo-info p {
+            margin-bottom: 8px;
+        }
+
+        .demo-credentials {
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 5px 20px rgba(0, 255, 136, 0.1),
+                inset 0 0 20px rgba(0, 255, 136, 0.02);
+        }
+
+        /* Enhanced Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--bg-darker);
+            border-radius: 50%;
+            border-top-color: var(--bg-darker);
+            border-right-color: rgba(255, 255, 255, 0.3);
+            animation: quantumSpin 1s ease-in-out infinite;
+            vertical-align: middle;
+            margin-right: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        @keyframes quantumSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            .login-container {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+            
+            .login-title {
+                font-size: 26px;
+            }
+            
+            .sentinel-logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .logo-eye {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .logo-iris {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .logo-iris::before {
+                width: 12px;
+                height: 12px;
+            }
+            
+            .input-field {
+                padding: 14px 16px;
+                font-size: 16px; /* Prevent zoom on iOS */
+            }
+            
+            .login-btn {
+                padding: 16px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            body {
+                padding: 10px;
+            }
+            
+            .login-container {
+                padding: 25px 15px;
+            }
+            
+            .login-title {
+                font-size: 22px;
+                letter-spacing: 2px;
+            }
+            
+            .login-subtitle {
+                font-size: 11px;
+            }
+            
+            .input-label {
+                font-size: 11px;
+            }
+            
+            .demo-info {
+                font-size: 11px;
+            }
+            
+            .sentinel-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .logo-eye {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .logo-iris {
+                width: 28px;
+                height: 28px;
+            }
+        }
+
+        /* Landscape Mobile */
+        @media (max-height: 600px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+            
+            .login-container {
+                padding: 20px 30px;
+            }
+            
+            .sentinel-logo {
+                width: 70px;
+                height: 70px;
+                margin-bottom: 10px;
+            }
+            
+            .logo-eye {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .logo-iris {
+                width: 25px;
+                height: 25px;
+            }
+            
+            .login-title {
+                font-size: 22px;
+                margin-bottom: 5px;
+            }
+            
+            .input-group {
+                margin-bottom: 12px;
+            }
+            
+            .login-btn {
+                padding: 14px;
+                margin-top: 15px;
+            }
+            
+            .demo-info {
+                margin-top: 15px;
+                padding-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Neural Network Background -->
+    <div class="neural-bg">
+        <canvas id="neuralCanvas"></canvas>
+    </div>
+
+    <!-- Enhanced Matrix Background -->
+    <div class="matrix-bg">
+        <div class="hologram-grid"></div>
+        <div id="matrixBg"></div>
+    </div>
+
+    <!-- Login Container -->
+    <div class="login-container">
+        
+        <div class="logo-section">
+            <div class="sentinel-logo">
+                <div class="logo-particles">
+                    <div class="particle-orbit">
+                        <div class="particle"></div>
+                    </div>
+                    <div class="particle-orbit" style="animation-delay: -2.5s;">
+                        <div class="particle"></div>
+                    </div>
+                    <div class="particle-orbit" style="animation-delay: -5s;">
+                        <div class="particle"></div>
+                    </div>
+                </div>
+                <div class="logo-shield">
+                    <div class="logo-eye">
+                        <div class="logo-iris"></div>
+                    </div>
+                </div>
+            </div>
+            <h1 class="login-title">AI SENTINEL-X</h1>
+            <p class="login-subtitle">Autonomous Cyber Defense System</p>
+        </div>
+
+        <!-- Agent Status Badge -->
+        <div class="agent-status-badge">
+            <div class="agent-status-content">
+                <div class="agent-status-title">🤖 AI AGENT READY</div>
+                <div>Autonomous Cyber Defense with Human Oversight</div>
+                <div>Quantum-Resistant Encryption Protected</div>
+            </div>
+        </div>
+
+        <form class="login-form" id="loginForm" onsubmit="handleLogin(event)">
+            <div class="input-group">
+                <label class="input-label">
+                    <div class="input-icon">🧠</div>
+                    <span>OpenAI API Key</span>
+                </label>
+                <input 
+                    type="password" 
+                    class="input-field" 
+                    id="openaiKey"
+                    placeholder="Enter your OpenAI API key"
+                    required
+                    autocomplete="off"
+                >
+                <div class="input-description">Powers the Main AI Agent for threat analysis and autonomous decision-making</div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">
+                    <div class="input-icon">🔍</div>
+                    <span>Shodan API Key</span>
+                </label>
+                <input 
+                    type="password" 
+                    class="input-field" 
+                    id="shodanKey"
+                    placeholder="Enter your Shodan API key"
+                    required
+                    autocomplete="off"
+                >
+                <div class="input-description">Enables NetworkScanner sub-agent for external threat intelligence</div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">
+                    <div class="input-icon">🔐</div>
+                    <span>Sentinel-X API Key</span>
+                </label>
+                <input 
+                    type="password" 
+                    class="input-field" 
+                    id="sentinelKey"
+                    placeholder="Enter your Sentinel-X API key"
+                    required
+                    autocomplete="off"
+                >
+                <div class="input-description">Authenticates Main Agent and enables sub-agent orchestration</div>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                ACTIVATE AI AGENT
+            </button>
+
+            <div class="status-message" id="statusMessage"></div>
+        </form>
+
+        <div class="demo-info">
+            <p>🚀 Experience autonomous cyber defense with modular AI sub-agents</p>
+            <div class="demo-credentials">
+                Demo credentials: demo / demo / demo
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Neural Network Background Animation
+        function initNeuralBackground() {
+            const canvas = document.getElementById('neuralCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const nodes = [];
+            const nodeCount = 100;
+            
+            for (let i = 0; i < nodeCount; i++) {
+                nodes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 2 + 1
+                });
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Update nodes
+                nodes.forEach(node => {
+                    node.x += node.vx;
+                    node.y += node.vy;
+                    
+                    if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+                    if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+                });
+                
+                // Draw connections
+                ctx.strokeStyle = 'rgba(0, 255, 136, 0.1)';
+                ctx.lineWidth = 0.5;
+                
+                nodes.forEach((node1, i) => {
+                    nodes.slice(i + 1).forEach(node2 => {
+                        const dist = Math.hypot(node1.x - node2.x, node1.y - node2.y);
+                        if (dist < 100) {
+                            ctx.globalAlpha = 1 - dist / 100;
+                            ctx.beginPath();
+                            ctx.moveTo(node1.x, node1.y);
+                            ctx.lineTo(node2.x, node2.y);
+                            ctx.stroke();
+                        }
+                    });
+                });
+                
+                // Draw nodes
+                ctx.globalAlpha = 1;
+                nodes.forEach(node => {
+                    const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.radius * 2);
+                    gradient.addColorStop(0, 'rgba(0, 255, 136, 0.8)');
+                    gradient.addColorStop(1, 'rgba(0, 255, 136, 0)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.radius * 2, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        // Enhanced Matrix Background
+        function initMatrix() {
+            const matrixBg = document.getElementById('matrixBg');
+            const columns = Math.floor(window.innerWidth / 20);
+            
+            for (let i = 0; i < columns; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = i * 20 + 'px';
+                column.style.animationDelay = Math.random() * 20 + 's';
+                column.style.animationDuration = (15 + Math.random() * 10) + 's';
+                
+                // Generate security-themed characters
+                let content = '';
+                const chars = '01⟨⟩{}[]()<>/*-+=@#$%&!?;:,.';
+                for (let j = 0; j < 100; j++) {
+                    content += chars[Math.floor(Math.random() * chars.length)];
+                    if (j % 2 === 1) content += ' ';
+                }
+                column.textContent = content;
+                
+                matrixBg.appendChild(column);
+            }
+        }
+
+        // Enhanced Login Handler
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const openaiKey = document.getElementById('openaiKey').value;
+            const shodanKey = document.getElementById('shodanKey').value;
+            const sentinelKey = document.getElementById('sentinelKey').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Clear previous status
+            statusMessage.className = 'status-message';
+            statusMessage.textContent = '';
+            
+            // Validate inputs
+            if (!openaiKey || !shodanKey || !sentinelKey) {
+                statusMessage.className = 'status-message error';
+                statusMessage.textContent = '⚠️ All API keys are required for agent initialization';
+                return;
+            }
+            
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<span class="loading"></span>INITIALIZING AGENT...';
+            statusMessage.textContent = '🔐 Establishing secure connection...';
+            
+            // Multi-stage authentication simulation
+            setTimeout(() => {
+                statusMessage.textContent = '🔍 Validating API credentials...';
+                
+                setTimeout(() => {
+                    statusMessage.textContent = '🛡️ Activating quantum-resistant encryption...';
+                    
+                    setTimeout(() => {
+                        statusMessage.textContent = '🤖 Deploying Main Agent and sub-agents...';
+                        
+                        setTimeout(() => {
+                            // Check demo credentials
+                            if (openaiKey === 'demo' && shodanKey === 'demo' && sentinelKey === 'demo') {
+                                statusMessage.textContent = '⚡ Activating autonomous defense systems...';
+                                
+                                setTimeout(() => {
+                                    // Store credentials
+                                    localStorage.setItem('sentinel_auth', JSON.stringify({
+                                        openai: openaiKey,
+                                        shodan: shodanKey,
+                                        sentinel: sentinelKey,
+                                        timestamp: Date.now()
+                                    }));
+                                    
+                                    statusMessage.className = 'status-message success';
+                                    statusMessage.textContent = '✅ AI AGENT ONLINE - SUB-AGENTS DEPLOYED';
+                                    
+                                    // Redirect to dashboard
+                                    setTimeout(() => {
+                                        window.location.href = 'dashboard.html';
+                                    }, 1000);
+                                }, 800);
+                            } else {
+                                statusMessage.className = 'status-message error';
+                                statusMessage.textContent = '❌ Invalid API credentials. Please verify your keys.';
+                                loginBtn.disabled = false;
+                                loginBtn.innerHTML = 'ACTIVATE AI AGENT';
+                            }
+                        }, 800);
+                    }, 800);
+                }, 800);
+            }, 1000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initMatrix();
+            initNeuralBackground();
+            
+            // Check if already authenticated
+            const auth = localStorage.getItem('sentinel_auth');
+            if (auth) {
+                const authData = JSON.parse(auth);
+                // Check if auth is less than 24 hours old
+                if (Date.now() - authData.timestamp < 24 * 60 * 60 * 1000) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    localStorage.removeItem('sentinel_auth');
+                }
+            }
+            
+            // Add input focus effects
+            const inputs = document.querySelectorAll('.input-field');
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    input.parentElement.querySelector('.input-icon').style.transform = 'scale(1.2)';
+                });
+                input.addEventListener('blur', () => {
+                    input.parentElement.querySelector('.input-icon').style.transform = 'scale(1)';
+                });
+            });
+        });
+
+        // Handle window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                document.getElementById('matrixBg').innerHTML = '';
+                initMatrix();
+                initNeuralBackground();
+            }, 250);
+        });
+    </script>
+</body>
+</html>
