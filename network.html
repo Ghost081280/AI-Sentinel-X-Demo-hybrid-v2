@@ -384,19 +384,19 @@
             font-weight: bold;
         }
 
-        /* Adaptive Environment Detection */
+        /* Enhanced Environment Detection */
         .environment-detection {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 15px;
-            padding: 30px;
+            padding: 40px;
             margin-bottom: 30px;
             backdrop-filter: blur(15px);
             text-align: center;
         }
 
         .detection-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             color: var(--primary);
             margin-bottom: 15px;
@@ -406,76 +406,328 @@
 
         .detection-description {
             color: var(--text-secondary);
-            font-size: 14px;
+            font-size: 16px;
             line-height: 1.6;
-            margin-bottom: 25px;
+            margin-bottom: 35px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .scale-options {
+        /* Auto-Scan Section */
+        .auto-scan-section {
+            margin-bottom: 40px;
+        }
+
+        .auto-scan-btn {
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 20px;
+            padding: 20px 40px;
+            color: var(--bg-darker);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin: 0 auto;
+            min-width: 280px;
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .auto-scan-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 255, 136, 0.4);
+        }
+
+        .auto-scan-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .scan-icon {
+            font-size: 24px;
+        }
+
+        .scan-text {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .scan-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Scan Progress */
+        .scan-progress {
+            margin-top: 20px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            background: var(--gradient-1);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        /* Solution Divider */
+        .solution-divider {
+            margin: 40px 0 30px 0;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .solution-divider::before,
+        .solution-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .solution-divider::before {
+            left: 0;
+        }
+
+        .solution-divider::after {
+            right: 0;
+        }
+
+        /* Enhanced Scale Options */
+        .scale-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
         .scale-option {
             background: rgba(0, 0, 0, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 25px;
-            min-width: 200px;
+            border-radius: 20px;
+            padding: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: center;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scale-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .scale-option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.2);
+            border-color: var(--primary);
+        }
+
+        .scale-option:hover::before {
+            opacity: 1;
         }
 
         .scale-option.selected {
             border-color: var(--primary);
             background: rgba(0, 255, 136, 0.1);
+            transform: translateY(-5px);
         }
 
-        .scale-option.individual.selected {
-            border-color: var(--primary);
-            background: rgba(0, 255, 136, 0.1);
+        .scale-option.selected::before {
+            opacity: 1;
         }
 
+        .scale-option.business:hover,
         .scale-option.business.selected {
             border-color: #9333ea;
-            background: rgba(147, 51, 234, 0.1);
+            box-shadow: 0 15px 40px rgba(147, 51, 234, 0.2);
         }
 
+        .scale-option.business::before {
+            background: linear-gradient(90deg, transparent, #9333ea, transparent);
+        }
+
+        .scale-option.enterprise:hover,
         .scale-option.enterprise.selected {
             border-color: #ff6b35;
-            background: rgba(255, 107, 53, 0.1);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.2);
+        }
+
+        .scale-option.enterprise::before {
+            background: linear-gradient(90deg, transparent, #ff6b35, transparent);
+        }
+
+        /* Scale Option Header */
+        .scale-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
         .scale-icon {
             font-size: 48px;
-            margin-bottom: 15px;
+        }
+
+        .scale-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .scale-badge.starter {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .scale-badge.professional {
+            background: rgba(147, 51, 234, 0.2);
+            color: #9333ea;
+            border: 1px solid #9333ea;
+        }
+
+        .scale-badge.enterprise {
+            background: rgba(255, 107, 53, 0.2);
+            color: #ff6b35;
+            border: 1px solid #ff6b35;
         }
 
         .scale-title {
-            font-size: 18px;
+            font-size: 24px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
         }
 
         .scale-subtitle {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--text-secondary);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .scale-description {
-            font-size: 13px;
+        /* Scale Features */
+        .scale-features {
+            margin-bottom: 20px;
+        }
+
+        .feature {
+            font-size: 14px;
             color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
             line-height: 1.5;
+        }
+
+        .feature::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .business .feature::before {
+            background: #9333ea;
+        }
+
+        .enterprise .feature::before {
+            background: #ff6b35;
+        }
+
+        /* Scale Pricing */
+        .scale-pricing {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .business .scale-pricing {
+            color: #9333ea;
+            background: rgba(147, 51, 234, 0.1);
+            border-color: rgba(147, 51, 234, 0.3);
+        }
+
+        .enterprise .scale-pricing {
+            color: #ff6b35;
+            background: rgba(255, 107, 53, 0.1);
+            border-color: rgba(255, 107, 53, 0.3);
+        }
+
+        /* Solution Footer */
+        .solution-footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .solution-footer p {
+            margin-bottom: 10px;
+        }
+
+        .solution-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .solution-footer a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
         }
 
         /* Sub-Agent Status - Adaptive */
@@ -1780,40 +2032,86 @@
             </a>
         </nav>
 
-        <!-- Environment Detection -->
+        <!-- Environment Detection with Auto-Scan -->
         <div class="environment-detection" id="environmentDetection">
-            <div class="detection-title">🎯 Adaptive Network Configuration</div>
+            <div class="detection-title">🎯 Intelligent Network Discovery</div>
             <div class="detection-description">
-                AI Sentinel-X automatically detects your network scale and adapts the interface. Choose your environment type or let our AI auto-detect based on your public IP configuration.
+                AI Sentinel-X can automatically discover and analyze your network infrastructure to recommend the optimal security deployment. Click "Auto-Scan Network" to detect your environment, or choose your preferred solution below.
+            </div>
+            
+            <div class="auto-scan-section">
+                <button class="auto-scan-btn" onclick="startAutoScan()" id="autoScanBtn">
+                    <span class="scan-icon">🔍</span>
+                    <span class="scan-text">Auto-Scan My Network</span>
+                    <span class="scan-subtitle">Detect infrastructure & recommend solution</span>
+                </button>
+                <div class="scan-progress" id="scanProgress" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Scanning network infrastructure...</div>
+                </div>
+            </div>
+            
+            <div class="solution-divider">
+                <span>Or choose your deployment solution:</span>
             </div>
             
             <div class="scale-options">
                 <div class="scale-option individual" onclick="selectScale('individual')">
-                    <div class="scale-icon">🌐</div>
-                    <div class="scale-title">Single IP</div>
-                    <div class="scale-subtitle">1 Public IP</div>
-                    <div class="scale-description">
-                        Perfect for single server deployments, VPS instances, and cloud services. Clean interface focused on essential security monitoring.
+                    <div class="scale-header">
+                        <div class="scale-icon">🌐</div>
+                        <div class="scale-badge starter">STARTER</div>
                     </div>
+                    <div class="scale-title">Essential Protection</div>
+                    <div class="scale-subtitle">Single Server • VPS • Cloud Instance</div>
+                    <div class="scale-features">
+                        <div class="feature">✓ Real-time threat monitoring</div>
+                        <div class="feature">✓ Hybrid-resistant encryption</div>
+                        <div class="feature">✓ Automated incident response</div>
+                        <div class="feature">✓ 24/7 AI protection</div>
+                    </div>
+                    <div class="scale-pricing">Starting at $49/month</div>
                 </div>
                 
                 <div class="scale-option business" onclick="selectScale('business')">
-                    <div class="scale-icon">🏢</div>
-                    <div class="scale-title">Small Business</div>
-                    <div class="scale-subtitle">2-5 Public IPs</div>
-                    <div class="scale-description">
-                        Ideal for small to medium businesses with multiple locations or services. Enhanced monitoring and management tools.
+                    <div class="scale-header">
+                        <div class="scale-icon">🏢</div>
+                        <div class="scale-badge professional">PROFESSIONAL</div>
                     </div>
+                    <div class="scale-title">Business Security</div>
+                    <div class="scale-subtitle">Multi-Site • 2-50 IP Ranges</div>
+                    <div class="scale-features">
+                        <div class="feature">✓ Everything in Essential</div>
+                        <div class="feature">✓ Cross-location correlation</div>
+                        <div class="feature">✓ Advanced threat intelligence</div>
+                        <div class="feature">✓ Business compliance reports</div>
+                        <div class="feature">✓ Priority support</div>
+                    </div>
+                    <div class="scale-pricing">Starting at $199/month</div>
                 </div>
                 
                 <div class="scale-option enterprise" onclick="selectScale('enterprise')">
-                    <div class="scale-icon">🏭</div>
-                    <div class="scale-title">Enterprise</div>
-                    <div class="scale-subtitle">6+ Public IPs</div>
-                    <div class="scale-description">
-                        Full data center mode with cross-location threat correlation, advanced analytics, and enterprise-grade features.
+                    <div class="scale-header">
+                        <div class="scale-icon">🏭</div>
+                        <div class="scale-badge enterprise">ENTERPRISE</div>
                     </div>
+                    <div class="scale-title">Enterprise Defense</div>
+                    <div class="scale-subtitle">Data Centers • Global Infrastructure</div>
+                    <div class="scale-features">
+                        <div class="feature">✓ Everything in Professional</div>
+                        <div class="feature">✓ Global threat correlation</div>
+                        <div class="feature">✓ Custom threat modeling</div>
+                        <div class="feature">✓ SOC integration & APIs</div>
+                        <div class="feature">✓ Dedicated security team</div>
+                    </div>
+                    <div class="scale-pricing">Contact for pricing</div>
                 </div>
+            </div>
+            
+            <div class="solution-footer">
+                <p>🛡️ All solutions include quantum-resistant encryption, real-time AI monitoring, and instant threat response</p>
+                <p>📞 Need help choosing? <a href="#" onclick="requestConsultation()">Schedule a free security consultation</a></p>
             </div>
         </div>
 
