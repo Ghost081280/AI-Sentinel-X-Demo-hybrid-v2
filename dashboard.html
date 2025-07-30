@@ -195,19 +195,60 @@
 
         .header-right {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
-        .encryption-badge {
-            background: var(--gradient-quantum);
-            color: white;
+        /* Encryption Status Buttons */
+        .encryption-status {
+            display: flex;
+            gap: 12px;
+        }
+
+        .encryption-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid;
+        }
+
+        .encryption-btn.classical {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .encryption-btn.quantum {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .encryption-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
         }
 
         .agent-status {
@@ -344,8 +385,8 @@
             gap: 25px;
         }
 
-        /* Sub-Agents Status */
-        .sub-agents-section {
+        /* AI Agent Command Center */
+        .agent-command-center {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 15px;
@@ -353,7 +394,7 @@
             backdrop-filter: blur(15px);
         }
 
-        .sub-agents-header {
+        .command-center-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -362,7 +403,7 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .sub-agents-title {
+        .command-center-title {
             font-size: 20px;
             font-weight: bold;
             color: var(--primary);
@@ -370,9 +411,90 @@
             letter-spacing: 1px;
         }
 
+        /* Main Agent Card */
+        .main-agent-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 255, 0.05) 100%);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-agent-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+            animation: agentPulse 8s linear infinite;
+        }
+
+        @keyframes agentPulse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .main-agent-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .main-agent-icon {
+            font-size: 48px;
+            filter: drop-shadow(0 0 20px var(--primary));
+        }
+
+        .main-agent-info {
+            flex: 1;
+        }
+
+        .main-agent-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .main-agent-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .main-agent-stats {
+            display: flex;
+            gap: 25px;
+        }
+
+        .agent-stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Sub-Agents Grid */
         .sub-agents-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 15px;
         }
 
@@ -432,18 +554,13 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.5); }
-        }
-
         /* Security Feed */
         .security-feed {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 15px;
             padding: 25px;
-            height: 450px;
+            height: 500px;
             display: flex;
             flex-direction: column;
             backdrop-filter: blur(15px);
@@ -889,13 +1006,17 @@
             }
             
             .sub-agents-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             }
         }
 
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
+            }
+            
+            .encryption-status {
+                flex-wrap: wrap;
             }
             
             .nav-tabs {
@@ -987,12 +1108,21 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <div class="encryption-badge">🔒 CLASSICAL + QUANTUM ACTIVE</div>
+                    <div class="encryption-status">
+                        <div class="encryption-btn classical" onclick="showEncryptionDetails('classical')">
+                            <span class="status-indicator"></span>
+                            <span>CLASSICAL</span>
+                        </div>
+                        <div class="encryption-btn quantum" onclick="showEncryptionDetails('quantum')">
+                            <span class="status-indicator"></span>
+                            <span>QUANTUM</span>
+                        </div>
+                    </div>
                     <div class="agent-status" onclick="showAgentShutdownModal()">
                         <span class="agent-icon">🤖</span>
                         <div class="agent-info">
                             <span class="agent-title">AI Agent Active</span>
-                            <span class="agent-status-text">Autonomous with Manual Control</span>
+                            <span class="agent-status-text">Autonomous with Manual Override</span>
                         </div>
                     </div>
                     <button class="logout-btn" onclick="handleLogout()">Logout</button>
@@ -1045,13 +1175,43 @@
         <div class="dashboard-grid">
             <!-- Left Column -->
             <div class="left-column">
-                <!-- Sub-Agents Status -->
-                <div class="sub-agents-section">
-                    <div class="sub-agents-header">
-                        <h2 class="sub-agents-title">Active Sub-Agents</h2>
-                        <span style="color: var(--text-secondary); font-size: 14px;">Main Agent orchestrating all operations</span>
+                <!-- AI Agent Command Center -->
+                <div class="agent-command-center">
+                    <div class="command-center-header">
+                        <h2 class="command-center-title">AI Agent Command Center</h2>
+                        <span style="color: var(--text-secondary); font-size: 14px;">Orchestrating all operations</span>
                     </div>
                     
+                    <!-- Main Agent -->
+                    <div class="main-agent-card" onclick="showMainAgentDetails()">
+                        <div class="main-agent-content">
+                            <div class="main-agent-icon">🤖</div>
+                            <div class="main-agent-info">
+                                <div class="main-agent-name">Main Agent</div>
+                                <div class="main-agent-description">Central AI orchestrating all sub-agents and security operations</div>
+                                <div class="main-agent-stats">
+                                    <div class="agent-stat">
+                                        <div class="stat-value" id="subAgentCount">6</div>
+                                        <div class="stat-label">Sub-Agents</div>
+                                    </div>
+                                    <div class="agent-stat">
+                                        <div class="stat-value" id="decisionsPerMin">2.4K</div>
+                                        <div class="stat-label">Decisions/Min</div>
+                                    </div>
+                                    <div class="agent-stat">
+                                        <div class="stat-value">99.8%</div>
+                                        <div class="stat-label">Accuracy</div>
+                                    </div>
+                                    <div class="agent-stat">
+                                        <div class="stat-value" id="systemUptime">99.98%</div>
+                                        <div class="stat-label">Uptime</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sub-Agents -->
                     <div class="sub-agents-grid">
                         <div class="sub-agent-card" onclick="window.location.href='threats.html'">
                             <div class="sub-agent-icon">🛡️</div>
@@ -1113,14 +1273,14 @@
                             </div>
                         </div>
                         
-                        <div class="sub-agent-card" onclick="window.location.href='settings.html'">
-                            <div class="sub-agent-icon">📝</div>
+                        <div class="sub-agent-card" onclick="window.location.href='ai-engine.html'">
+                            <div class="sub-agent-icon">🧠</div>
                             <div class="sub-agent-info">
-                                <div class="sub-agent-name">LogAgent</div>
-                                <div class="sub-agent-status">Securing audit trails</div>
+                                <div class="sub-agent-name">Neural Engine</div>
+                                <div class="sub-agent-status">Learning patterns</div>
                                 <div class="sub-agent-activity">
                                     <span class="activity-dot"></span>
-                                    <span>All logs Dilithium signed</span>
+                                    <span>Continuous improvement</span>
                                 </div>
                             </div>
                         </div>
@@ -1153,11 +1313,11 @@
                         </div>
                     </a>
                     
-                    <a href="ai-engine.html" class="action-card">
-                        <div class="action-icon">🧠</div>
+                    <a href="analytics.html" class="action-card">
+                        <div class="action-icon">📊</div>
                         <div class="action-content">
-                            <div class="action-title">AI Engine</div>
-                            <div class="action-description">Neural network with 99.8% accuracy</div>
+                            <div class="action-title">Security Analytics</div>
+                            <div class="action-description">Real-time insights and predictions</div>
                         </div>
                     </a>
                 </div>
@@ -1257,6 +1417,35 @@
 
     <script src="shared.js"></script>
     <script>
+        // Global variables
+        let chatOpen = false;
+        let agentActive = true;
+        let cliMode = false;
+
+        // Show encryption details
+        function showEncryptionDetails(type) {
+            if (!chatOpen) {
+                toggleChat();
+            }
+            setTimeout(() => {
+                if (type === 'classical') {
+                    addChatMessage('EncryptionManager: Classical layer active - AES-256-GCM for symmetric encryption, HMAC-SHA256 for integrity, PBKDF2 for key derivation. Hardware accelerated.', false);
+                } else {
+                    addChatMessage('EncryptionManager: Quantum layer active - CRYSTALS-Kyber for key exchange, CRYSTALS-Dilithium for signatures, SPHINCS+ for long-term security. NIST standardized algorithms.', false);
+                }
+            }, 300);
+        }
+
+        // Show main agent details
+        function showMainAgentDetails() {
+            if (!chatOpen) {
+                toggleChat();
+            }
+            setTimeout(() => {
+                addChatMessage('Main Agent: Central AI orchestrating 6 sub-agents. Currently coordinating ThreatScanner, NetworkMapper, DefenseOrchestrator, EncryptionManager, AnalyticsEngine, and Neural Engine. All communications protected with hybrid encryption.', false);
+            }, 300);
+        }
+
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize security feed
@@ -1303,7 +1492,7 @@
             { msg: '🔐 Key rotation completed. Kyber-1024 + AES-256', type: 'encryption', agent: 'EncryptionManager' },
             { msg: '⚔️ Honeypot triggered by external scanner', type: 'warning', agent: 'DefenseOrchestrator' },
             { msg: '📊 AI model accuracy: 99.' + Math.floor(Math.random() * 9) + '%', type: '', agent: 'AnalyticsEngine' },
-            { msg: '🔒 All logs signed with Dilithium-3', type: 'encryption', agent: 'LogAgent' },
+            { msg: '🧠 Neural pattern learned from new attack vector', type: '', agent: 'Neural Engine' },
             { msg: '🎯 Predicted attack pattern, preemptive defense deployed', type: 'warning', agent: 'ThreatScanner' },
             { msg: '✅ System health check passed. All agents operational', type: '', agent: 'Main Agent' }
         ];
@@ -1338,6 +1527,11 @@
             const cryptoEl = document.getElementById('encryptionOps');
             const ops = 2.0 + Math.random() * 0.3;
             cryptoEl.textContent = ops.toFixed(1) + 'M';
+
+            // Update decisions per minute
+            const decisionsEl = document.getElementById('decisionsPerMin');
+            const decisions = 2.3 + Math.random() * 0.3;
+            decisionsEl.textContent = decisions.toFixed(1) + 'K';
         }
 
         // Modal functions
@@ -1370,7 +1564,7 @@
                 agentStatus.style.borderColor = '#00ff88';
                 agentTitle.textContent = 'AI Agent Active';
                 agentTitle.style.color = 'var(--primary)';
-                agentStatusText.textContent = 'Autonomous with Manual Control';
+                agentStatusText.textContent = 'Autonomous with Manual Override';
             } else {
                 agentStatus.style.background = 'rgba(255, 170, 0, 0.1)';
                 agentStatus.style.borderColor = '#ffaa00';
@@ -1390,6 +1584,56 @@
             // Add feed notification
             const mode = agentActive ? 'autonomous' : 'manual control';
             addFeedItem(`⚠️ AI Agent switched to ${mode} mode`, 'warning', 'Main Agent');
+        }
+
+        // Chat functionality
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            const chatWindow = document.getElementById('aiChatWindow');
+            
+            if (chatOpen) {
+                chatWindow.classList.add('active');
+            } else {
+                chatWindow.classList.remove('active');
+            }
+        }
+
+        function addChatMessage(message, isUser = false, type = 'normal') {
+            const messagesContainer = document.getElementById('aiChatMessages');
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message-bubble ${isUser ? 'user' : ''} ${type}`;
+            messageDiv.textContent = message;
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'ai-message-time';
+            timeDiv.textContent = new Date().toLocaleTimeString();
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.appendChild(timeDiv);
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('aiChatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Add user message
+                addChatMessage(message, true);
+                input.value = '';
+                
+                // Process command (using shared.js functionality)
+                processCommand(message);
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
         }
 
         // Logout handler
