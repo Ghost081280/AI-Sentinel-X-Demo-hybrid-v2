@@ -25,16 +25,20 @@
             --text-primary: #ffffff;
             --text-secondary: #8892b0;
             --gradient-1: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
-            --gradient-danger: linear-gradient(135deg, #ff0044 0%, #ff6644 100%);
+            --gradient-2: linear-gradient(135deg, #7c3aed 0%, #00ccff 100%);
+            --gradient-shield: linear-gradient(135deg, #1a4d2e 0%, #00ff88 50%, #00ccff 100%);
+            --gradient-encryption: linear-gradient(135deg, #00ff88 0%, #00aa66 100%);
             --gradient-quantum: linear-gradient(135deg, #7c3aed 0%, #ff00ff 50%, #00ccff 100%);
+            --gradient-hybrid: linear-gradient(135deg, #00ff88 0%, #7c3aed 50%, #00ccff 100%);
+            --gradient-danger: linear-gradient(135deg, #ff0044 0%, #ff6644 100%);
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Consolas', 'Monaco', monospace;
             background: var(--bg-darker);
             color: var(--text-primary);
-            min-height: 100vh;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
         /* Animated Dot Background */
@@ -63,17 +67,24 @@
             100% { transform: translate(30px, 30px); }
         }
 
+        /* Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
         /* Header */
         .header {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 15px;
-            padding: 20px 30px;
-            margin: 20px;
+            padding: 25px 35px;
+            margin-bottom: 30px;
             backdrop-filter: blur(15px);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            position: relative;
-            z-index: 10;
         }
 
         .header-content {
@@ -87,22 +98,98 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
-        .brand-title {
-            font-size: 24px;
+        /* Logo */
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-shield {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-shield);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            position: relative;
+            animation: shieldPulse 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes shieldPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo-eye {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--bg-darker);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-iris {
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+        }
+
+        .rotating-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--primary);
+        }
+
+        .dot:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+        .dot:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
+        .dot:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
+
+        .brand-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 28px;
             font-weight: bold;
+            letter-spacing: 2px;
             background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 2px;
         }
 
-        .page-subtitle {
-            color: var(--text-secondary);
+        .brand-tagline {
             font-size: 14px;
+            color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -113,28 +200,55 @@
             align-items: center;
         }
 
-        /* Classical + Quantum Badge */
+        /* Encryption Status Badges */
+        .encryption-badges {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
         .encryption-badge {
             display: flex;
             align-items: center;
             gap: 10px;
             padding: 8px 16px;
-            background: rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.3);
             border-radius: 20px;
             font-weight: bold;
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            border: 2px solid;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .encryption-badge.classical {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .encryption-badge.quantum {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: var(--accent);
             color: var(--accent);
         }
 
         .status-light {
             width: 8px;
             height: 8px;
-            background: var(--success);
             border-radius: 50%;
             animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        .status-light.active {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .status-light.inactive {
+            background: var(--danger);
+            box-shadow: 0 0 10px var(--danger);
         }
 
         @keyframes statusPulse {
@@ -146,7 +260,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 10px 20px;
+            padding: 12px 20px;
             background: rgba(0, 255, 136, 0.1);
             border: 1px solid var(--primary);
             border-radius: 30px;
@@ -157,6 +271,27 @@
         .agent-status:hover {
             background: rgba(0, 255, 136, 0.2);
             transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .agent-icon {
+            font-size: 20px;
+        }
+
+        .agent-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .agent-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--primary);
+        }
+
+        .agent-status-text {
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
         .logout-btn {
@@ -174,15 +309,50 @@
 
         .logout-btn:hover {
             background: rgba(255, 0, 68, 0.1);
+            transform: translateY(-2px);
         }
 
-        /* Container */
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1800px;
-            margin: 0 auto;
-            padding: 0 20px 20px 20px;
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: var(--bg-card);
+            padding: 12px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            backdrop-filter: blur(15px);
+        }
+
+        .nav-tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--border);
+            color: var(--primary);
+        }
+
+        .nav-tab.active {
+            background: var(--gradient-1);
+            color: var(--bg-darker);
+            font-weight: bold;
         }
 
         /* Sub-Agent Status */
@@ -197,6 +367,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 20px;
+            backdrop-filter: blur(15px);
         }
 
         .sub-agent-info {
@@ -549,6 +720,11 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
         .ai-chat-close {
             cursor: pointer;
             font-size: 24px;
@@ -725,9 +901,25 @@
         }
 
         /* Mobile Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
             .threat-grid {
                 grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            .encryption-badges {
+                order: -1;
+                justify-content: center;
+            }
+            
+            .nav-tabs {
+                overflow-x: scroll;
+                -webkit-overflow-scrolling: touch;
             }
             
             .sub-agent-status {
@@ -783,30 +975,89 @@
         <div class="dot-grid"></div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <div>
-                    <h1 class="brand-title">AI SENTINEL-X | THREAT DETECTION</h1>
-                    <p class="page-subtitle">ThreatScanner Sub-Agent Active</p>
-                </div>
-            </div>
-            <div class="header-right">
-                <div class="encryption-badge">
-                    <div class="status-light"></div>
-                    <span>CLASSICAL + QUANTUM ACTIVE</span>
-                </div>
-                <div class="agent-status" onclick="showAgentShutdownModal()">
-                    <span>🤖 AI Agent Active • Fully Autonomous</span>
-                </div>
-                <button class="logout-btn" onclick="handleLogout()">Logout</button>
-            </div>
-        </div>
-    </header>
-
     <!-- Container -->
     <div class="container">
+        <!-- Header - Same as Dashboard -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo-container">
+                        <div class="rotating-dots">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                        <div class="logo-shield">
+                            <div class="logo-eye">
+                                <div class="logo-iris"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="brand-info">
+                        <h1 class="brand-name">AI SENTINEL-X</h1>
+                        <p class="brand-tagline">Autonomous Cyber Defense</p>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <!-- Separate Encryption Badges -->
+                    <div class="encryption-badges">
+                        <div class="encryption-badge classical">
+                            <div class="status-light active" id="classicalStatus"></div>
+                            <span>CLASSICAL</span>
+                        </div>
+                        <div class="encryption-badge quantum">
+                            <div class="status-light active" id="quantumStatus"></div>
+                            <span>QUANTUM</span>
+                        </div>
+                    </div>
+                    <div class="agent-status" onclick="showAgentShutdownModal()">
+                        <span class="agent-icon">🤖</span>
+                        <div class="agent-info">
+                            <span class="agent-title">AI Agent Active</span>
+                            <span class="agent-status-text" id="agentModeText">Autonomous with Manual Override</span>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="handleLogout()">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <a href="dashboard.html" class="nav-tab">
+                <span>🏠</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-tab active">
+                <span>🛡️</span>
+                <span>Threats</span>
+            </a>
+            <a href="network.html" class="nav-tab">
+                <span>🌐</span>
+                <span>Network</span>
+            </a>
+            <a href="defense.html" class="nav-tab">
+                <span>⚔️</span>
+                <span>Defense</span>
+            </a>
+            <a href="ai-engine.html" class="nav-tab">
+                <span>🧠</span>
+                <span>AI Engine</span>
+            </a>
+            <a href="encryption.html" class="nav-tab">
+                <span>🔐</span>
+                <span>Encryption</span>
+            </a>
+            <a href="analytics.html" class="nav-tab">
+                <span>📊</span>
+                <span>Analytics</span>
+            </a>
+            <a href="settings.html" class="nav-tab">
+                <span>⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
         <!-- Sub-Agent Status -->
         <div class="sub-agent-status">
             <div class="sub-agent-info">
@@ -856,13 +1107,13 @@
     <div class="modal-overlay" id="agentShutdownModal" onclick="closeModalOnOverlay(event)">
         <div class="modal">
             <div class="modal-header">
-                <h2 class="modal-title">⚠️ Emergency AI Shutdown</h2>
+                <h2 class="modal-title">⚠️ Agent Control Toggle</h2>
             </div>
             <div class="modal-content">
-                Pause autonomous mode? AI actions will be disabled, but manual control remains available through the AI chat bot. If external APIs or keys are offline, the agent will fallback to local control mode.
+                Toggle autonomous mode? When paused, manual control remains available through the AI chat bot CLI. System will fallback to local control mode if external APIs are offline.
             </div>
             <div class="modal-actions">
-                <button class="modal-btn modal-btn-primary" onclick="confirmAgentShutdown()">Confirm Shutdown</button>
+                <button class="modal-btn modal-btn-primary" onclick="confirmAgentShutdown()">Toggle Agent Mode</button>
                 <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
             </div>
         </div>
@@ -903,6 +1154,13 @@
 
     <script src="shared.js"></script>
     <script>
+        // Global variables
+        let chatOpen = false;
+        let agentActive = true;
+        let cliMode = false;
+        let classicalActive = true;
+        let quantumActive = true;
+
         // Threat data
         const threats = [
             {
@@ -1100,9 +1358,111 @@
             }
         }
 
+        // Modal functions
+        function showAgentShutdownModal() {
+            const modal = document.getElementById('agentShutdownModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('agentShutdownModal');
+            modal.style.display = 'none';
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        }
+
+        function confirmAgentShutdown() {
+            agentActive = !agentActive;
+            
+            // Update header status
+            const agentStatus = document.querySelector('.agent-status');
+            const agentTitle = document.querySelector('.agent-title');
+            const agentStatusText = document.querySelector('.agent-status-text');
+            
+            if (agentActive) {
+                agentStatus.style.background = 'rgba(0, 255, 136, 0.1)';
+                agentStatus.style.borderColor = '#00ff88';
+                agentTitle.textContent = 'AI Agent Active';
+                agentTitle.style.color = 'var(--primary)';
+                agentStatusText.textContent = 'Autonomous with Manual Override';
+            } else {
+                agentStatus.style.background = 'rgba(255, 170, 0, 0.1)';
+                agentStatus.style.borderColor = '#ffaa00';
+                agentTitle.textContent = 'AI Agent Paused';
+                agentTitle.style.color = '#ffaa00';
+                agentStatusText.textContent = 'Manual Control Only';
+            }
+            
+            closeModal();
+            
+            // Show notification in chat
+            if (chatOpen) {
+                const status = agentActive ? 'resumed autonomous operation' : 'switched to manual control mode';
+                addChatMessage(`⚠️ Main Agent has ${status}. CLI mode available if external connections fail.`, false, 'system');
+            }
+            
+            // Add feed notification
+            const mode = agentActive ? 'autonomous' : 'manual control';
+            addFeedItem(`⚠️ AI Agent switched to ${mode} mode`, 'Main Agent', 'ai-action');
+        }
+
+        // Chat functionality
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            const chatWindow = document.getElementById('aiChatWindow');
+            
+            if (chatOpen) {
+                chatWindow.classList.add('active');
+            } else {
+                chatWindow.classList.remove('active');
+            }
+        }
+
+        function addChatMessage(message, isUser = false, type = 'normal') {
+            const messagesContainer = document.getElementById('aiChatMessages');
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message-bubble ${isUser ? 'user' : ''} ${type}`;
+            messageDiv.textContent = message;
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'ai-message-time';
+            timeDiv.textContent = new Date().toLocaleTimeString();
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.appendChild(timeDiv);
+            
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('aiChatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Add user message
+                addChatMessage(message, true);
+                input.value = '';
+                
+                // Process command (using shared.js functionality)
+                processCommand(message);
+            }
+        }
+
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
         // Logout handler
         function handleLogout() {
-            if (confirm('Logout? The AI agent will continue protecting your systems.')) {
+            if (confirm('Are you sure you want to logout? The AI agent will continue protecting your systems autonomously.')) {
                 localStorage.removeItem('sentinel_auth');
                 window.location.href = 'index.html';
             }
