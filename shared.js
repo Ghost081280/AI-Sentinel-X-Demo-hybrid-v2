@@ -1,10 +1,10 @@
 /**
- * AI Sentinel-X Shared JavaScript Library - Hybrid V2
+ * AI Sentinel-X Shared JavaScript Library - Hybrid V2.1
  * Enhanced modular architecture for cross-platform compatibility
  */
 
 // Version and configuration
-const SENTINEL_VERSION = '2.0-hybrid';
+const SENTINEL_VERSION = '2.1-hybrid';
 const API_VERSION = 'v2';
 
 // Global state management
@@ -17,12 +17,53 @@ const SentinelState = {
     discoveryActive: true,
     scanningActive: true,
     currentPage: 'unknown',
+    currentScale: null,
     apiEndpoints: {
         main: '/api/v2/agent',
         threats: '/api/v2/threats',
         network: '/api/v2/network',
         encryption: '/api/v2/encryption',
         analytics: '/api/v2/analytics'
+    }
+};
+
+// Scale-specific configurations for network module
+const ScaleConfigs = {
+    individual: {
+        icon: '🌐',
+        text: 'SINGLE IP',
+        className: 'scale-individual',
+        modalTitle: '🌐 Add Server Range',
+        maxRanges: 1,
+        deviceRange: [5, 25],
+        serviceRange: [3, 12],
+        description: 'Single server monitoring • Essential protection • Hybrid-resistant security',
+        scanDetails: 'Server + External',
+        chatContext: 'single IP deployment with essential security monitoring'
+    },
+    business: {
+        icon: '🏢',
+        text: 'SMALL BUSINESS',
+        className: 'scale-business',
+        modalTitle: '🏢 Add Business Network',
+        maxRanges: 5,
+        deviceRange: [25, 250],
+        serviceRange: [12, 50],
+        description: 'Multi-location scanning • Business-grade security • Advanced monitoring',
+        scanDetails: 'Multi-site + External',
+        chatContext: 'small business with multiple locations and enhanced security requirements'
+    },
+    enterprise: {
+        icon: '🏭',
+        text: 'ENTERPRISE',
+        className: 'scale-enterprise',
+        modalTitle: '🏢 Add Data Center Range',
+        maxRanges: 50,
+        deviceRange: [250, 5000],
+        serviceRange: [50, 200],
+        description: 'Enterprise-scale scanning • Cross-DC correlation • Full data center monitoring',
+        scanDetails: 'Multi-DC + Global',
+        chatContext: 'enterprise data center with distributed infrastructure and advanced threat correlation'
     }
 };
 
@@ -217,7 +258,10 @@ class SentinelChat {
             .replace(/\n/g, '<br>')
             .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
             .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/`(.*?)`/g, '<code>$1</code>');
+            .replace(/`(.*?)`/g, '<code>$1</code>')
+            // Fix terminology
+            .replace(/quantum-resistant/gi, 'hybrid-resistant')
+            .replace(/Quantum-resistant/gi, 'Hybrid-resistant');
     }
     
     scrollToBottom() {
@@ -309,10 +353,11 @@ class SentinelChat {
     getCommandContext(lowerCommand) {
         if (lowerCommand.includes('threat') || lowerCommand.includes('attack') || lowerCommand.includes('malware')) return 'threats';
         if (lowerCommand.includes('network') || lowerCommand.includes('device') || lowerCommand.includes('scan')) return 'network';
-        if (lowerCommand.includes('encrypt') || lowerCommand.includes('crypto') || lowerCommand.includes('quantum')) return 'encryption';
+        if (lowerCommand.includes('encrypt') || lowerCommand.includes('crypto') || lowerCommand.includes('quantum') || lowerCommand.includes('hybrid')) return 'encryption';
         if (lowerCommand.includes('defense') || lowerCommand.includes('response') || lowerCommand.includes('honeypot')) return 'defense';
         if (lowerCommand.includes('analytics') || lowerCommand.includes('report') || lowerCommand.includes('metric')) return 'analytics';
         if (lowerCommand.includes('log') || lowerCommand.includes('audit') || lowerCommand.includes('compliance')) return 'logs';
+        if (lowerCommand.includes('scale') || lowerCommand.includes('environment') || lowerCommand.includes('reset')) return 'network';
         return SentinelState.currentPage;
     }
     
@@ -346,8 +391,21 @@ class SentinelChat {
             return this.handleQuarantine(ipMatch);
         }
         
+        if (lowerCommand.includes('scale') || lowerCommand.includes('environment')) {
+            return this.handleScaleQuery();
+        }
+        
         // Fallback to contextual responses
         return responses[Math.floor(Math.random() * responses.length)];
+    }
+    
+    handleScaleQuery() {
+        const currentScale = SentinelState.currentScale;
+        if (currentScale && ScaleConfigs[currentScale]) {
+            const config = ScaleConfigs[currentScale];
+            return `NetworkMapper: Current deployment scale: ${config.text}. ${config.description}. Interface optimized for ${config.chatContext}.`;
+        }
+        return 'NetworkMapper: Scale detection in progress. Please select your deployment type from the options above.';
     }
     
     getContextualResponses(context) {
@@ -358,14 +416,14 @@ class SentinelChat {
                 'ThreatScanner: Behavioral analysis detected 3 new threat signatures. DefenseOrchestrator coordinating response.'
             ],
             network: [
-                'NetworkMapper: 247 devices discovered and monitored. Live discovery active with quantum-resistant protocols.',
+                'NetworkMapper: 247 devices discovered and monitored. Live discovery active with hybrid-resistant protocols.',
                 'NetworkMapper: Dual-layer scanning (external + internal) operating normally. All communications hybrid encrypted.',
                 'NetworkMapper: New device detection rate: 1 every 8-15 seconds. External threat intelligence via Shodan API.'
             ],
             encryption: [
                 'EncryptionManager: Hybrid mode operational. Classical: AES-256-GCM, HMAC-SHA256. Post-Quantum: Kyber-1024, Dilithium-3.',
                 'EncryptionManager: Processing 2.1M crypto operations/second. Key rotation scheduled every 24 hours.',
-                'EncryptionManager: All systems quantum-ready. NIST-approved algorithms with zero performance impact.'
+                'EncryptionManager: All systems hybrid-ready. NIST-approved algorithms with zero performance impact.'
             ],
             defense: [
                 'DefenseOrchestrator: 8 honeypots active. Automated response enabled. Average mitigation time: 0.3 seconds.',
@@ -380,7 +438,7 @@ class SentinelChat {
             logs: [
                 'LogAgent: Processing 147K entries/minute. All logs Dilithium-signed for compliance.',
                 'LogAgent: SOC2, ISO27001, NIST compliance verified. Tamper-proof storage active.',
-                'LogAgent: Audit trail complete with quantum-resistant signatures. Ready for forensic analysis.'
+                'LogAgent: Audit trail complete with hybrid-resistant signatures. Ready for forensic analysis.'
             ]
         };
         
@@ -388,8 +446,10 @@ class SentinelChat {
     }
     
     generateStatusResponse(context) {
+        const scaleText = SentinelState.currentScale ? ScaleConfigs[SentinelState.currentScale].text : 'DETECTING';
         return `System Status - ${context.toUpperCase()} Module:
 • AI Mode: ${SentinelState.agentActive ? 'Autonomous' : 'Manual Control'}
+• Scale: ${scaleText}
 • Encryption: Hybrid Active (Classical + Post-Quantum)
 • Sub-Agents: 6 Online
 • Threat Level: Medium
@@ -400,10 +460,10 @@ class SentinelChat {
     
     generateHelpResponse(context) {
         const commands = {
-            general: ['status', 'help', 'list threats', 'scan network', 'show encryption', 'view logs'],
+            general: ['status', 'help', 'list threats', 'scan network', 'show encryption', 'view logs', 'scale info'],
             threats: ['list threats', 'analyze threat [ID]', 'quarantine [IP]', 'threat stats'],
-            network: ['scan network', 'list devices', 'discovery status', 'device info [IP]'],
-            encryption: ['show encryption', 'key rotation', 'algorithm status', 'quantum readiness'],
+            network: ['scan network', 'list devices', 'discovery status', 'device info [IP]', 'scale info', 'reset config'],
+            encryption: ['show encryption', 'key rotation', 'algorithm status', 'hybrid readiness'],
             defense: ['defense status', 'list honeypots', 'response time', 'playbook status'],
             analytics: ['analytics report', 'threat trends', 'performance metrics', 'predictions']
         };
@@ -420,7 +480,7 @@ All commands route through appropriate sub-agents with hybrid encryption.`;
             const ip = ipMatch[1];
             // Simulate quarantine action
             setTimeout(() => {
-                this.addMessage(`DefenseOrchestrator: IP ${ip} quarantined successfully. All traffic blocked. Action logged with quantum-resistant signature.`, false);
+                this.addMessage(`DefenseOrchestrator: IP ${ip} quarantined successfully. All traffic blocked. Action logged with hybrid-resistant signature.`, false);
             }, 1000);
             return `Main Agent: Initiating quarantine for IP ${ip}...`;
         }
@@ -438,7 +498,7 @@ All commands route through appropriate sub-agents with hybrid encryption.`;
         this.removeTypingIndicator();
         
         const cliResponses = {
-            'help': `CLI Mode Commands (Hybrid V2):
+            'help': `CLI Mode Commands (Hybrid V2.1):
 • status - System overview
 • list threats - Active threats
 • scan network - Network devices
@@ -447,10 +507,12 @@ All commands route through appropriate sub-agents with hybrid encryption.`;
 • quarantine [IP] - Block IP
 • enable agent - Restore AI control
 • discovery status - Device discovery
+• scale info - Current scale
 • version - Show version info`,
             
             'status': `[CLI] System Status:
 • Mode: CLI (Manual Control)
+• Scale: ${SentinelState.currentScale ? ScaleConfigs[SentinelState.currentScale].text : 'DETECTING'}
 • Version: ${SENTINEL_VERSION}
 • Threats: 7 active
 • Devices: 247 protected  
@@ -458,12 +520,25 @@ All commands route through appropriate sub-agents with hybrid encryption.`;
 • Discovery: ${SentinelState.discoveryActive ? 'ACTIVE' : 'PAUSED'}
 • Uptime: 99.98%`,
             
-            'version': `[CLI] AI Sentinel-X Hybrid V2
+            'version': `[CLI] AI Sentinel-X Hybrid V2.1
 • Version: ${SENTINEL_VERSION}
 • API: ${API_VERSION}
 • Encryption: Classical + Post-Quantum
 • Architecture: Modular Sub-Agent System
 • Status: Operational`,
+            
+            'scale info': () => {
+                const currentScale = SentinelState.currentScale;
+                if (currentScale && ScaleConfigs[currentScale]) {
+                    const config = ScaleConfigs[currentScale];
+                    return `[CLI] Current Scale: ${config.text}
+• Type: ${currentScale.toUpperCase()}
+• Max Ranges: ${config.maxRanges}
+• Device Range: ${config.deviceRange[0]}-${config.deviceRange[1]}
+• Description: ${config.description}`;
+                }
+                return '[CLI] Scale: Not configured. Please select deployment type.';
+            },
             
             'list threats': `[CLI] Active Threats:
 1. SQL Injection - /api/users - BLOCKED
@@ -564,15 +639,18 @@ class SentinelEventHandlers {
     }
     
     static initializeModalHandlers() {
-        // Modal overlay click handler
-        const modalOverlay = document.getElementById('agentShutdownModal');
-        if (modalOverlay) {
-            modalOverlay.addEventListener('click', (e) => {
-                if (e.target === modalOverlay) {
-                    SentinelEventHandlers.closeModal();
-                }
-            });
-        }
+        // Modal overlay click handlers for all modals
+        const modals = ['agentShutdownModal', 'addRangeModal', 'rescanModal'];
+        modals.forEach(modalId => {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        SentinelEventHandlers.closeModal(modalId);
+                    }
+                });
+            }
+        });
     }
     
     static showAgentShutdownModal() {
@@ -580,8 +658,8 @@ class SentinelEventHandlers {
         if (modal) modal.style.display = 'flex';
     }
     
-    static closeModal() {
-        const modal = document.getElementById('agentShutdownModal');
+    static closeModal(modalId = 'agentShutdownModal') {
+        const modal = document.getElementById(modalId);
         if (modal) modal.style.display = 'none';
     }
     
@@ -626,6 +704,11 @@ class SentinelUtils {
         return ipRegex.test(ip);
     }
     
+    static validateCIDR(cidr) {
+        const cidrRegex = /^(\d{1,3}\.){3}\d{1,3}\/\d{1,2}$/;
+        return cidrRegex.test(cidr);
+    }
+    
     static sanitizeInput(input) {
         if (typeof input !== 'string') return '';
         return input
@@ -656,6 +739,56 @@ class SentinelUtils {
                 setTimeout(() => inThrottle = false, limit);
             }
         };
+    }
+    
+    // Network-specific utilities
+    static updateElementText(elementId, text) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.textContent = text;
+        }
+    }
+    
+    static updateElementHTML(elementId, html) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.innerHTML = html;
+        }
+    }
+    
+    static showElement(elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.style.display = element.tagName.toLowerCase() === 'div' ? 'block' : 'flex';
+        }
+    }
+    
+    static hideElement(elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.style.display = 'none';
+        }
+    }
+    
+    static setElementClass(elementId, className) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.className = className;
+        }
+    }
+    
+    static addElementClass(elementId, className) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.classList.add(className);
+        }
+    }
+    
+    static removeElementClass(elementId, className) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.classList.remove(className);
+        }
     }
 }
 
@@ -751,6 +884,30 @@ function initializeSentinel() {
     
     // Add global CSS for enhanced features
     addEnhancedCSS();
+    
+    // Fix terminology in existing content
+    fixTerminologyInDOM();
+}
+
+// Fix existing terminology in DOM
+function fixTerminologyInDOM() {
+    // Function to recursively replace text content
+    function replaceTextInNode(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent = node.textContent
+                .replace(/quantum-resistant/gi, 'hybrid-resistant')
+                .replace(/Quantum-resistant/gi, 'Hybrid-resistant');
+        } else {
+            for (let child of node.childNodes) {
+                replaceTextInNode(child);
+            }
+        }
+    }
+    
+    // Apply to document body after a short delay to ensure DOM is ready
+    setTimeout(() => {
+        replaceTextInNode(document.body);
+    }, 100);
 }
 
 // Enhanced CSS for V2 features
@@ -822,8 +979,42 @@ function addEnhancedCSS() {
             color: var(--danger, #ff0044);
             animation: pulse 2s ease-in-out infinite;
         }
+        
+        /* Enhanced reset button styling */
+        .reset-config-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .reset-config-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 170, 0, 0.3);
+        }
+        
+        /* Improved responsive design */
+        @media (max-width: 768px) {
+            .ip-range-controls {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            .reset-config-btn,
+            .add-range-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     `;
     document.head.appendChild(style);
+}
+
+// Common logout handler
+function handleLogout() {
+    if (confirm('Are you sure you want to logout? The AI agent will continue protecting your network autonomously.')) {
+        localStorage.removeItem('sentinel_auth');
+        localStorage.removeItem('sentinel_scale'); // Reset scale on logout
+        window.location.href = 'index.html';
+    }
 }
 
 // Cleanup function
@@ -835,6 +1026,7 @@ function cleanupSentinel() {
 
 // Global exports for backward compatibility
 window.SentinelState = SentinelState;
+window.ScaleConfigs = ScaleConfigs;
 window.sentinelChat = sentinelChat;
 window.SentinelUtils = SentinelUtils;
 window.SentinelEventHandlers = SentinelEventHandlers;
@@ -847,7 +1039,8 @@ window.showAgentShutdownModal = SentinelEventHandlers.showAgentShutdownModal;
 window.closeModal = SentinelEventHandlers.closeModal;
 window.closeModalOnOverlay = (e) => {
     if (e.target.classList.contains('modal-overlay')) {
-        SentinelEventHandlers.closeModal();
+        const modalId = e.target.id;
+        SentinelEventHandlers.closeModal(modalId);
     }
 };
 window.confirmAgentShutdown = SentinelEventHandlers.confirmAgentShutdown;
@@ -871,6 +1064,7 @@ window.sendChatMessage = () => {
         }
     }
 };
+window.handleLogout = handleLogout;
 
 // Initialize when DOM is ready
 if (document.readyState === 'loading') {
@@ -886,6 +1080,7 @@ window.addEventListener('beforeunload', cleanupSentinel);
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         SentinelState,
+        ScaleConfigs,
         SentinelChat,
         SentinelUtils,
         SentinelEventHandlers,
