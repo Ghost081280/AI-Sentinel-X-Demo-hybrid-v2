@@ -136,52 +136,40 @@ function showScanResults(recommendation) {
 }
 
 function showScanResultsModal(recommendation) {
-    // Create a results modal
+    // Create a results modal with proper sizing
     const modal = document.createElement('div');
-    modal.className = 'modal-overlay';
+    modal.className = 'modal-overlay scan-results-modal';
     modal.style.display = 'flex';
     modal.innerHTML = `
-        <div class="modal">
+        <div class="modal scan-results-modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">🎯 Network Scan Results</h2>
+                <h2 class="modal-title">🎯 Network Discovery Complete</h2>
             </div>
             <div class="modal-content">
-                <div class="scan-results-grid">
-                    <div class="result-metric">
-                        <div class="metric-icon">🌐</div>
-                        <div class="metric-label">Public IPs</div>
-                        <div class="metric-value">${recommendation.details.publicIPs}</div>
+                <div class="scan-results-summary">
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="summary-label">Infrastructure Type</span>
+                            <span class="summary-value">${recommendation.details.infrastructure}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Detection Confidence</span>
+                            <span class="summary-value">${recommendation.confidence}%</span>
+                        </div>
                     </div>
-                    <div class="result-metric">
-                        <div class="metric-icon">⚙️</div>
-                        <div class="metric-label">Services</div>
-                        <div class="metric-value">${recommendation.details.services}</div>
-                    </div>
-                    <div class="result-metric">
-                        <div class="metric-icon">📊</div>
-                        <div class="metric-label">Complexity</div>
-                        <div class="metric-value">${recommendation.details.complexity}</div>
-                    </div>
-                    <div class="result-metric">
-                        <div class="metric-icon">🎯</div>
-                        <div class="metric-label">Confidence</div>
-                        <div class="metric-value">${recommendation.confidence}%</div>
+                    
+                    <div class="recommendation-banner">
+                        <div class="banner-icon">🚀</div>
+                        <div class="banner-content">
+                            <h3>Recommended Configuration</h3>
+                            <p>${recommendation.details.recommendation}</p>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="recommendation-box">
-                    <h3>🚀 Recommended Solution</h3>
-                    <p><strong>${recommendation.details.infrastructure}</strong></p>
-                    <p>${recommendation.details.recommendation}</p>
-                </div>
-                
-                <p style="color: var(--text-secondary); text-align: center; margin-top: 20px;">
-                    The recommended solution is highlighted below. You can still choose any solution that fits your needs.
-                </p>
             </div>
             <div class="modal-actions">
                 <button class="modal-btn modal-btn-primary" onclick="acceptRecommendation('${recommendation.type}')">
-                    Accept Recommendation
+                    Apply Configuration
                 </button>
                 <button class="modal-btn modal-btn-secondary" onclick="closeScanResultsModal()">
                     Choose Manually
@@ -190,57 +178,80 @@ function showScanResultsModal(recommendation) {
         </div>
     `;
     
-    // Add modal styles
-    const style = document.createElement('style');
-    style.textContent = `
-        .scan-results-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        .result-metric {
-            background: rgba(0, 255, 136, 0.05);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-        }
-        
-        .metric-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-        
-        .metric-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        
-        .metric-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .recommendation-box {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.05));
-            border: 1px solid var(--primary);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .recommendation-box h3 {
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-    `;
-    document.head.appendChild(style);
+    // Add improved modal styles
+    if (!document.querySelector('#scan-modal-styles')) {
+        const style = document.createElement('style');
+        style.id = 'scan-modal-styles';
+        style.textContent = `
+            .scan-results-modal-content {
+                max-width: 500px;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            
+            .scan-results-summary {
+                margin-bottom: 20px;
+            }
+            
+            .summary-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+            
+            .summary-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px;
+                background: rgba(0, 255, 136, 0.05);
+                border: 1px solid rgba(0, 255, 136, 0.2);
+                border-radius: 8px;
+            }
+            
+            .summary-label {
+                font-size: 14px;
+                color: var(--text-secondary);
+                font-weight: 500;
+            }
+            
+            .summary-value {
+                font-size: 14px;
+                font-weight: bold;
+                color: var(--primary);
+            }
+            
+            .recommendation-banner {
+                background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.05));
+                border: 1px solid var(--primary);
+                border-radius: 12px;
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .banner-icon {
+                font-size: 32px;
+                flex-shrink: 0;
+            }
+            
+            .banner-content h3 {
+                color: var(--primary);
+                margin-bottom: 8px;
+                font-size: 16px;
+            }
+            
+            .banner-content p {
+                color: var(--text-secondary);
+                font-size: 14px;
+                margin: 0;
+                line-height: 1.4;
+            }
+        `;
+        document.head.appendChild(style);
+    }
     
     document.body.appendChild(modal);
     
@@ -253,8 +264,8 @@ function showScanResultsModal(recommendation) {
 }
 
 function closeScanResultsModal() {
-    const modal = document.querySelector('.modal-overlay');
-    if (modal && modal.querySelector('.scan-results-grid')) {
+    const modal = document.querySelector('.scan-results-modal');
+    if (modal) {
         modal.remove();
     }
 }
@@ -262,6 +273,11 @@ function closeScanResultsModal() {
 function acceptRecommendation(recommendedType) {
     closeScanResultsModal();
     selectScale(recommendedType, true);
+    
+    // Show configuration message
+    if (SentinelState.chatOpen) {
+        sentinelChat.addMessage(`✅ NetworkMapper: Applying ${ScaleConfigs[recommendedType].text} configuration. Your license will be configured for optimal monitoring of your infrastructure.`, false, 'system');
+    }
 }
 
 function highlightRecommendedSolution(recommendedType) {
@@ -322,7 +338,19 @@ function highlightRecommendedSolution(recommendedType) {
     document.head.appendChild(style);
 }
 
-function requestConsultation() {
+// Enhanced modal overlay handler
+function closeModalOnOverlay(event) {
+    if (event.target.classList.contains('modal-overlay')) {
+        const modalId = event.target.id;
+        if (modalId === 'addRangeModal') {
+            closeAddRangeModal();
+        } else if (modalId === 'rescanModal') {
+            closeRescanModal();
+        } else {
+            SentinelEventHandlers.closeModal(modalId);
+        }
+    }
+}
     if (!SentinelState.chatOpen) {
         sentinelChat.toggle();
     }
@@ -1546,7 +1574,6 @@ window.addIPRange = addIPRange;
 window.showRescanModal = showRescanModal;
 window.closeRescanModal = closeRescanModal;
 window.confirmRescan = confirmRescan;
-window.toggleScanning = toggleScanning;
 window.showRangeDetails = showRangeDetails;
 window.showDeviceDetails = showDeviceDetails;
 window.showOverviewDetails = showOverviewDetails;
