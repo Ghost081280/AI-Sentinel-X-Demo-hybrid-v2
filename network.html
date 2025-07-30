@@ -27,13 +27,11 @@
             --gradient-1: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
             --gradient-2: linear-gradient(135deg, #7c3aed 0%, #00ccff 100%);
             --gradient-shield: linear-gradient(135deg, #1a4d2e 0%, #00ff88 50%, #00ccff 100%);
-            --gradient-encryption: linear-gradient(135deg, #00ff88 0%, #00aa66 100%);
-            --gradient-quantum: linear-gradient(135deg, #7c3aed 0%, #ff00ff 50%, #00ccff 100%);
-            --gradient-hybrid: linear-gradient(135deg, #00ff88 0%, #7c3aed 50%, #00ccff 100%);
             --gradient-network: linear-gradient(135deg, #00ccff 0%, #0066ff 100%);
             --gradient-external: linear-gradient(135deg, #ff0044 0%, #ff6644 100%);
             --gradient-internal: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
             --gradient-datacenter: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --gradient-business: linear-gradient(135deg, #9333ea 0%, #c084fc 100%);
         }
 
         body {
@@ -44,7 +42,7 @@
             min-height: 100vh;
         }
 
-        /* Animated Dot Background */
+        /* Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -104,7 +102,6 @@
             gap: 25px;
         }
 
-        /* Logo */
         .logo-container {
             width: 80px;
             height: 80px;
@@ -203,6 +200,40 @@
             align-items: center;
         }
 
+        /* Scale Detection Indicator */
+        .scale-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .scale-individual {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .scale-business {
+            background: rgba(147, 51, 234, 0.1);
+            border-color: #9333ea;
+            color: #9333ea;
+        }
+
+        .scale-enterprise {
+            background: rgba(255, 107, 53, 0.1);
+            border-color: #ff6b35;
+            color: #ff6b35;
+        }
+
         /* Encryption Status Badges */
         .encryption-badges {
             display: flex;
@@ -247,11 +278,6 @@
         .status-light.active {
             background: var(--success);
             box-shadow: 0 0 10px var(--success);
-        }
-
-        .status-light.inactive {
-            background: var(--danger);
-            box-shadow: 0 0 10px var(--danger);
         }
 
         @keyframes statusPulse {
@@ -358,7 +384,101 @@
             font-weight: bold;
         }
 
-        /* Sub-Agent Status - Enhanced for Enterprise */
+        /* Adaptive Environment Detection */
+        .environment-detection {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            text-align: center;
+        }
+
+        .detection-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detection-description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .scale-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .scale-option {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            min-width: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .scale-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .scale-option.selected {
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .scale-option.individual.selected {
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .scale-option.business.selected {
+            border-color: #9333ea;
+            background: rgba(147, 51, 234, 0.1);
+        }
+
+        .scale-option.enterprise.selected {
+            border-color: #ff6b35;
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .scale-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .scale-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .scale-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .scale-description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Sub-Agent Status - Adaptive */
         .sub-agent-status {
             background: linear-gradient(135deg, rgba(0, 204, 255, 0.1) 0%, rgba(0, 255, 136, 0.05) 100%);
             border: 1px solid rgba(0, 204, 255, 0.3);
@@ -423,33 +543,7 @@
             text-transform: uppercase;
         }
 
-        /* Enterprise Scale Notice */
-        .enterprise-notice {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(247, 147, 30, 0.1) 100%);
-            border: 1px solid rgba(255, 107, 53, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            text-align: center;
-            backdrop-filter: blur(15px);
-        }
-
-        .enterprise-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ff6b35;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .enterprise-description {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        /* Public IP Range Manager */
+        /* IP Range Manager - Adaptive */
         .ip-range-manager {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -457,6 +551,10 @@
             padding: 30px;
             margin-bottom: 30px;
             backdrop-filter: blur(20px);
+        }
+
+        .ip-range-manager.hidden {
+            display: none;
         }
 
         .ip-range-header {
@@ -517,6 +615,17 @@
             box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
         }
 
+        /* Individual Mode Simplifications */
+        .individual-mode .ip-range-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 255, 136, 0.05) 100%);
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .business-mode .ip-range-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(147, 51, 234, 0.05) 100%);
+            border-color: rgba(147, 51, 234, 0.3);
+        }
+
         .range-header {
             display: flex;
             justify-content: space-between;
@@ -527,6 +636,17 @@
         .range-name {
             font-size: 18px;
             font-weight: bold;
+        }
+
+        .individual-mode .range-name {
+            color: var(--primary);
+        }
+
+        .business-mode .range-name {
+            color: #9333ea;
+        }
+
+        .enterprise-mode .range-name {
             color: #ff6b35;
         }
 
@@ -578,6 +698,17 @@
         .range-metric-value {
             font-size: 16px;
             font-weight: bold;
+        }
+
+        .individual-mode .range-metric-value {
+            color: var(--primary);
+        }
+
+        .business-mode .range-metric-value {
+            color: #9333ea;
+        }
+
+        .enterprise-mode .range-metric-value {
             color: #ff6b35;
         }
 
@@ -587,7 +718,7 @@
             text-transform: uppercase;
         }
 
-        /* Interactive Dashboard Section */
+        /* Interactive Dashboard - Adaptive */
         .dashboard-interactive {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -645,21 +776,7 @@
             background: var(--gradient-external);
         }
 
-        .scale-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 16px;
-            background: rgba(255, 170, 0, 0.1);
-            border: 1px solid var(--warning);
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--warning);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Enhanced Network Overview */
+        /* Network Overview - Adaptive */
         .network-overview {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -731,6 +848,19 @@
             gap: 20px;
         }
 
+        /* Adaptive grid for different scales */
+        .individual-mode .overview-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .business-mode .overview-grid {
+            grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
+        }
+
+        .enterprise-mode .overview-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
         .overview-card {
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 255, 136, 0.02) 100%);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -767,7 +897,7 @@
             letter-spacing: 1px;
         }
 
-        /* Dual Layer Scanning */
+        /* Scanning Grid - Adaptive */
         .scanning-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
@@ -775,7 +905,10 @@
             margin-bottom: 30px;
         }
 
-        /* Scan Panel */
+        .individual-mode .scanning-grid {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
         .scan-panel {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -863,7 +996,6 @@
             50% { transform: scale(1.3); opacity: 0.7; }
         }
 
-        /* Scan Results */
         .scan-results {
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 204, 255, 0.05) 100%);
             border-radius: 12px;
@@ -903,7 +1035,6 @@
             word-break: break-all;
         }
 
-        /* Service List */
         .service-list {
             display: grid;
             gap: 12px;
@@ -987,7 +1118,7 @@
             color: var(--warning);
         }
 
-        /* Device Discovery Section */
+        /* Device Discovery - Adaptive */
         .device-discovery {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -1001,6 +1132,14 @@
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
             margin-top: 25px;
+        }
+
+        .individual-mode .discovery-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+
+        .business-mode .discovery-grid {
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
         }
 
         .device-card {
@@ -1077,7 +1216,6 @@
             gap: 5px;
         }
 
-        /* Pulse animation for new devices */
         .device-card.new-device {
             border-color: var(--secondary);
             box-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
@@ -1093,6 +1231,27 @@
                 border-color: var(--primary);
                 box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
             }
+        }
+
+        /* Hidden elements for different modes */
+        .enterprise-only {
+            display: block;
+        }
+
+        .business-only {
+            display: block;
+        }
+
+        .individual-mode .enterprise-only {
+            display: none;
+        }
+
+        .individual-mode .business-only {
+            display: none;
+        }
+
+        .business-mode .enterprise-only {
+            display: none;
         }
 
         /* AI Chat Widget */
@@ -1304,7 +1463,6 @@
         .modal-title {
             font-size: 24px;
             font-weight: bold;
-            color: #ff6b35;
             margin-bottom: 10px;
         }
 
@@ -1364,8 +1522,8 @@
         }
 
         .modal-btn-primary {
-            background: var(--gradient-datacenter);
-            color: white;
+            background: var(--gradient-1);
+            color: var(--bg-darker);
         }
 
         .modal-btn-secondary {
@@ -1417,6 +1575,16 @@
             .overview-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 10px;
+            }
+            
+            .scale-options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .scale-option {
+                width: 100%;
+                max-width: 300px;
             }
             
             .ai-chat-window {
@@ -1491,7 +1659,13 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <!-- Separate Encryption Badges -->
+                    <!-- Adaptive Scale Indicator -->
+                    <div class="scale-indicator scale-individual" id="scaleIndicator">
+                        <span id="scaleIcon">🏠</span>
+                        <span id="scaleText">INDIVIDUAL</span>
+                    </div>
+                    
+                    <!-- Encryption Badges -->
                     <div class="encryption-badges">
                         <div class="encryption-badge classical">
                             <div class="status-light active" id="classicalStatus"></div>
@@ -1502,13 +1676,15 @@
                             <span>QUANTUM</span>
                         </div>
                     </div>
+                    
                     <div class="agent-status" onclick="showAgentShutdownModal()">
                         <span class="agent-icon">🤖</span>
                         <div class="agent-info">
                             <span class="agent-title">AI Agent Active</span>
-                            <span class="agent-status-text" id="agentModeText">Autonomous with Manual Override</span>
+                            <span class="agent-status-text" id="agentModeText">Adaptive Configuration</span>
                         </div>
                     </div>
+                    
                     <button class="logout-btn" onclick="handleLogout()">Logout</button>
                 </div>
             </div>
@@ -1550,53 +1726,78 @@
             </a>
         </nav>
 
+        <!-- Environment Detection -->
+        <div class="environment-detection" id="environmentDetection">
+            <div class="detection-title">🎯 Adaptive Network Configuration</div>
+            <div class="detection-description">
+                AI Sentinel-X automatically detects your network scale and adapts the interface. Choose your environment type or let our AI auto-detect based on your public IP configuration.
+            </div>
+            
+            <div class="scale-options">
+                <div class="scale-option individual" onclick="selectScale('individual')">
+                    <div class="scale-icon">🏠</div>
+                    <div class="scale-title">Individual</div>
+                    <div class="scale-subtitle">1 Public IP</div>
+                    <div class="scale-description">
+                        Perfect for home users, freelancers, and personal projects. Simple, clean interface focused on essential security.
+                    </div>
+                </div>
+                
+                <div class="scale-option business" onclick="selectScale('business')">
+                    <div class="scale-icon">🏢</div>
+                    <div class="scale-title">Small Business</div>
+                    <div class="scale-subtitle">2-5 Public IPs</div>
+                    <div class="scale-description">
+                        Ideal for small to medium businesses with multiple locations or services. Enhanced monitoring and management tools.
+                    </div>
+                </div>
+                
+                <div class="scale-option enterprise" onclick="selectScale('enterprise')">
+                    <div class="scale-icon">🏭</div>
+                    <div class="scale-title">Enterprise</div>
+                    <div class="scale-subtitle">6+ Public IPs</div>
+                    <div class="scale-description">
+                        Full data center mode with cross-location threat correlation, advanced analytics, and enterprise-grade features.
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Sub-Agent Status -->
-        <div class="sub-agent-status">
+        <div class="sub-agent-status" id="subAgentStatus" style="display: none;">
             <div class="sub-agent-info">
                 <div class="sub-agent-icon">🌐</div>
                 <div class="sub-agent-details">
-                    <h3>NetworkMapper Sub-Agent</h3>
-                    <p>Enterprise-scale scanning • Multi-IP ranges • External + Internal • Reports to Main Agent</p>
+                    <h3 id="subAgentTitle">NetworkMapper Sub-Agent</h3>
+                    <p id="subAgentDescription">Adaptive scanning • Reports to Main Agent</p>
                 </div>
             </div>
             <div class="sub-agent-metrics">
                 <div class="metric">
-                    <div class="metric-value" id="totalNetworks">8</div>
-                    <div class="metric-label">IP Ranges</div>
+                    <div class="metric-value" id="totalNetworks">1</div>
+                    <div class="metric-label" id="networksLabel">IP Range</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="discoveredDevices">2,847</div>
+                    <div class="metric-value" id="discoveredDevices">15</div>
                     <div class="metric-label">Devices</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="openServices">156</div>
+                    <div class="metric-value" id="openServices">8</div>
                     <div class="metric-label">Services</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="newDevices">47</div>
+                    <div class="metric-value" id="newDevices">2</div>
                     <div class="metric-label">New (24h)</div>
                 </div>
             </div>
         </div>
 
-        <!-- Enterprise Scale Notice -->
-        <div class="enterprise-notice">
-            <div class="enterprise-title">🏢 Enterprise Data Center Mode</div>
-            <div class="enterprise-description">
-                AI Sentinel-X automatically detected multiple public IP ranges and scaled to enterprise mode. Now monitoring distributed infrastructure across 8 network segments with advanced threat correlation and hybrid quantum-resistant encryption across all data center assets.
-            </div>
-        </div>
-
-        <!-- Public IP Range Manager -->
-        <div class="ip-range-manager">
+        <!-- IP Range Manager -->
+        <div class="ip-range-manager" id="ipRangeManager" style="display: none;">
             <div class="ip-range-header">
-                <h2 class="ip-range-title">Public IP Range Management</h2>
+                <h2 class="ip-range-title" id="ipRangeTitle">Network Range Management</h2>
                 <div style="display: flex; align-items: center; gap: 15px;">
-                    <div class="scale-indicator">
-                        <span>📊</span>
-                        <span>Enterprise Scale</span>
-                    </div>
-                    <button class="add-range-btn" onclick="showAddRangeModal()">Add IP Range</button>
+                    <button class="add-range-btn" onclick="showAddRangeModal()" id="addRangeBtn">Add IP Range</button>
                 </div>
             </div>
             
@@ -1606,278 +1807,44 @@
         </div>
 
         <!-- Interactive Dashboard Section -->
-        <div class="dashboard-interactive">
+        <div class="dashboard-interactive" id="dashboardInteractive" style="display: none;">
             <div class="interactive-header">
-                <h2 class="interactive-title">Multi-Range Network Discovery</h2>
+                <h2 class="interactive-title" id="interactiveTitle">Network Discovery Dashboard</h2>
                 <div class="auto-scan-controls">
                     <button class="scan-toggle" id="scanToggle" onclick="toggleScanning()">Auto-Scan Active</button>
-                    <span style="color: var(--text-secondary); font-size: 14px;">8 Ranges • External + Internal</span>
+                    <span style="color: var(--text-secondary); font-size: 14px;" id="scanDetails">External + Internal</span>
                 </div>
             </div>
-            <p style="color: var(--text-secondary); text-align: center; font-size: 14px; line-height: 1.6;">
-                🤖 <strong>Autonomous multi-range scanning active</strong> • External reconnaissance via Shodan API across all ranges • Internal discovery via distributed agents • Enterprise threat correlation enabled
+            <p style="color: var(--text-secondary); text-align: center; font-size: 14px; line-height: 1.6;" id="dashboardDescription">
+                🤖 <strong>Autonomous scanning active</strong> • Quantum-resistant encryption • No manual intervention required
             </p>
         </div>
 
-        <!-- Enhanced Network Overview -->
-        <div class="network-overview">
+        <!-- Network Overview -->
+        <div class="network-overview" id="networkOverview" style="display: none;">
             <div class="overview-header">
-                <h2 class="overview-title">Enterprise Network Overview</h2>
+                <h2 class="overview-title" id="overviewTitle">Network Overview</h2>
                 <div class="threat-exposure">
                     <span class="exposure-label">Threat Exposure:</span>
-                    <span class="exposure-rating exposure-medium" id="exposureRating">MEDIUM</span>
+                    <span class="exposure-rating exposure-low" id="exposureRating">LOW</span>
                 </div>
             </div>
             
-            <div class="overview-grid">
-                <div class="overview-card" onclick="showOverviewDetails('publicRanges')">
-                    <div class="overview-icon">🏢</div>
-                    <div class="overview-value" id="publicRanges">8</div>
-                    <div class="overview-label">Public IP Ranges</div>
-                </div>
-                <div class="overview-card" onclick="showOverviewDetails('internalSubnets')">
-                    <div class="overview-icon">🏠</div>
-                    <div class="overview-value" id="internalSubnets">24</div>
-                    <div class="overview-label">Internal Subnets</div>
-                </div>
-                <div class="overview-card" onclick="showOverviewDetails('discoveredDevicesCard')">
-                    <div class="overview-icon">📡</div>
-                    <div class="overview-value" id="discoveredDevicesCard">2,847</div>
-                    <div class="overview-label">Total Devices</div>
-                </div>
-                <div class="overview-card" onclick="showOverviewDetails('openServicesCard')">
-                    <div class="overview-icon">⚠️</div>
-                    <div class="overview-value" id="openServicesCard">156</div>
-                    <div class="overview-label">Open Services</div>
-                </div>
-                <div class="overview-card" onclick="showOverviewDetails('datacenters')">
-                    <div class="overview-icon">🏭</div>
-                    <div class="overview-value" id="datacenters">3</div>
-                    <div class="overview-label">Data Centers</div>
-                </div>
-                <div class="overview-card" onclick="showOverviewDetails('bandwidth')">
-                    <div class="overview-icon">📊</div>
-                    <div class="overview-value" id="bandwidth">47.2GB/s</div>
-                    <div class="overview-label">Total Bandwidth</div>
-                </div>
+            <div class="overview-grid" id="overviewGrid">
+                <!-- Overview cards will be populated here -->
             </div>
         </div>
 
-        <!-- Triple Layer Scanning -->
-        <div class="scanning-grid">
-            <!-- Data Center Scan Panel -->
-            <div class="scan-panel datacenter">
-                <div class="panel-header">
-                    <h2 class="panel-title datacenter">Data Center Overview</h2>
-                    <div class="scan-status active">
-                        <div class="status-dot"></div>
-                        <span>MONITORING</span>
-                    </div>
-                </div>
-                
-                <div class="scan-results">
-                    <div class="result-item">
-                        <span class="result-label">Primary DC</span>
-                        <span class="result-value" id="primaryDC">US-East-1 (Virginia)</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Secondary DC</span>
-                        <span class="result-value" id="secondaryDC">US-West-2 (Oregon)</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Backup DC</span>
-                        <span class="result-value" id="backupDC">EU-Central-1 (Frankfurt)</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Total IP Ranges</span>
-                        <span class="result-value" id="totalIPRanges" style="color: var(--warning);">8</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Cross-DC Threats</span>
-                        <span class="result-value" id="crossDCThreats" style="color: var(--danger);">3</span>
-                    </div>
-                </div>
-
-                <div class="service-list">
-                    <div class="service-item" onclick="showServiceDetails('LoadBalancers')">
-                        <div class="service-info">
-                            <div class="service-name">Load Balancers (443/tcp)</div>
-                            <div class="service-details">8 instances • HAProxy + nginx</div>
-                            <div class="service-encryption">🔐 TLS 1.3 + Kyber-1024</div>
-                        </div>
-                        <div class="service-status status-secure">SECURE</div>
-                    </div>
-                    <div class="service-item" onclick="showServiceDetails('CDN')">
-                        <div class="service-info">
-                            <div class="service-name">CDN Endpoints</div>
-                            <div class="service-details">CloudFlare + AWS CloudFront</div>
-                            <div class="service-encryption">🔐 Full hybrid encryption</div>
-                        </div>
-                        <div class="service-status status-secure">SECURE</div>
-                    </div>
-                    <div class="service-item" onclick="showServiceDetails('APIGateways')">
-                        <div class="service-info">
-                            <div class="service-name">API Gateways</div>
-                            <div class="service-details">12 endpoints • Rate limited</div>
-                            <div class="service-encryption">🔐 OAuth2 + mTLS + PQ</div>
-                        </div>
-                        <div class="service-status status-secure">SECURE</div>
-                    </div>
-                    <div class="service-item" onclick="showServiceDetails('LegacyFTP')">
-                        <div class="service-info">
-                            <div class="service-name">Legacy FTP (21/tcp)</div>
-                            <div class="service-details">2 servers • Scheduled decomm</div>
-                            <div class="service-encryption">❌ Unencrypted - migrate to SFTP</div>
-                        </div>
-                        <div class="service-status status-vulnerable">VULNERABLE</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- External Scan Panel -->
-            <div class="scan-panel external">
-                <div class="panel-header">
-                    <h2 class="panel-title external">External Multi-Range Scan</h2>
-                    <div class="scan-status active">
-                        <div class="status-dot"></div>
-                        <span>SCANNING</span>
-                    </div>
-                </div>
-                
-                <div class="scan-results">
-                    <div class="result-item">
-                        <span class="result-label">Organization</span>
-                        <span class="result-value" id="orgName">Enterprise Data Corp</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">ASN</span>
-                        <span class="result-value" id="asnNumber">AS64512</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Global Presence</span>
-                        <span class="result-value" id="globalPresence">3 Continents</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Total Open Ports</span>
-                        <span class="result-value" id="openPorts" style="color: var(--warning);">156</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Vulnerabilities</span>
-                        <span class="result-value" id="vulnCount" style="color: var(--danger);">7</span>
-                    </div>
-                </div>
-
-                <div class="service-list">
-                    <div class="service-item" onclick="showServiceDetails('HTTPS')">
-                        <div class="service-info">
-                            <div class="service-name">HTTPS (443/tcp)</div>
-                            <div class="service-details">nginx/1.20.2 • Multiple ranges</div>
-                            <div class="service-encryption">🔐 TLS 1.3 + CRYSTALS-Kyber</div>
-                        </div>
-                        <div class="service-status status-secure">SECURE</div>
-                    </div>
-                    <div class="service-item" onclick="showServiceDetails('SSH')">
-                        <div class="service-info">
-                            <div class="service-name">SSH (22/tcp)</div>
-                            <div class="service-details">OpenSSH_8.4 • Certificate auth</div>
-                            <div class="service-encryption">🔐 Hybrid: RSA + Kyber keys</div>
-                        </div>
-                        <div class="service-status status-secure">SECURE</div>
-                    </div>
-                    <div class="service-item" onclick="showServiceDetails('DNS')">
-                        <div class="service-info">
-                            <div class="service-name">DNS (53/tcp)</div>
-                            <div class="service-details">BIND 9.16 • DNSSEC enabled</div>
-                            <div class="service-encryption">🔐 DoH + DoT + quantum signatures</div>
-                        </div>
-                        <div class="service-status status-secure">SECURE</div>
-                    </div>
-                    <div class="service-item" onclick="showServiceDetails('SMTP')">
-                        <div class="service-info">
-                            <div class="service-name">SMTP (25/tcp)</div>
-                            <div class="service-details">Postfix 3.5 • Some ranges exposed</div>
-                            <div class="service-encryption">⚠️ Mixed TLS versions</div>
-                        </div>
-                        <div class="service-status status-monitor">MONITOR</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Internal Scan Panel -->
-            <div class="scan-panel internal">
-                <div class="panel-header">
-                    <h2 class="panel-title internal">Internal Multi-Subnet Scan</h2>
-                    <div class="scan-status active">
-                        <div class="status-dot"></div>
-                        <span>AUTO-DISCOVERING</span>
-                    </div>
-                </div>
-                
-                <div class="scan-results">
-                    <div class="result-item">
-                        <span class="result-label">Network Segments</span>
-                        <span class="result-value">24 Subnets</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Active Hosts</span>
-                        <span class="result-value" id="activeHosts" style="color: var(--success);">2,847</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">New Devices (24h)</span>
-                        <span class="result-value" id="newDevicesInternal" style="color: var(--secondary);">47</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Unpatched Systems</span>
-                        <span class="result-value" id="unpatchedSystems" style="color: var(--warning);">89</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">AI Agent Coverage</span>
-                        <span class="result-value" style="color: var(--accent);">FULL</span>
-                    </div>
-                </div>
-
-                <div class="service-list">
-                    <div class="service-item" onclick="showServiceDetails('DomainControllers')">
-                        <div class="service-info">
-                            <div class="service-name">Domain Controllers</div>
-                            <div class="service-details">8 servers across 3 DCs • AD DS</div>
-                            <div class="service-encryption">🔐 Full hybrid Kerberos</div>
-                        </div>
-                        <div class="service-status status-secure">SECURE</div>
-                    </div>
-                    <div class="service-item" onclick="showServiceDetails('DatabaseClusters')">
-                        <div class="service-info">
-                            <div class="service-name">Database Clusters</div>
-                            <div class="service-details">15 clusters • PostgreSQL + MongoDB</div>
-                            <div class="service-encryption">🔐 TDE: AES-256 + Kyber</div>
-                        </div>
-                        <div class="service-status status-secure">SECURE</div>
-                    </div>
-                    <div class="service-item" onclick="showServiceDetails('KubernetesNodes')">
-                        <div class="service-info">
-                            <div class="service-name">Kubernetes Nodes</div>
-                            <div class="service-details">142 nodes • Multi-cluster</div>
-                            <div class="service-encryption">🔐 mTLS + Istio + quantum certs</div>
-                        </div>
-                        <div class="service-status status-secure">SECURE</div>
-                    </div>
-                    <div class="service-item" onclick="showServiceDetails('IoTDevices')">
-                        <div class="service-info">
-                            <div class="service-name">IoT Device Fleet</div>
-                            <div class="service-details">1,247 devices • Mixed vendors</div>
-                            <div class="service-encryption">⚠️ Partial quantum support</div>
-                        </div>
-                        <div class="service-status status-update">UPDATE</div>
-                    </div>
-                </div>
-            </div>
+        <!-- Scanning Grid -->
+        <div class="scanning-grid" id="scanningGrid" style="display: none;">
+            <!-- Scan panels will be populated here -->
         </div>
 
         <!-- Device Discovery -->
-        <div class="device-discovery">
+        <div class="device-discovery" id="deviceDiscovery" style="display: none;">
             <div class="panel-header">
-                <h2 class="panel-title">Enterprise Device Discovery</h2>
-                <span style="color: var(--text-secondary); font-size: 14px;">Auto-updating every 3 seconds across all ranges</span>
+                <h2 class="panel-title" id="discoveryTitle">Device Discovery</h2>
+                <span style="color: var(--text-secondary); font-size: 14px;" id="discoveryInterval">Auto-updating every 3 seconds</span>
             </div>
             
             <div class="discovery-grid" id="deviceGrid">
@@ -1893,7 +1860,7 @@
                 <h2 class="modal-title">⚠️ Agent Control Toggle</h2>
             </div>
             <div class="modal-content">
-                Toggle autonomous mode? When paused, manual control remains available through the AI chat bot CLI. System will fallback to local control mode if external APIs are offline. Enterprise-scale monitoring will continue across all IP ranges.
+                Toggle autonomous mode? When paused, manual control remains available through the AI chat bot CLI. System will maintain adaptive configuration based on detected environment.
             </div>
             <div class="modal-actions">
                 <button class="modal-btn modal-btn-primary" onclick="confirmAgentShutdown()">Toggle Agent Mode</button>
@@ -1906,27 +1873,27 @@
     <div class="modal-overlay" id="addRangeModal" onclick="closeModalOnOverlay(event)">
         <div class="modal">
             <div class="modal-header">
-                <h2 class="modal-title">🏢 Add Public IP Range</h2>
+                <h2 class="modal-title" id="addRangeModalTitle">🏠 Add IP Range</h2>
             </div>
             <div class="modal-content">
-                Add a new public IP range for monitoring. AI Sentinel-X will automatically discover and secure all assets within the specified range.
+                Add a new IP range for monitoring. AI Sentinel-X will automatically discover and secure all assets within the specified range.
             </div>
             <div class="modal-form">
                 <div class="form-group">
                     <label class="form-label">Range Name</label>
-                    <input type="text" class="form-input" id="rangeName" placeholder="e.g., Primary-DC-East">
+                    <input type="text" class="form-input" id="rangeName" placeholder="e.g., Home-Office">
                 </div>
                 <div class="form-group">
                     <label class="form-label">IP Range/CIDR</label>
-                    <input type="text" class="form-input" id="ipRange" placeholder="e.g., 203.0.113.0/24">
+                    <input type="text" class="form-input" id="ipRange" placeholder="e.g., 192.168.1.0/24">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Location</label>
-                    <input type="text" class="form-input" id="location" placeholder="e.g., Virginia, US">
+                    <input type="text" class="form-input" id="location" placeholder="e.g., Home Office, Virginia">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Organization/ASN</label>
-                    <input type="text" class="form-input" id="organization" placeholder="e.g., AS64512">
+                    <label class="form-label">Organization/ISP</label>
+                    <input type="text" class="form-input" id="organization" placeholder="e.g., Comcast Business">
                 </div>
             </div>
             <div class="modal-actions">
@@ -1951,7 +1918,7 @@
             </div>
             <div class="ai-chat-messages" id="aiChatMessages">
                 <div class="ai-message-bubble">
-                    Connected to NetworkMapper sub-agent in Enterprise mode. Monitoring 8 public IP ranges across 3 data centers with 2,847 devices. Quantum-resistant encryption deployed across all critical infrastructure. Cross-data center threat correlation active. How can I help analyze your enterprise network?
+                    Welcome to AI Sentinel-X Adaptive Network Discovery. I'm analyzing your environment to configure the optimal interface. Please select your network scale above, or I'll auto-detect based on your infrastructure.
                 </div>
                 <div class="ai-message-time">Just now</div>
             </div>
@@ -1960,7 +1927,7 @@
                     type="text" 
                     class="ai-chat-input" 
                     id="aiChatInput" 
-                    placeholder="Ask about IP ranges, data centers, cross-DC threats, or device fleet..."
+                    placeholder="Ask about network configuration, scaling, or security..."
                     onkeypress="handleChatKeyPress(event)"
                 >
                 <button class="ai-chat-send" onclick="sendChatMessage()">SEND</button>
@@ -1971,256 +1938,906 @@
 
     <script src="shared.js"></script>
     <script>
-        // Global variables
+        // Global state
+        let currentScale = null;
         let chatOpen = false;
         let agentActive = true;
         let cliMode = false;
-        let classicalActive = true;
-        let quantumActive = true;
         let scanningActive = true;
-
-        // Enterprise IP Ranges
-        let ipRanges = [
-            {
-                id: 'primary-east',
-                name: 'Primary-DC-East',
-                range: '203.0.113.0/24',
-                location: 'Virginia, US',
-                organization: 'AS64512',
-                status: 'Active',
-                devices: 847,
-                services: 42,
-                vulnerabilities: 2,
-                bandwidth: '15.8GB/s'
-            },
-            {
-                id: 'secondary-west',
-                name: 'Secondary-DC-West',
-                range: '198.51.100.0/24',
-                location: 'Oregon, US',
-                organization: 'AS64512',
-                status: 'Active',
-                devices: 623,
-                services: 38,
-                vulnerabilities: 1,
-                bandwidth: '12.4GB/s'
-            },
-            {
-                id: 'backup-eu',
-                name: 'Backup-DC-EU',
-                range: '192.0.2.0/24',
-                location: 'Frankfurt, DE',
-                organization: 'AS64513',
-                status: 'Active',
-                devices: 456,
-                services: 28,
-                vulnerabilities: 0,
-                bandwidth: '9.2GB/s'
-            },
-            {
-                id: 'edge-east',
-                name: 'Edge-East',
-                range: '172.16.0.0/20',
-                location: 'New York, US',
-                organization: 'AS64514',
-                status: 'Active',
-                devices: 234,
-                services: 18,
-                vulnerabilities: 1,
-                bandwidth: '3.8GB/s'
-            },
-            {
-                id: 'edge-west',
-                name: 'Edge-West',
-                range: '172.16.16.0/20',
-                location: 'California, US',
-                organization: 'AS64514',
-                status: 'Active',
-                devices: 189,
-                services: 15,
-                vulnerabilities: 0,
-                bandwidth: '2.9GB/s'
-            },
-            {
-                id: 'cdn-global',
-                name: 'CDN-Global',
-                range: '10.0.0.0/16',
-                location: 'Multi-region',
-                organization: 'AS64515',
-                status: 'Active',
-                devices: 312,
-                services: 8,
-                vulnerabilities: 0,
-                bandwidth: '1.7GB/s'
-            },
-            {
-                id: 'api-gateway',
-                name: 'API-Gateway',
-                range: '10.1.0.0/20',
-                location: 'Global Load Balancer',
-                organization: 'AS64516',
-                status: 'Active',
-                devices: 156,
-                services: 12,
-                vulnerabilities: 2,
-                bandwidth: '1.2GB/s'
-            },
-            {
-                id: 'legacy-office',
-                name: 'Legacy-Office',
-                range: '192.168.100.0/22',
-                location: 'Corporate HQ',
-                organization: 'AS64517',
-                status: 'Migrating',
-                devices: 30,
-                services: 3,
-                vulnerabilities: 1,
-                bandwidth: '0.2GB/s'
-            }
-        ];
-
-        // Enhanced sample devices for enterprise scale
-        let internalDevices = [
-            // Data Center Core Infrastructure
-            { 
-                id: 'dc1-core-01', 
-                name: 'DC1-CORE-SWITCH-01', 
-                ip: '203.0.113.1', 
-                type: 'Core Switch', 
-                icon: '🔄', 
-                services: 'SNMP, SSH, BGP', 
-                status: 'Secure', 
-                encryption: 'SNMPv3 + SSH Kyber',
-                isNew: false 
-            },
-            { 
-                id: 'dc1-lb-01', 
-                name: 'DC1-LOAD-BALANCER-01', 
-                ip: '203.0.113.10', 
-                type: 'Load Balancer', 
-                icon: '⚖️', 
-                services: 'HTTPS, SSH, SNMP', 
-                status: 'Secure', 
-                encryption: 'TLS 1.3 + Kyber-1024',
-                isNew: false 
-            },
-            { 
-                id: 'dc1-fw-01', 
-                name: 'DC1-FIREWALL-01', 
-                ip: '203.0.113.254', 
-                type: 'Next-Gen Firewall', 
-                icon: '🛡️', 
-                services: 'HTTPS, SSH', 
-                status: 'Secure', 
-                encryption: 'Hybrid: AES-256 + Dilithium',
-                isNew: false 
-            },
-            
-            // Kubernetes Infrastructure
-            { 
-                id: 'k8s-master-01', 
-                name: 'K8S-MASTER-01', 
-                ip: '10.1.1.10', 
-                type: 'Kubernetes Master', 
-                icon: '☸️', 
-                services: 'kube-apiserver, etcd', 
-                status: 'Secure', 
-                encryption: 'mTLS + Quantum Certs',
-                isNew: false 
-            },
-            { 
-                id: 'k8s-worker-42', 
-                name: 'K8S-WORKER-42', 
-                ip: '10.1.2.42', 
-                type: 'Kubernetes Node', 
-                icon: '🐳', 
-                services: 'kubelet, containerd', 
-                status: 'Secure', 
-                encryption: 'Container Runtime Security',
-                isNew: false 
-            },
-            
-            // Database Clusters
-            { 
-                id: 'postgres-primary', 
-                name: 'POSTGRES-PRIMARY-01', 
-                ip: '10.2.1.100', 
-                type: 'Database Cluster', 
-                icon: '🐘', 
-                services: 'PostgreSQL 14', 
-                status: 'Secure', 
-                encryption: 'TDE: AES-256 + Kyber',
-                isNew: false 
-            },
-            { 
-                id: 'mongo-shard-01', 
-                name: 'MONGO-SHARD-01', 
-                ip: '10.2.2.50', 
-                type: 'MongoDB Shard', 
-                icon: '🍃', 
-                services: 'MongoDB 5.0', 
-                status: 'Secure', 
-                encryption: 'WiredTiger + Kyber',
-                isNew: false 
-            },
-            
-            // IoT and Edge Devices
-            { 
-                id: 'iot-sensor-1247', 
-                name: 'IOT-TEMP-SENSOR-1247', 
-                ip: '192.168.50.147', 
-                type: 'IoT Sensor', 
-                icon: '🌡️', 
-                services: 'MQTT, HTTP', 
-                status: 'Update Required', 
-                encryption: 'Basic TLS - needs upgrade',
-                isNew: false 
-            },
-            { 
-                id: 'security-cam-89', 
-                name: 'SECURITY-CAM-89', 
-                ip: '192.168.51.89', 
-                type: 'IP Camera', 
-                icon: '📹', 
-                services: 'RTSP, ONVIF', 
-                status: 'Vulnerable', 
-                encryption: 'Weak/Default Password',
-                isNew: false 
-            },
-            
-            // Workstations and Endpoints
-            { 
-                id: 'dev-workstation-156', 
-                name: 'DEV-WORKSTATION-156', 
-                ip: '10.3.1.156', 
-                type: 'Developer Workstation', 
-                icon: '💻', 
-                services: 'SSH, RDP, Docker', 
-                status: 'Secure', 
-                encryption: 'BitLocker + TPM + Kyber',
-                isNew: false 
-            }
-        ];
-
-        // Additional device pool for enterprise scale
-        const enterpriseDevicePool = [
-            { name: 'DC{DC}-COMPUTE-{ID}', type: 'Compute Node', icon: '🖥️', services: 'SSH, IPMI, SNMP', status: 'Active', encryption: 'BMC Security + SSH Keys' },
-            { name: 'DC{DC}-STORAGE-{ID}', type: 'Storage Array', icon: '💾', services: 'iSCSI, NFS, SSH', status: 'Secure', encryption: 'Array Encryption + mTLS' },
-            { name: 'K8S-NODE-{ID}', type: 'Kubernetes Worker', icon: '☸️', services: 'kubelet, containerd', status: 'Secure', encryption: 'Container Runtime + mTLS' },
-            { name: 'DB-REPLICA-{ID}', type: 'Database Replica', icon: '🗄️', services: 'PostgreSQL, Replication', status: 'Secure', encryption: 'TDE + SSL Replication' },
-            { name: 'API-GATEWAY-{ID}', type: 'API Gateway', icon: '🚪', services: 'HTTPS, OAuth2', status: 'Secure', encryption: 'OAuth2 + JWT + Kyber' },
-            { name: 'CACHE-REDIS-{ID}', type: 'Redis Cache', icon: '⚡', services: 'Redis 6.0', status: 'Secure', encryption: 'TLS + AUTH + Keyspace' },
-            { name: 'MONITOR-PROM-{ID}', type: 'Prometheus', icon: '📊', services: 'HTTP, gRPC', status: 'Monitoring', encryption: 'TLS + Service Mesh' },
-            { name: 'IOT-GATEWAY-{ID}', type: 'IoT Gateway', icon: '📡', services: 'MQTT, CoAP, HTTP', status: 'Update Required', encryption: 'Mixed Protocol Security' }
-        ];
-
-        let deviceCounter = 3000;
         let discoveryActive = true;
+
+        // Scale-specific configurations
+        const scaleConfigs = {
+            individual: {
+                icon: '🏠',
+                text: 'INDIVIDUAL',
+                className: 'scale-individual',
+                modalTitle: '🏠 Add Home Network',
+                maxRanges: 1,
+                deviceRange: [5, 25],
+                serviceRange: [3, 12],
+                description: 'Home network scanning • Single IP range • Essential protection',
+                scanDetails: 'Home + External',
+                chatContext: 'home network with basic security needs'
+            },
+            business: {
+                icon: '🏢',
+                text: 'SMALL BUSINESS',
+                className: 'scale-business',
+                modalTitle: '🏢 Add Business Network',
+                maxRanges: 5,
+                deviceRange: [25, 250],
+                serviceRange: [12, 50],
+                description: 'Multi-location scanning • Business-grade security • Advanced monitoring',
+                scanDetails: 'Multi-site + External',
+                chatContext: 'small business with multiple locations and enhanced security requirements'
+            },
+            enterprise: {
+                icon: '🏭',
+                text: 'ENTERPRISE',
+                className: 'scale-enterprise',
+                modalTitle: '🏢 Add Data Center Range',
+                maxRanges: 50,
+                deviceRange: [250, 5000],
+                serviceRange: [50, 200],
+                description: 'Enterprise-scale scanning • Cross-DC correlation • Full data center monitoring',
+                scanDetails: 'Multi-DC + Global',
+                chatContext: 'enterprise data center with distributed infrastructure and advanced threat correlation'
+            }
+        };
+
+        // Adaptive data structures
+        let ipRanges = [];
+        let internalDevices = [];
+        let deviceCounter = 1;
+
+        // Initialize environment detection
+        function initializeEnvironmentDetection() {
+            // Auto-detect based on stored preference or simulate detection
+            const savedScale = localStorage.getItem('sentinel_scale');
+            if (savedScale && scaleConfigs[savedScale]) {
+                selectScale(savedScale, false);
+            } else {
+                // Show selection interface
+                document.getElementById('environmentDetection').style.display = 'block';
+            }
+        }
+
+        // Select scale and configure interface
+        function selectScale(scale, userSelected = true) {
+            if (!scaleConfigs[scale]) return;
+
+            currentScale = scale;
+            const config = scaleConfigs[scale];
+
+            // Hide environment detection
+            document.getElementById('environmentDetection').style.display = 'none';
+
+            // Update scale indicator
+            const scaleIndicator = document.getElementById('scaleIndicator');
+            const scaleIcon = document.getElementById('scaleIcon');
+            const scaleText = document.getElementById('scaleText');
+            
+            scaleIndicator.className = `scale-indicator ${config.className}`;
+            scaleIcon.textContent = config.icon;
+            scaleText.textContent = config.text;
+
+            // Update body class for CSS targeting
+            document.body.className = `${scale}-mode`;
+
+            // Update modal title
+            document.getElementById('addRangeModalTitle').textContent = config.modalTitle;
+
+            // Configure interface based on scale
+            configureInterfaceForScale(scale, config);
+
+            // Initialize data for scale
+            initializeDataForScale(scale, config);
+
+            // Save preference
+            if (userSelected) {
+                localStorage.setItem('sentinel_scale', scale);
+            }
+
+            // Update chat context
+            updateChatForScale(scale, config);
+
+            // Show notification
+            if (chatOpen && userSelected) {
+                addChatMessage(`NetworkMapper: Configured for ${config.text.toLowerCase()} scale. Interface adapted for ${config.chatContext}. All features optimized for your environment.`, false, 'system');
+            }
+        }
+
+        // Configure interface elements based on scale
+        function configureInterfaceForScale(scale, config) {
+            // Show main sections
+            document.getElementById('subAgentStatus').style.display = 'flex';
+            document.getElementById('dashboardInteractive').style.display = 'block';
+            document.getElementById('networkOverview').style.display = 'block';
+            document.getElementById('scanningGrid').style.display = 'grid';
+            document.getElementById('deviceDiscovery').style.display = 'block';
+
+            // Configure IP range manager visibility
+            const ipRangeManager = document.getElementById('ipRangeManager');
+            if (scale === 'individual') {
+                ipRangeManager.style.display = 'none';
+            } else {
+                ipRangeManager.style.display = 'block';
+                document.getElementById('ipRangeTitle').textContent = 
+                    scale === 'business' ? 'Business Network Ranges' : 'Enterprise IP Range Management';
+            }
+
+            // Update titles and descriptions
+            updateInterfaceTitles(scale, config);
+
+            // Configure metrics labels
+            updateMetricsLabels(scale);
+
+            // Generate appropriate scanning panels
+            generateScanningPanels(scale);
+
+            // Generate overview cards
+            generateOverviewCards(scale);
+        }
+
+        // Update interface titles and descriptions
+        function updateInterfaceTitles(scale, config) {
+            // Sub-agent description
+            document.getElementById('subAgentDescription').textContent = config.description;
+
+            // Dashboard title and description
+            const titles = {
+                individual: 'Home Network Discovery',
+                business: 'Multi-Site Network Discovery', 
+                enterprise: 'Enterprise Network Discovery'
+            };
+            
+            document.getElementById('interactiveTitle').textContent = titles[scale];
+            document.getElementById('scanDetails').textContent = config.scanDetails;
+
+            // Overview title
+            const overviewTitles = {
+                individual: 'Home Network Overview',
+                business: 'Business Network Overview',
+                enterprise: 'Enterprise Network Overview'
+            };
+            document.getElementById('overviewTitle').textContent = overviewTitles[scale];
+
+            // Discovery title
+            const discoveryTitles = {
+                individual: 'Home Device Discovery',
+                business: 'Business Device Discovery',
+                enterprise: 'Enterprise Device Discovery'
+            };
+            document.getElementById('discoveryTitle').textContent = discoveryTitles[scale];
+
+            // Dashboard descriptions
+            const descriptions = {
+                individual: '🤖 <strong>Home network protection active</strong> • Quantum-resistant encryption • Automatic device monitoring',
+                business: '🤖 <strong>Multi-site autonomous scanning</strong> • Business-grade encryption • Cross-location monitoring',
+                enterprise: '🤖 <strong>Enterprise autonomous scanning</strong> • Cross-DC correlation • Full quantum-resistant infrastructure'
+            };
+            document.getElementById('dashboardDescription').innerHTML = descriptions[scale];
+        }
+
+        // Update metrics labels based on scale
+        function updateMetricsLabels(scale) {
+            const labels = {
+                individual: 'Network',
+                business: 'Locations', 
+                enterprise: 'IP Ranges'
+            };
+            document.getElementById('networksLabel').textContent = labels[scale];
+        }
+
+        // Generate scanning panels based on scale
+        function generateScanningPanels(scale) {
+            const scanningGrid = document.getElementById('scanningGrid');
+            scanningGrid.innerHTML = '';
+
+            if (scale === 'individual') {
+                // Simple external + internal for home
+                scanningGrid.innerHTML = `
+                    <div class="scan-panel external">
+                        <div class="panel-header">
+                            <h2 class="panel-title external">External Scan</h2>
+                            <div class="scan-status active">
+                                <div class="status-dot"></div>
+                                <span>SCANNING</span>
+                            </div>
+                        </div>
+                        <div class="scan-results">
+                            <div class="result-item">
+                                <span class="result-label">Public IP</span>
+                                <span class="result-value" id="homePublicIP">73.142.89.156</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">ISP</span>
+                                <span class="result-value">Comcast Business</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Location</span>
+                                <span class="result-value">Columbia, SC, US</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Open Ports</span>
+                                <span class="result-value" style="color: var(--success);">3</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Vulnerabilities</span>
+                                <span class="result-value" style="color: var(--success);">0</span>
+                            </div>
+                        </div>
+                        <div class="service-list">
+                            <div class="service-item" onclick="showServiceDetails('HomeHTTPS')">
+                                <div class="service-info">
+                                    <div class="service-name">HTTPS (443/tcp)</div>
+                                    <div class="service-details">Home Router • UPnP</div>
+                                    <div class="service-encryption">🔐 TLS 1.3 + Quantum Ready</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                            <div class="service-item" onclick="showServiceDetails('HomeSSH')">
+                                <div class="service-info">
+                                    <div class="service-name">SSH (22/tcp)</div>
+                                    <div class="service-details">Home Server • Key Auth</div>
+                                    <div class="service-encryption">🔐 OpenSSH + Hybrid Keys</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scan-panel internal">
+                        <div class="panel-header">
+                            <h2 class="panel-title internal">Home Network Scan</h2>
+                            <div class="scan-status active">
+                                <div class="status-dot"></div>
+                                <span>DISCOVERING</span>
+                            </div>
+                        </div>
+                        <div class="scan-results">
+                            <div class="result-item">
+                                <span class="result-label">Network Range</span>
+                                <span class="result-value">192.168.1.0/24</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Active Devices</span>
+                                <span class="result-value" style="color: var(--success);" id="homeDeviceCount">15</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">New Devices (24h)</span>
+                                <span class="result-value" style="color: var(--secondary);">2</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Security Issues</span>
+                                <span class="result-value" style="color: var(--success);">0</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">AI Protection</span>
+                                <span class="result-value" style="color: var(--accent);">ACTIVE</span>
+                            </div>
+                        </div>
+                        <div class="service-list">
+                            <div class="service-item" onclick="showServiceDetails('HomeRouter')">
+                                <div class="service-info">
+                                    <div class="service-name">Home Router</div>
+                                    <div class="service-details">WiFi 6 • WPA3 Security</div>
+                                    <div class="service-encryption">🔐 WPA3 + Quantum Ready</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                            <div class="service-item" onclick="showServiceDetails('HomeDevices')">
+                                <div class="service-info">
+                                    <div class="service-name">Smart Devices</div>
+                                    <div class="service-details">IoT devices • Basic encryption</div>
+                                    <div class="service-encryption">⚠️ Mixed security levels</div>
+                                </div>
+                                <div class="service-status status-monitor">MONITOR</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (scale === 'business') {
+                // Business with multi-site
+                scanningGrid.innerHTML = `
+                    <div class="scan-panel external">
+                        <div class="panel-header">
+                            <h2 class="panel-title external">Multi-Site External Scan</h2>
+                            <div class="scan-status active">
+                                <div class="status-dot"></div>
+                                <span>SCANNING</span>
+                            </div>
+                        </div>
+                        <div class="scan-results">
+                            <div class="result-item">
+                                <span class="result-label">Business Locations</span>
+                                <span class="result-value">3 Sites</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Organization</span>
+                                <span class="result-value">Business Corp LLC</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Total IP Ranges</span>
+                                <span class="result-value">3</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Open Services</span>
+                                <span class="result-value" style="color: var(--warning);">24</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Vulnerabilities</span>
+                                <span class="result-value" style="color: var(--warning);">1</span>
+                            </div>
+                        </div>
+                        <div class="service-list">
+                            <div class="service-item" onclick="showServiceDetails('BusinessHTTPS')">
+                                <div class="service-info">
+                                    <div class="service-name">Business Web Services</div>
+                                    <div class="service-details">Multi-site • Load balanced</div>
+                                    <div class="service-encryption">🔐 TLS 1.3 + Business Certs</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                            <div class="service-item" onclick="showServiceDetails('BusinessVPN')">
+                                <div class="service-info">
+                                    <div class="service-name">VPN Gateways</div>
+                                    <div class="service-details">Site-to-site • IPSec</div>
+                                    <div class="service-encryption">🔐 IPSec + Hybrid Encryption</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                            <div class="service-item" onclick="showServiceDetails('BusinessEmail')">
+                                <div class="service-info">
+                                    <div class="service-name">Email Server (25/tcp)</div>
+                                    <div class="service-details">Exchange • TLS required</div>
+                                    <div class="service-encryption">⚠️ TLS 1.2 - upgrade available</div>
+                                </div>
+                                <div class="service-status status-update">UPDATE</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scan-panel internal">
+                        <div class="panel-header">
+                            <h2 class="panel-title internal">Business Network Scan</h2>
+                            <div class="scan-status active">
+                                <div class="status-dot"></div>
+                                <span>MULTI-SITE SCAN</span>
+                            </div>
+                        </div>
+                        <div class="scan-results">
+                            <div class="result-item">
+                                <span class="result-label">Network Segments</span>
+                                <span class="result-value">8 Subnets</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Total Devices</span>
+                                <span class="result-value" style="color: var(--success);" id="businessDeviceCount">127</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Servers</span>
+                                <span class="result-value">12</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Workstations</span>
+                                <span class="result-value">89</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Cross-Site Protection</span>
+                                <span class="result-value" style="color: var(--accent);">ACTIVE</span>
+                            </div>
+                        </div>
+                        <div class="service-list">
+                            <div class="service-item" onclick="showServiceDetails('BusinessDC')">
+                                <div class="service-info">
+                                    <div class="service-name">Domain Controllers</div>
+                                    <div class="service-details">3 sites • AD replication</div>
+                                    <div class="service-encryption">🔐 Kerberos + Business Security</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                            <div class="service-item" onclick="showServiceDetails('BusinessFile')">
+                                <div class="service-info">
+                                    <div class="service-name">File Servers</div>
+                                    <div class="service-details">Distributed • SMB 3.1.1</div>
+                                    <div class="service-encryption">🔐 SMB encryption + BitLocker</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                            <div class="service-item" onclick="showServiceDetails('BusinessPrinters')">
+                                <div class="service-info">
+                                    <div class="service-name">Network Printers</div>
+                                    <div class="service-details">26 devices • Mixed security</div>
+                                    <div class="service-encryption">⚠️ Some default passwords</div>
+                                </div>
+                                <div class="service-status status-monitor">MONITOR</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else { // enterprise
+                // Full enterprise with data centers
+                scanningGrid.innerHTML = `
+                    <div class="scan-panel datacenter">
+                        <div class="panel-header">
+                            <h2 class="panel-title datacenter">Data Center Overview</h2>
+                            <div class="scan-status active">
+                                <div class="status-dot"></div>
+                                <span>MONITORING</span>
+                            </div>
+                        </div>
+                        <div class="scan-results">
+                            <div class="result-item">
+                                <span class="result-label">Primary DC</span>
+                                <span class="result-value">US-East-1</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Secondary DC</span>
+                                <span class="result-value">US-West-2</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Backup DC</span>
+                                <span class="result-value">EU-Central-1</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Total IP Ranges</span>
+                                <span class="result-value" style="color: var(--warning);">8</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Cross-DC Threats</span>
+                                <span class="result-value" style="color: var(--success);">0</span>
+                            </div>
+                        </div>
+                        <div class="service-list">
+                            <div class="service-item" onclick="showServiceDetails('EnterpriseLB')">
+                                <div class="service-info">
+                                    <div class="service-name">Load Balancers</div>
+                                    <div class="service-details">Global • High availability</div>
+                                    <div class="service-encryption">🔐 Enterprise TLS + Kyber</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                            <div class="service-item" onclick="showServiceDetails('EnterpriseCDN')">
+                                <div class="service-info">
+                                    <div class="service-name">CDN Network</div>
+                                    <div class="service-details">Global edge • CloudFlare</div>
+                                    <div class="service-encryption">🔐 Global quantum protection</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scan-panel external">
+                        <div class="panel-header">
+                            <h2 class="panel-title external">Enterprise External Scan</h2>
+                            <div class="scan-status active">
+                                <div class="status-dot"></div>
+                                <span>GLOBAL SCAN</span>
+                            </div>
+                        </div>
+                        <div class="scan-results">
+                            <div class="result-item">
+                                <span class="result-label">Organization</span>
+                                <span class="result-value">Enterprise Data Corp</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">ASN</span>
+                                <span class="result-value">AS64512</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Global Presence</span>
+                                <span class="result-value">3 Continents</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Total Services</span>
+                                <span class="result-value" style="color: var(--warning);">156</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Vulnerabilities</span>
+                                <span class="result-value" style="color: var(--warning);">3</span>
+                            </div>
+                        </div>
+                        <div class="service-list">
+                            <div class="service-item" onclick="showServiceDetails('EnterpriseHTTPS')">
+                                <div class="service-info">
+                                    <div class="service-name">Enterprise Web</div>
+                                    <div class="service-details">Multi-region • Auto-scaling</div>
+                                    <div class="service-encryption">🔐 Enterprise TLS 1.3 + Kyber</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                            <div class="service-item" onclick="showServiceDetails('EnterpriseAPI')">
+                                <div class="service-info">
+                                    <div class="service-name">API Gateways</div>
+                                    <div class="service-details">12 endpoints • OAuth2</div>
+                                    <div class="service-encryption">🔐 mTLS + Enterprise Auth</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scan-panel internal">
+                        <div class="panel-header">
+                            <h2 class="panel-title internal">Enterprise Internal Scan</h2>
+                            <div class="scan-status active">
+                                <div class="status-dot"></div>
+                                <span>FULL DISCOVERY</span>
+                            </div>
+                        </div>
+                        <div class="scan-results">
+                            <div class="result-item">
+                                <span class="result-label">Network Segments</span>
+                                <span class="result-value">24 Subnets</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Total Infrastructure</span>
+                                <span class="result-value" style="color: var(--success);" id="enterpriseDeviceCount">2,847</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Kubernetes Nodes</span>
+                                <span class="result-value">142</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Database Clusters</span>
+                                <span class="result-value">15</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Enterprise AI</span>
+                                <span class="result-value" style="color: var(--accent);">FULL COVERAGE</span>
+                            </div>
+                        </div>
+                        <div class="service-list">
+                            <div class="service-item" onclick="showServiceDetails('EnterpriseK8s')">
+                                <div class="service-info">
+                                    <div class="service-name">Kubernetes Platform</div>
+                                    <div class="service-details">Multi-cluster • Service mesh</div>
+                                    <div class="service-encryption">🔐 mTLS + Container security</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                            <div class="service-item" onclick="showServiceDetails('EnterpriseDB')">
+                                <div class="service-info">
+                                    <div class="service-name">Database Infrastructure</div>
+                                    <div class="service-details">Distributed • TDE enabled</div>
+                                    <div class="service-encryption">🔐 TDE + Cross-DC encryption</div>
+                                </div>
+                                <div class="service-status status-secure">SECURE</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Generate overview cards based on scale
+        function generateOverviewCards(scale) {
+            const overviewGrid = document.getElementById('overviewGrid');
+            
+            if (scale === 'individual') {
+                overviewGrid.innerHTML = `
+                    <div class="overview-card" onclick="showOverviewDetails('homeIP')">
+                        <div class="overview-icon">🏠</div>
+                        <div class="overview-value" id="homeIP">73.142.89.156</div>
+                        <div class="overview-label">Home IP Address</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('homeNetwork')">
+                        <div class="overview-icon">📡</div>
+                        <div class="overview-value" id="homeDevices">15</div>
+                        <div class="overview-label">Home Devices</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('homeServices')">
+                        <div class="overview-icon">🔧</div>
+                        <div class="overview-value" id="homeServices">8</div>
+                        <div class="overview-label">Active Services</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('homeThreats')">
+                        <div class="overview-icon">🛡️</div>
+                        <div class="overview-value" id="homeThreats">0</div>
+                        <div class="overview-label">Security Issues</div>
+                    </div>
+                `;
+            } else if (scale === 'business') {
+                overviewGrid.innerHTML = `
+                    <div class="overview-card" onclick="showOverviewDetails('businessSites')">
+                        <div class="overview-icon">🏢</div>
+                        <div class="overview-value" id="businessSites">3</div>
+                        <div class="overview-label">Business Locations</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('businessDevices')">
+                        <div class="overview-icon">📡</div>
+                        <div class="overview-value" id="businessDevices">127</div>
+                        <div class="overview-label">Total Devices</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('businessServices')">
+                        <div class="overview-icon">⚙️</div>
+                        <div class="overview-value" id="businessServices">24</div>
+                        <div class="overview-label">Business Services</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('businessServers')">
+                        <div class="overview-icon">🖥️</div>
+                        <div class="overview-value" id="businessServers">12</div>
+                        <div class="overview-label">Servers</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('businessUsers')">
+                        <div class="overview-icon">👥</div>
+                        <div class="overview-value" id="businessUsers">89</div>
+                        <div class="overview-label">Workstations</div>
+                    </div>
+                `;
+            } else { // enterprise
+                overviewGrid.innerHTML = `
+                    <div class="overview-card" onclick="showOverviewDetails('enterpriseRanges')">
+                        <div class="overview-icon">🏭</div>
+                        <div class="overview-value" id="enterpriseRanges">8</div>
+                        <div class="overview-label">IP Ranges</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('enterpriseDatacenters')">
+                        <div class="overview-icon">🏗️</div>
+                        <div class="overview-value" id="enterpriseDatacenters">3</div>
+                        <div class="overview-label">Data Centers</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('enterpriseInfrastructure')">
+                        <div class="overview-icon">📡</div>
+                        <div class="overview-value" id="enterpriseInfrastructure">2,847</div>
+                        <div class="overview-label">Infrastructure</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('enterpriseServices')">
+                        <div class="overview-icon">⚡</div>
+                        <div class="overview-value" id="enterpriseServices">156</div>
+                        <div class="overview-label">Services</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('enterpriseKubernetes')">
+                        <div class="overview-icon">☸️</div>
+                        <div class="overview-value" id="enterpriseKubernetes">142</div>
+                        <div class="overview-label">K8s Nodes</div>
+                    </div>
+                    <div class="overview-card" onclick="showOverviewDetails('enterpriseBandwidth')">
+                        <div class="overview-icon">📊</div>
+                        <div class="overview-value" id="enterpriseBandwidth">47.2GB/s</div>
+                        <div class="overview-label">Bandwidth</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize data structures for each scale
+        function initializeDataForScale(scale, config) {
+            // Reset data
+            ipRanges = [];
+            internalDevices = [];
+            deviceCounter = 1;
+
+            // Generate appropriate IP ranges
+            if (scale === 'individual') {
+                ipRanges = [{
+                    id: 'home',
+                    name: 'Home Network',
+                    range: '192.168.1.0/24',
+                    location: 'Home Office',
+                    organization: 'Comcast Business',
+                    status: 'Active',
+                    devices: 15,
+                    services: 8,
+                    vulnerabilities: 0,
+                    bandwidth: '100Mbps'
+                }];
+                deviceCounter = 16;
+            } else if (scale === 'business') {
+                ipRanges = [
+                    {
+                        id: 'headquarters',
+                        name: 'Headquarters',
+                        range: '203.0.113.0/26',
+                        location: 'Columbia, SC',
+                        organization: 'Business Fiber',
+                        status: 'Active',
+                        devices: 67,
+                        services: 12,
+                        vulnerabilities: 0,
+                        bandwidth: '1Gbps'
+                    },
+                    {
+                        id: 'branch-atlanta',
+                        name: 'Atlanta Office',
+                        range: '203.0.113.64/27',
+                        location: 'Atlanta, GA',
+                        organization: 'Business Fiber',
+                        status: 'Active',
+                        devices: 34,
+                        services: 8,
+                        vulnerabilities: 1,
+                        bandwidth: '500Mbps'
+                    },
+                    {
+                        id: 'branch-charlotte',
+                        name: 'Charlotte Office',
+                        range: '203.0.113.96/28',
+                        location: 'Charlotte, NC',
+                        organization: 'Business Fiber',
+                        status: 'Active',
+                        devices: 26,
+                        services: 4,
+                        vulnerabilities: 0,
+                        bandwidth: '300Mbps'
+                    }
+                ];
+                deviceCounter = 128;
+            } else { // enterprise
+                ipRanges = [
+                    {
+                        id: 'primary-east',
+                        name: 'Primary-DC-East',
+                        range: '203.0.113.0/24',
+                        location: 'Virginia, US',
+                        organization: 'AS64512',
+                        status: 'Active',
+                        devices: 847,
+                        services: 42,
+                        vulnerabilities: 1,
+                        bandwidth: '15.8GB/s'
+                    },
+                    {
+                        id: 'secondary-west',
+                        name: 'Secondary-DC-West',
+                        range: '198.51.100.0/24',
+                        location: 'Oregon, US',
+                        organization: 'AS64512',
+                        status: 'Active',
+                        devices: 623,
+                        services: 38,
+                        vulnerabilities: 0,
+                        bandwidth: '12.4GB/s'
+                    },
+                    {
+                        id: 'backup-eu',
+                        name: 'Backup-DC-EU',
+                        range: '192.0.2.0/24',
+                        location: 'Frankfurt, DE',
+                        organization: 'AS64513',
+                        status: 'Active',
+                        devices: 456,
+                        services: 28,
+                        vulnerabilities: 1,
+                        bandwidth: '9.2GB/s'
+                    },
+                    // Additional ranges for enterprise
+                    {
+                        id: 'edge-east',
+                        name: 'Edge-East',
+                        range: '172.16.0.0/20',
+                        location: 'New York, US',
+                        organization: 'AS64514',
+                        status: 'Active',
+                        devices: 234,
+                        services: 18,
+                        vulnerabilities: 0,
+                        bandwidth: '3.8GB/s'
+                    },
+                    {
+                        id: 'cdn-global',
+                        name: 'CDN-Global',
+                        range: '10.0.0.0/16',
+                        location: 'Multi-region',
+                        organization: 'AS64515',
+                        status: 'Active',
+                        devices: 312,
+                        services: 8,
+                        vulnerabilities: 1,
+                        bandwidth: '1.7GB/s'
+                    }
+                ];
+                deviceCounter = 2848;
+            }
+
+            // Generate initial device list
+            generateInitialDevices(scale);
+
+            // Update metrics
+            updateMetrics();
+
+            // Populate IP ranges if applicable
+            if (scale !== 'individual') {
+                populateIPRangesGrid();
+            }
+
+            // Populate device grid
+            populateDeviceGrid();
+        }
+
+        // Generate initial devices based on scale
+        function generateInitialDevices(scale) {
+            internalDevices = [];
+            
+            if (scale === 'individual') {
+                internalDevices = [
+                    { id: 'router', name: 'HOME-ROUTER', ip: '192.168.1.1', type: 'Router', icon: '📡', services: 'DHCP, DNS, WiFi', status: 'Secure', encryption: 'WPA3 + Management', isNew: false },
+                    { id: 'laptop', name: 'PERSONAL-LAPTOP', ip: '192.168.1.100', type: 'Laptop', icon: '💻', services: 'SSH, HTTP', status: 'Secure', encryption: 'BitLocker + WiFi', isNew: false },
+                    { id: 'phone', name: 'SMARTPHONE', ip: '192.168.1.101', type: 'Mobile', icon: '📱', services: 'WiFi, Apps', status: 'Secure', encryption: 'Device + Network', isNew: false },
+                    { id: 'smart-tv', name: 'SMART-TV', ip: '192.168.1.150', type: 'Smart TV', icon: '📺', services: 'Streaming, WiFi', status: 'Monitor', encryption: 'Basic WiFi', isNew: false },
+                    { id: 'thermostat', name: 'NEST-THERMOSTAT', ip: '192.168.1.200', type: 'IoT', icon: '🌡️', services: 'WiFi, Cloud', status: 'Secure', encryption: 'WPA3 + Cloud TLS', isNew: false }
+                ];
+            } else if (scale === 'business') {
+                internalDevices = [
+                    { id: 'dc01', name: 'DC01-HQ', ip: '10.0.1.10', type: 'Domain Controller', icon: '🖥️', services: 'AD, DNS, DHCP', status: 'Secure', encryption: 'Kerberos + TLS', isNew: false },
+                    { id: 'fileserver', name: 'FILE-SERVER-01', ip: '10.0.1.20', type: 'File Server', icon: '📁', services: 'SMB, Backup', status: 'Secure', encryption: 'SMB3 + BitLocker', isNew: false },
+                    { id: 'exchange', name: 'EXCHANGE-01', ip: '10.0.1.30', type: 'Mail Server', icon: '📧', services: 'SMTP, IMAP', status: 'Update', encryption: 'TLS 1.2 - upgrade needed', isNew: false },
+                    { id: 'firewall', name: 'FIREWALL-HQ', ip: '10.0.1.1', type: 'Firewall', icon: '🛡️', services: 'Filtering, VPN', status: 'Secure', encryption: 'IPSec + Management', isNew: false },
+                    { id: 'workstation', name: 'WS-FINANCE-01', ip: '10.0.2.50', type: 'Workstation', icon: '💼', services: 'Domain, Office', status: 'Secure', encryption: 'Domain + BitLocker', isNew: false }
+                ];
+            } else { // enterprise
+                internalDevices = [
+                    { id: 'k8s-master', name: 'K8S-MASTER-01', ip: '10.1.1.10', type: 'Kubernetes Master', icon: '☸️', services: 'kube-api, etcd', status: 'Secure', encryption: 'mTLS + Certificates', isNew: false },
+                    { id: 'db-primary', name: 'POSTGRES-PRIMARY', ip: '10.2.1.100', type: 'Database', icon: '🗄️', services: 'PostgreSQL 14', status: 'Secure', encryption: 'TDE + SSL', isNew: false },
+                    { id: 'load-balancer', name: 'LB-GLOBAL-01', ip: '203.0.113.10', type: 'Load Balancer', icon: '⚖️', services: 'HTTPS, Health', status: 'Secure', encryption: 'TLS 1.3 + Kyber', isNew: false },
+                    { id: 'firewall-dc1', name: 'FW-DC1-CORE', ip: '203.0.113.254', type: 'Enterprise Firewall', icon: '🛡️', services: 'DPI, IPS', status: 'Secure', encryption: 'Enterprise Security', isNew: false },
+                    { id: 'storage-cluster', name: 'STORAGE-CLUSTER-01', ip: '10.3.1.50', type: 'Storage', icon: '💾', services: 'iSCSI, NFS', status: 'Secure', encryption: 'Array + Network', isNew: false }
+                ];
+            }
+        }
+
+        // Update chat context for scale
+        function updateChatForScale(scale, config) {
+            if (chatOpen) {
+                const contextMessage = `NetworkMapper: Configured for ${config.chatContext}. Monitoring ${ipRanges.length} ${scale === 'individual' ? 'network' : 'ranges'} with ${getTotalDevices()} devices. Quantum-resistant encryption active. Ready for ${scale} deployment.`;
+                addChatMessage(contextMessage, false, 'system');
+            }
+        }
+
+        // Helper functions
+        function getTotalDevices() {
+            return ipRanges.reduce((sum, range) => sum + range.devices, 0);
+        }
+
+        function getTotalServices() {
+            return ipRanges.reduce((sum, range) => sum + range.services, 0);
+        }
+
+        function updateMetrics() {
+            if (!currentScale) return;
+
+            const totalRanges = ipRanges.length;
+            const totalDevices = getTotalDevices();
+            const totalServices = getTotalServices();
+
+            // Update sub-agent metrics
+            document.getElementById('totalNetworks').textContent = totalRanges;
+            document.getElementById('discoveredDevices').textContent = totalDevices.toLocaleString();
+            document.getElementById('openServices').textContent = totalServices;
+
+            // Update overview cards based on scale
+            if (currentScale === 'individual') {
+                document.getElementById('homeDevices').textContent = totalDevices;
+                document.getElementById('homeServices').textContent = totalServices;
+            } else if (currentScale === 'business') {
+                document.getElementById('businessDevices').textContent = totalDevices;
+                document.getElementById('businessServices').textContent = totalServices;
+                document.getElementById('businessSites').textContent = totalRanges;
+            } else if (currentScale === 'enterprise') {
+                document.getElementById('enterpriseRanges').textContent = totalRanges;
+                document.getElementById('enterpriseInfrastructure').textContent = totalDevices.toLocaleString();
+                document.getElementById('enterpriseServices').textContent = totalServices;
+            }
+
+            // Update threat exposure
+            const totalVulns = ipRanges.reduce((sum, range) => sum + range.vulnerabilities, 0);
+            const rating = document.getElementById('exposureRating');
+            
+            if (totalVulns > 5) {
+                rating.textContent = 'HIGH';
+                rating.className = 'exposure-rating exposure-high';
+            } else if (totalVulns > 0) {
+                rating.textContent = 'MEDIUM';
+                rating.className = 'exposure-rating exposure-medium';
+            } else {
+                rating.textContent = 'LOW';
+                rating.className = 'exposure-rating exposure-low';
+            }
+        }
 
         // Populate IP ranges grid
         function populateIPRangesGrid() {
             const grid = document.getElementById('ipRangesGrid');
-            if (!grid) return;
+            if (!grid || currentScale === 'individual') return;
             
             grid.innerHTML = '';
             
@@ -2276,17 +2893,44 @@
             });
         }
 
-        // Show range details
-        function showRangeDetails(range) {
-            if (!chatOpen) {
-                toggleChat();
-            }
-            setTimeout(() => {
-                const threatLevel = range.vulnerabilities > 1 ? 'HIGH' : range.vulnerabilities > 0 ? 'MEDIUM' : 'LOW';
-                const encryptionStatus = range.vulnerabilities === 0 ? 'Full quantum-resistant encryption deployed' : 'Some services need encryption upgrades';
+        // Populate device grid
+        function populateDeviceGrid() {
+            const grid = document.getElementById('deviceGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = '';
+            
+            // Show appropriate number of devices based on scale
+            const maxDisplay = currentScale === 'individual' ? 10 : currentScale === 'business' ? 15 : 20;
+            const devicesToShow = internalDevices.slice(0, maxDisplay);
+            
+            devicesToShow.forEach((device, index) => {
+                const card = document.createElement('div');
+                card.className = `device-card ${device.isNew ? 'new-device' : ''}`;
+                card.innerHTML = `
+                    <div class="device-header">
+                        <div class="device-icon">${device.icon}</div>
+                    </div>
+                    <div class="device-name">${device.name}</div>
+                    <div class="device-ip">${device.ip}</div>
+                    <div class="device-services">Services: ${device.services}</div>
+                    <div class="device-ai-status">AI Status: ${device.status}</div>
+                    <div class="device-encryption">
+                        <span>🔒</span>
+                        <span>Encryption: ${device.encryption}</span>
+                    </div>
+                `;
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.onclick = () => showDeviceDetails(device);
+                grid.appendChild(card);
                 
-                addChatMessage(`NetworkMapper: Analyzing IP range ${range.name} (${range.range}) in ${range.location}. Status: ${range.status}. ${range.devices} devices discovered with ${range.services} services. Threat level: ${threatLevel}. ${encryptionStatus}. Bandwidth utilization: ${range.bandwidth}.`, false);
-            }, 300);
+                if (device.isNew) {
+                    setTimeout(() => {
+                        device.isNew = false;
+                        card.classList.remove('new-device');
+                    }, 2000);
+                }
+            });
         }
 
         // Add new IP range
@@ -2318,6 +2962,13 @@
                 return;
             }
             
+            // Check scale limits
+            const config = scaleConfigs[currentScale];
+            if (ipRanges.length >= config.maxRanges) {
+                alert(`Maximum ${config.maxRanges} IP ranges allowed for ${currentScale} scale. Upgrade to enterprise for unlimited ranges.`);
+                return;
+            }
+            
             const newRange = {
                 id: `range-${Date.now()}`,
                 name: name,
@@ -2325,18 +2976,17 @@
                 location: location,
                 organization: organization,
                 status: 'Scanning',
-                devices: Math.floor(Math.random() * 500) + 50,
-                services: Math.floor(Math.random() * 30) + 5,
-                vulnerabilities: Math.floor(Math.random() * 3),
-                bandwidth: (Math.random() * 20 + 1).toFixed(1) + 'GB/s'
+                devices: Math.floor(Math.random() * (config.deviceRange[1] - config.deviceRange[0])) + config.deviceRange[0],
+                services: Math.floor(Math.random() * (config.serviceRange[1] - config.serviceRange[0])) + config.serviceRange[0],
+                vulnerabilities: Math.floor(Math.random() * 2),
+                bandwidth: currentScale === 'individual' ? '100Mbps' : 
+                         currentScale === 'business' ? (Math.random() * 2 + 0.5).toFixed(1) + 'Gbps' :
+                         (Math.random() * 20 + 1).toFixed(1) + 'GB/s'
             };
             
             ipRanges.push(newRange);
             populateIPRangesGrid();
-            
-            // Update metrics
-            updateEnterpriseMetrics();
-            
+            updateMetrics();
             closeAddRangeModal();
             
             // Clear form
@@ -2347,254 +2997,47 @@
             
             if (chatOpen) {
                 setTimeout(() => {
-                    addChatMessage(`NetworkMapper: New IP range ${name} (${range}) added to monitoring. Initiating discovery scan across ${newRange.devices} estimated devices...`, false);
+                    addChatMessage(`NetworkMapper: New ${currentScale} range ${name} (${range}) added to monitoring. Initiating discovery scan across ${newRange.devices} estimated devices...`, false);
                 }, 1000);
             }
         }
 
-        // Update enterprise metrics
-        function updateEnterpriseMetrics() {
-            const totalRanges = ipRanges.length;
-            const totalDevices = ipRanges.reduce((sum, range) => sum + range.devices, 0);
-            const totalServices = ipRanges.reduce((sum, range) => sum + range.services, 0);
-            
-            document.getElementById('totalNetworks').textContent = totalRanges;
-            document.getElementById('discoveredDevices').textContent = totalDevices.toLocaleString();
-            document.getElementById('openServices').textContent = totalServices;
-            document.getElementById('discoveredDevicesCard').textContent = totalDevices.toLocaleString();
-            document.getElementById('openServicesCard').textContent = totalServices;
-            document.getElementById('publicRanges').textContent = totalRanges;
+        // Detail functions (simplified for space)
+        function showRangeDetails(range) {
+            if (!chatOpen) toggleChat();
+            setTimeout(() => {
+                addChatMessage(`NetworkMapper: Analyzing ${range.name} (${range.range}) in ${range.location}. ${range.devices} devices, ${range.services} services, ${range.vulnerabilities} vulnerabilities. Bandwidth: ${range.bandwidth}.`, false);
+            }, 300);
         }
 
-        // Populate device grid with enterprise devices
-        function populateDeviceGrid() {
-            const grid = document.getElementById('deviceGrid');
-            if (!grid) return;
-            
-            grid.innerHTML = '';
-            
-            // Show a subset of devices for performance
-            const deviceSubset = internalDevices.slice(0, 20);
-            
-            deviceSubset.forEach((device, index) => {
-                const card = document.createElement('div');
-                card.className = `device-card ${device.isNew ? 'new-device' : ''}`;
-                card.innerHTML = `
-                    <div class="device-header">
-                        <div class="device-icon">${device.icon}</div>
-                    </div>
-                    <div class="device-name">${device.name}</div>
-                    <div class="device-ip">${device.ip}</div>
-                    <div class="device-services">Services: ${device.services}</div>
-                    <div class="device-ai-status">AI Status: ${device.status}</div>
-                    <div class="device-encryption">
-                        <span>🔒</span>
-                        <span>Encryption: ${device.encryption}</span>
-                    </div>
-                `;
-                card.style.animationDelay = `${index * 0.1}s`;
-                card.onclick = () => showDeviceDetails(device);
-                grid.appendChild(card);
-                
-                // Remove new device class after animation
-                if (device.isNew) {
-                    setTimeout(() => {
-                        device.isNew = false;
-                        card.classList.remove('new-device');
-                    }, 2000);
-                }
-            });
-        }
-
-        // Add new enterprise device
-        function addNewEnterpriseDevice() {
-            if (!discoveryActive || !scanningActive) return;
-            
-            const template = enterpriseDevicePool[Math.floor(Math.random() * enterpriseDevicePool.length)];
-            const deviceId = deviceCounter++;
-            const dcNum = Math.floor(Math.random() * 3) + 1;
-            
-            // Generate realistic enterprise IP based on device type
-            let ip;
-            if (template.name.includes('K8S')) {
-                ip = `10.1.${Math.floor(Math.random() * 10) + 1}.${Math.floor(Math.random() * 200) + 10}`;
-            } else if (template.name.includes('DB')) {
-                ip = `10.2.${Math.floor(Math.random() * 5) + 1}.${Math.floor(Math.random() * 200) + 10}`;
-            } else if (template.name.includes('DC')) {
-                ip = `203.0.113.${Math.floor(Math.random() * 200) + 10}`;
-            } else {
-                ip = `10.3.${Math.floor(Math.random() * 10) + 1}.${Math.floor(Math.random() * 200) + 10}`;
-            }
-            
-            const newDevice = {
-                id: `enterprise-device-${deviceId}`,
-                name: template.name.replace('{ID}', String(deviceId).padStart(3, '0')).replace('{DC}', dcNum),
-                ip: ip,
-                type: template.type,
-                icon: template.icon,
-                services: template.services,
-                status: template.status,
-                encryption: template.encryption,
-                isNew: true
-            };
-            
-            internalDevices.unshift(newDevice);
-            
-            // Keep only recent devices for performance
-            if (internalDevices.length > 50) {
-                internalDevices = internalDevices.slice(0, 30);
-            }
-            
-            // Update metrics
-            updateEnterpriseMetrics();
-            
-            // Repopulate grid to show new device
-            populateDeviceGrid();
-            
-            // Show in chat occasionally
-            if (chatOpen && Math.random() > 0.8) {
-                setTimeout(() => {
-                    addChatMessage(`NetworkMapper: New enterprise device discovered - ${newDevice.name} (${newDevice.ip}) in data center ${dcNum}. Scanning services and validating encryption protocols...`, false);
-                }, 1000);
-            }
-        }
-
-        // Enhanced show device details for enterprise
         function showDeviceDetails(device) {
-            if (!chatOpen) {
-                toggleChat();
-            }
+            if (!chatOpen) toggleChat();
             setTimeout(() => {
-                let encryptionStatus = '';
-                let securityRecommendation = '';
-                
-                if (device.encryption.includes('Kyber') || device.encryption.includes('Dilithium')) {
-                    encryptionStatus = '✅ Quantum-resistant encryption active with ' + device.encryption;
-                    securityRecommendation = 'Device is fully protected against quantum threats.';
-                } else if (device.encryption.includes('AES-256') || device.encryption.includes('TLS 1.3')) {
-                    encryptionStatus = '🔒 Strong classical encryption: ' + device.encryption;
-                    securityRecommendation = 'Consider upgrading to hybrid quantum-resistant encryption.';
-                } else if (device.encryption.includes('Weak') || device.encryption.includes('Default')) {
-                    encryptionStatus = '⚠️ CRITICAL: Weak security detected - ' + device.encryption;
-                    securityRecommendation = 'IMMEDIATE ACTION REQUIRED: Upgrade security configuration!';
-                } else {
-                    encryptionStatus = '🔒 Encryption: ' + device.encryption;
-                    securityRecommendation = 'Security configuration under review.';
-                }
-                
-                const contextInfo = device.type.includes('Kubernetes') ? 'Part of container orchestration cluster.' : 
-                                   device.type.includes('Database') ? 'Critical data storage - TDE enabled.' :
-                                   device.type.includes('IoT') ? 'Edge device - limited computational resources.' :
-                                   device.type.includes('Load Balancer') ? 'High-availability traffic distribution.' :
-                                   'Standard enterprise infrastructure component.';
-                
-                addChatMessage(`NetworkMapper: Enterprise device analysis - ${device.name} (${device.ip}) - Type: ${device.type}. ${contextInfo} Services: ${device.services}. Status: ${device.status}. ${encryptionStatus} ${securityRecommendation} Monitoring: Continuous AI surveillance active.`, false);
+                addChatMessage(`NetworkMapper: Device ${device.name} (${device.ip}) - ${device.type}. Services: ${device.services}. Status: ${device.status}. Encryption: ${device.encryption}.`, false);
             }, 300);
         }
 
-        // Enhanced overview details for enterprise
         function showOverviewDetails(type) {
-            if (!chatOpen) {
-                toggleChat();
-            }
+            if (!chatOpen) toggleChat();
             setTimeout(() => {
-                let message = '';
-                switch(type) {
-                    case 'publicRanges':
-                        message = `NetworkMapper: Public IP range analysis - ${ipRanges.length} ranges across 3 continents. Total coverage: ${ipRanges.reduce((sum, r) => sum + r.devices, 0).toLocaleString()} devices. Multi-data center topology with quantum-resistant encryption on critical paths.`;
-                        break;
-                    case 'internalSubnets':
-                        message = 'NetworkMapper: Internal network analysis - 24 subnets spanning Kubernetes clusters, database tiers, and application layers. Full micro-segmentation with zero-trust architecture and hybrid encryption.';
-                        break;
-                    case 'discoveredDevicesCard':
-                        message = `NetworkMapper: Enterprise device inventory - ${document.getElementById('discoveredDevicesCard').textContent} total devices across data centers. Infrastructure: ${Math.floor(Math.random() * 500) + 200} servers, Applications: ${Math.floor(Math.random() * 300) + 150} containers, IoT: ${Math.floor(Math.random() * 1000) + 500} sensors.`;
-                        break;
-                    case 'openServicesCard':
-                        message = `NetworkMapper: Service analysis - ${document.getElementById('openServicesCard').textContent} services across all ranges. Critical services protected with quantum-resistant protocols. ${Math.floor(Math.random() * 10) + 5} services require security updates.`;
-                        break;
-                    case 'datacenters':
-                        message = 'NetworkMapper: Data center overview - 3 primary facilities: US-East-1 (Virginia), US-West-2 (Oregon), EU-Central-1 (Frankfurt). Full redundancy with real-time failover and cross-DC threat correlation.';
-                        break;
-                    case 'bandwidth':
-                        message = 'NetworkMapper: Bandwidth analysis - 47.2GB/s total capacity across all ranges. Current utilization: 68%. Traffic encrypted with hybrid protocols. DDoS protection active on all external interfaces.';
-                        break;
-                }
-                addChatMessage(message, false);
+                const messages = {
+                    homeIP: 'NetworkMapper: Home IP analysis - Single public address with quantum-ready protection.',
+                    homeNetwork: 'NetworkMapper: Home network with standard security configuration.',
+                    businessSites: 'NetworkMapper: Multi-site business deployment with site-to-site VPN.',
+                    enterpriseRanges: 'NetworkMapper: Enterprise multi-range deployment across data centers.'
+                };
+                addChatMessage(messages[type] || 'NetworkMapper: Network component analysis complete.', false);
             }, 300);
         }
 
-        // Enhanced service details for enterprise
         function showServiceDetails(service) {
-            if (!chatOpen) {
-                toggleChat();
-            }
+            if (!chatOpen) toggleChat();
             setTimeout(() => {
-                let message = '';
-                switch(service) {
-                    case 'LoadBalancers':
-                        message = 'NetworkMapper: Load balancer analysis - 8 instances across data centers using HAProxy + nginx. TLS 1.3 termination with Kyber-1024 post-quantum key exchange. Health checks: All nodes healthy. Failover time: <30ms.';
-                        break;
-                    case 'CDN':
-                        message = 'NetworkMapper: CDN analysis - CloudFlare + AWS CloudFront integration. Global edge locations with quantum-resistant TLS. Cache hit ratio: 94.2%. DDoS protection: Multi-layer active.';
-                        break;
-                    case 'APIGateways':
-                        message = 'NetworkMapper: API Gateway analysis - 12 endpoints with OAuth2 + mTLS authentication. Rate limiting: 10K req/min per client. All APIs protected with post-quantum certificates. Response time: 45ms avg.';
-                        break;
-                    case 'LegacyFTP':
-                        message = 'NetworkMapper: Legacy FTP analysis - 2 servers scheduled for decommission Q2 2025. CRITICAL: Unencrypted data transfer detected. Immediate migration to SFTP with hybrid encryption recommended. Firewall restrictions in place.';
-                        break;
-                    case 'DomainControllers':
-                        message = 'NetworkMapper: Domain Controller analysis - 8 servers across 3 data centers. Hybrid Kerberos with quantum-resistant algorithms. Forest/domain trust relationships secured. Replication: All healthy, encrypted channels.';
-                        break;
-                    case 'DatabaseClusters':
-                        message = 'NetworkMapper: Database cluster analysis - 15 clusters (PostgreSQL + MongoDB). Transparent Data Encryption: AES-256 + Kyber-1024. Replication: Synchronous with encrypted channels. Backup: Continuous, quantum-encrypted.';
-                        break;
-                    case 'KubernetesNodes':
-                        message = 'NetworkMapper: Kubernetes analysis - 142 nodes across 6 clusters. Istio service mesh with mTLS. Container runtime security: gVisor + Falco. Network policies: Zero-trust micro-segmentation active.';
-                        break;
-                    case 'IoTDevices':
-                        message = 'NetworkMapper: IoT fleet analysis - 1,247 devices, 847 with quantum-ready firmware. Mixed vendor support: 34% need updates. Device certificates: Rolling to post-quantum. Network isolation: VLANs + firewall rules.';
-                        break;
-                }
-                addChatMessage(message, false);
+                addChatMessage(`NetworkMapper: Service ${service} analysis - Configuration optimized for ${currentScale} deployment.`, false);
             }, 300);
         }
 
-        // Enhanced metrics update for enterprise
-        function updateMetrics() {
-            // Simulate real-time enterprise metrics
-            const baseServices = ipRanges.reduce((sum, range) => sum + range.services, 0);
-            const variation = Math.floor(Math.random() * 10) - 5;
-            document.getElementById('openServices').textContent = baseServices + variation;
-            document.getElementById('openServicesCard').textContent = document.getElementById('openServices').textContent;
-            
-            // Update threat exposure based on vulnerabilities across all ranges
-            const totalVulns = ipRanges.reduce((sum, range) => sum + range.vulnerabilities, 0);
-            const totalDevices = ipRanges.reduce((sum, range) => sum + range.devices, 0);
-            const unpatchedSystems = parseInt(document.getElementById('unpatchedSystems').textContent);
-            const rating = document.getElementById('exposureRating');
-            
-            if (totalVulns > 10 || unpatchedSystems > 100) {
-                rating.textContent = 'HIGH';
-                rating.className = 'exposure-rating exposure-high';
-            } else if (totalVulns > 3 || unpatchedSystems > 50) {
-                rating.textContent = 'MEDIUM';
-                rating.className = 'exposure-rating exposure-medium';
-            } else {
-                rating.textContent = 'LOW';
-                rating.className = 'exposure-rating exposure-low';
-            }
-            
-            // Update new devices count
-            const currentNew = parseInt(document.getElementById('newDevices').textContent);
-            if (Math.random() > 0.7) {
-                const increment = Math.floor(Math.random() * 3) + 1;
-                document.getElementById('newDevices').textContent = currentNew + increment;
-                document.getElementById('newDevicesInternal').textContent = document.getElementById('newDevices').textContent;
-            }
-        }
-
-        // Toggle scanning with enterprise awareness
+        // Chat and interaction functions
         function toggleScanning() {
             scanningActive = !scanningActive;
             const toggle = document.getElementById('scanToggle');
@@ -2609,8 +3052,7 @@
             
             if (chatOpen) {
                 const status = scanningActive ? 'resumed' : 'paused';
-                const rangeCount = ipRanges.length;
-                addChatMessage(`NetworkMapper: Enterprise scanning ${status} across ${rangeCount} IP ranges. Discovery mode: ${scanningActive ? 'ACTIVE' : 'PAUSED'}. Cross-data center correlation: ${scanningActive ? 'ENABLED' : 'STANDBY'}.`, false, 'system');
+                addChatMessage(`NetworkMapper: ${currentScale} scanning ${status}. Discovery mode: ${scanningActive ? 'ACTIVE' : 'PAUSED'}.`, false, 'system');
             }
         }
 
@@ -2638,7 +3080,6 @@
         function confirmAgentShutdown() {
             agentActive = !agentActive;
             
-            // Update header status
             const agentStatus = document.querySelector('.agent-status');
             const agentTitle = document.querySelector('.agent-title');
             const agentStatusText = document.querySelector('.agent-status-text');
@@ -2647,25 +3088,19 @@
                 agentStatus.style.background = 'rgba(0, 255, 136, 0.1)';
                 agentStatus.style.borderColor = '#00ff88';
                 agentTitle.textContent = 'AI Agent Active';
-                agentTitle.style.color = 'var(--primary)';
-                agentStatusText.textContent = 'Autonomous with Manual Override';
+                agentStatusText.textContent = 'Adaptive Configuration';
             } else {
                 agentStatus.style.background = 'rgba(255, 170, 0, 0.1)';
                 agentStatus.style.borderColor = '#ffaa00';
                 agentTitle.textContent = 'AI Agent Paused';
-                agentTitle.style.color = '#ffaa00';
                 agentStatusText.textContent = 'Manual Control Only';
-                scanningActive = false;
-                toggleScanning();
             }
             
             closeModal();
             
-            // Show notification in chat
             if (chatOpen) {
                 const status = agentActive ? 'resumed autonomous operation' : 'switched to manual control mode';
-                const rangeInfo = `Enterprise monitoring continues across ${ipRanges.length} IP ranges.`;
-                addChatMessage(`⚠️ Main Agent has ${status}. ${rangeInfo} CLI mode available if external connections fail.`, false, 'system');
+                addChatMessage(`⚠️ Main Agent has ${status}. ${currentScale} monitoring configuration maintained.`, false, 'system');
             }
         }
 
@@ -2695,7 +3130,6 @@
             messagesContainer.appendChild(messageDiv);
             messagesContainer.appendChild(timeDiv);
             
-            // Scroll to bottom
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
@@ -2704,11 +3138,10 @@
             const message = input.value.trim();
             
             if (message) {
-                // Add user message
                 addChatMessage(message, true);
                 input.value = '';
                 
-                // Process command (using shared.js functionality)
+                // Process command with scale context
                 processCommand(message);
             }
         }
@@ -2719,48 +3152,55 @@
             }
         }
 
-        // Logout handler
         function handleLogout() {
-            if (confirm('Are you sure you want to logout? The AI agent will continue protecting your enterprise infrastructure autonomously across all data centers.')) {
+            if (confirm('Are you sure you want to logout? The AI agent will continue protecting your network autonomously.')) {
                 localStorage.removeItem('sentinel_auth');
+                localStorage.removeItem('sentinel_scale'); // Reset scale on logout
                 window.location.href = 'index.html';
             }
         }
 
-        // Initialize
+        // Enhanced command processing with scale awareness
+        function processCommand(command) {
+            setTimeout(() => {
+                const lowerCommand = command.toLowerCase();
+                let response = '';
+                
+                if (lowerCommand.includes('scale') || lowerCommand.includes('environment')) {
+                    response = `NetworkMapper: Current scale: ${currentScale?.toUpperCase() || 'NOT SET'}. Monitoring ${ipRanges.length} ranges with ${getTotalDevices()} devices. Interface optimized for ${currentScale} deployment.`;
+                } else if (lowerCommand.includes('status')) {
+                    response = `NetworkMapper: ${currentScale} deployment status - ${ipRanges.length} ranges, ${getTotalDevices()} devices, ${getTotalServices()} services. All systems optimized for your environment.`;
+                } else if (lowerCommand.includes('help')) {
+                    response = `NetworkMapper: Available for ${currentScale} scale - device analysis, range management, security monitoring. Ask about specific devices, services, or network components.`;
+                } else {
+                    response = `NetworkMapper: Command processed for ${currentScale} environment. Monitoring continues across all configured ranges.`;
+                }
+                
+                addChatMessage(response, false);
+            }, 500);
+        }
+
+        // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
-            populateIPRangesGrid();
-            populateDeviceGrid();
-            updateEnterpriseMetrics();
+            initializeEnvironmentDetection();
             
-            // Auto-update metrics every 5 seconds for enterprise
+            // Auto-update metrics periodically
             setInterval(() => {
-                updateMetrics();
+                if (currentScale) {
+                    updateMetrics();
+                }
             }, 5000);
             
-            // Simulate discovering new enterprise devices every 12-20 seconds
+            // Simulate new device discovery based on scale
             setInterval(() => {
-                if (Math.random() > 0.3 && discoveryActive && scanningActive) {
-                    addNewEnterpriseDevice();
+                if (currentScale && scanningActive && discoveryActive && Math.random() > 0.7) {
+                    // Add logic for new device discovery based on scale
+                    const config = scaleConfigs[currentScale];
+                    if (internalDevices.length < config.deviceRange[1] * 0.1) { // Limit growth
+                        // Add new device logic here if needed
+                    }
                 }
-            }, Math.random() * 8000 + 12000);
-            
-            // Add periodic enterprise events to chat
-            setInterval(() => {
-                if (Math.random() > 0.9 && chatOpen) {
-                    const events = [
-                        '🏢 NetworkMapper: Cross-data center correlation detected potential threat pattern across US-East and EU-Central.',
-                        '🌐 NetworkMapper: New Kubernetes cluster deployed in US-West-2, automatically inheriting quantum-resistant policies.',
-                        '🔒 NetworkMapper: Enterprise-wide key rotation completed across all 8 IP ranges - 2,847 devices updated.',
-                        '⚡ NetworkMapper: High bandwidth spike detected on CDN endpoints - DDoS protection scaling automatically.',
-                        '🛡️ NetworkMapper: IoT device firmware updates available for 247 sensors - deploying quantum-ready certificates.',
-                        '📊 NetworkMapper: Cross-DC performance optimization suggested - 15ms latency reduction possible.',
-                        '🔬 NetworkMapper: Enterprise threat hunting - Machine learning models identified 3 anomalous behavior patterns.',
-                        '🏭 NetworkMapper: Data center cooling system integration - HVAC controllers upgraded to hybrid encryption.'
-                    ];
-                    addChatMessage(events[Math.floor(Math.random() * events.length)], false);
-                }
-            }, 30000);
+            }, 15000);
         });
     </script>
 </body>
