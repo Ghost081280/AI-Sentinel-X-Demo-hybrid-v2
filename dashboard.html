@@ -195,60 +195,21 @@
 
         .header-right {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
-            flex-wrap: wrap;
         }
 
-        /* Encryption Status Buttons */
-        .encryption-status {
-            display: flex;
-            gap: 12px;
-        }
-
-        .encryption-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
+        /* Encryption Status Badge */
+        .encryption-status-badge {
+            background: var(--gradient-hybrid);
+            color: white;
+            padding: 8px 20px;
             border-radius: 20px;
-            font-size: 12px;
             font-weight: bold;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid;
-        }
-
-        .encryption-btn.classical {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .encryption-btn.quantum {
-            background: rgba(124, 58, 237, 0.1);
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        .encryption-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.2); }
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
         }
 
         .agent-status {
@@ -554,6 +515,11 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.5); }
+        }
+
         /* Security Feed */
         .security-feed {
             background: var(--bg-card);
@@ -651,56 +617,6 @@
             color: var(--accent);
             margin-top: 5px;
             font-style: italic;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .action-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            padding: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            color: inherit;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .action-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.2);
-        }
-
-        .action-icon {
-            font-size: 36px;
-            filter: drop-shadow(0 0 10px currentColor);
-        }
-
-        .action-content {
-            flex: 1;
-        }
-
-        .action-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: var(--primary);
-            font-size: 16px;
-        }
-
-        .action-description {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.4;
         }
 
         /* System Metrics */
@@ -823,22 +739,6 @@
             font-size: 24px;
         }
 
-        .cli-mode-indicator {
-            background: rgba(255, 170, 0, 0.1);
-            border: 1px solid var(--warning);
-            border-radius: 8px;
-            padding: 10px;
-            margin: 0 20px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--warning);
-            display: none;
-        }
-
-        .cli-mode-indicator.active {
-            display: block;
-        }
-
         .ai-chat-messages {
             flex: 1;
             overflow-y: auto;
@@ -908,6 +808,23 @@
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
+        }
+
+        /* CLI Mode Indicator */
+        .cli-mode-indicator {
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--warning);
+            display: none;
+        }
+
+        .cli-mode-indicator.active {
+            display: block;
         }
 
         /* Agent Shutdown Modal */
@@ -1015,17 +932,9 @@
                 flex-direction: column;
             }
             
-            .encryption-status {
-                flex-wrap: wrap;
-            }
-            
             .nav-tabs {
                 overflow-x: scroll;
                 -webkit-overflow-scrolling: touch;
-            }
-            
-            .quick-actions {
-                grid-template-columns: 1fr;
             }
             
             .system-metrics {
@@ -1108,21 +1017,14 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <div class="encryption-status">
-                        <div class="encryption-btn classical" onclick="showEncryptionDetails('classical')">
-                            <span class="status-indicator"></span>
-                            <span>CLASSICAL</span>
-                        </div>
-                        <div class="encryption-btn quantum" onclick="showEncryptionDetails('quantum')">
-                            <span class="status-indicator"></span>
-                            <span>QUANTUM</span>
-                        </div>
+                    <div class="encryption-status-badge">
+                        CLASSICAL + QUANTUM ACTIVE
                     </div>
                     <div class="agent-status" onclick="showAgentShutdownModal()">
                         <span class="agent-icon">🤖</span>
                         <div class="agent-info">
                             <span class="agent-title">AI Agent Active</span>
-                            <span class="agent-status-text">Autonomous with Manual Override</span>
+                            <span class="agent-status-text" id="agentModeText">Autonomous with Manual Override</span>
                         </div>
                     </div>
                     <button class="logout-btn" onclick="handleLogout()">Logout</button>
@@ -1273,53 +1175,18 @@
                             </div>
                         </div>
                         
-                        <div class="sub-agent-card" onclick="window.location.href='ai-engine.html'">
-                            <div class="sub-agent-icon">🧠</div>
+                        <div class="sub-agent-card" onclick="window.location.href='settings.html'">
+                            <div class="sub-agent-icon">📝</div>
                             <div class="sub-agent-info">
-                                <div class="sub-agent-name">Neural Engine</div>
-                                <div class="sub-agent-status">Learning patterns</div>
+                                <div class="sub-agent-name">LogAgent</div>
+                                <div class="sub-agent-status">Securing audit trails</div>
                                 <div class="sub-agent-activity">
                                     <span class="activity-dot"></span>
-                                    <span>Continuous improvement</span>
+                                    <span>All logs Dilithium signed</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="quick-actions">
-                    <a href="threats.html" class="action-card">
-                        <div class="action-icon">🛡️</div>
-                        <div class="action-content">
-                            <div class="action-title">View Threats</div>
-                            <div class="action-description">7 active threats being handled by AI</div>
-                        </div>
-                    </a>
-                    
-                    <a href="network.html" class="action-card">
-                        <div class="action-icon">🌐</div>
-                        <div class="action-content">
-                            <div class="action-title">Network Discovery</div>
-                            <div class="action-description">247 devices protected with hybrid encryption</div>
-                        </div>
-                    </a>
-                    
-                    <a href="defense.html" class="action-card">
-                        <div class="action-icon">⚔️</div>
-                        <div class="action-content">
-                            <div class="action-title">Active Defense</div>
-                            <div class="action-description">8 honeypots deployed autonomously</div>
-                        </div>
-                    </a>
-                    
-                    <a href="analytics.html" class="action-card">
-                        <div class="action-icon">📊</div>
-                        <div class="action-content">
-                            <div class="action-title">Security Analytics</div>
-                            <div class="action-description">Real-time insights and predictions</div>
-                        </div>
-                    </a>
                 </div>
             </div>
 
@@ -1422,30 +1289,6 @@
         let agentActive = true;
         let cliMode = false;
 
-        // Show encryption details
-        function showEncryptionDetails(type) {
-            if (!chatOpen) {
-                toggleChat();
-            }
-            setTimeout(() => {
-                if (type === 'classical') {
-                    addChatMessage('EncryptionManager: Classical layer active - AES-256-GCM for symmetric encryption, HMAC-SHA256 for integrity, PBKDF2 for key derivation. Hardware accelerated.', false);
-                } else {
-                    addChatMessage('EncryptionManager: Quantum layer active - CRYSTALS-Kyber for key exchange, CRYSTALS-Dilithium for signatures, SPHINCS+ for long-term security. NIST standardized algorithms.', false);
-                }
-            }, 300);
-        }
-
-        // Show main agent details
-        function showMainAgentDetails() {
-            if (!chatOpen) {
-                toggleChat();
-            }
-            setTimeout(() => {
-                addChatMessage('Main Agent: Central AI orchestrating 6 sub-agents. Currently coordinating ThreatScanner, NetworkMapper, DefenseOrchestrator, EncryptionManager, AnalyticsEngine, and Neural Engine. All communications protected with hybrid encryption.', false);
-            }, 300);
-        }
-
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', () => {
             // Initialize security feed
@@ -1492,7 +1335,7 @@
             { msg: '🔐 Key rotation completed. Kyber-1024 + AES-256', type: 'encryption', agent: 'EncryptionManager' },
             { msg: '⚔️ Honeypot triggered by external scanner', type: 'warning', agent: 'DefenseOrchestrator' },
             { msg: '📊 AI model accuracy: 99.' + Math.floor(Math.random() * 9) + '%', type: '', agent: 'AnalyticsEngine' },
-            { msg: '🧠 Neural pattern learned from new attack vector', type: '', agent: 'Neural Engine' },
+            { msg: '🧠 Neural pattern learned from new attack vector', type: '', agent: 'AI Engine' },
             { msg: '🎯 Predicted attack pattern, preemptive defense deployed', type: 'warning', agent: 'ThreatScanner' },
             { msg: '✅ System health check passed. All agents operational', type: '', agent: 'Main Agent' }
         ];
@@ -1532,6 +1375,16 @@
             const decisionsEl = document.getElementById('decisionsPerMin');
             const decisions = 2.3 + Math.random() * 0.3;
             decisionsEl.textContent = decisions.toFixed(1) + 'K';
+        }
+
+        // Show main agent details
+        function showMainAgentDetails() {
+            if (!chatOpen) {
+                toggleChat();
+            }
+            setTimeout(() => {
+                addChatMessage('Main Agent: Central AI orchestrating 6 sub-agents. Currently coordinating ThreatScanner, NetworkMapper, DefenseOrchestrator, EncryptionManager, AnalyticsEngine, and LogAgent. All communications protected with hybrid encryption.', false);
+            }, 300);
         }
 
         // Modal functions
