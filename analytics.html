@@ -29,6 +29,7 @@
             --gradient-shield: linear-gradient(135deg, #1a4d2e 0%, #00ff88 50%, #00ccff 100%);
             --gradient-quantum: linear-gradient(135deg, #7c3aed 0%, #ff00ff 50%, #00ccff 100%);
             --gradient-hybrid: linear-gradient(135deg, #00ff88 0%, #7c3aed 50%, #00ccff 100%);
+            --gradient-log: linear-gradient(135deg, #ff9500 0%, #ffaa00 50%, #00ccff 100%);
         }
 
         body {
@@ -667,6 +668,172 @@
             background: var(--accent);
         }
 
+        /* LogAgent Panel - Replacing Sub-Agent Data Flow */
+        .logagent-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+        }
+
+        .logagent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logagent-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--warning);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logagent-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-log);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(255, 170, 0, 0.3);
+        }
+
+        .logagent-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .logagent-stats {
+            background: linear-gradient(135deg, rgba(255, 170, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .logagent-stats h4 {
+            color: var(--warning);
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .log-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 170, 0, 0.1);
+        }
+
+        .log-metric:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .log-metric-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .log-metric-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--warning);
+        }
+
+        .logagent-features {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(255, 170, 0, 0.05) 100%);
+            border: 1px solid rgba(255, 170, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .logagent-features h4 {
+            color: var(--warning);
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            padding: 8px 0;
+        }
+
+        .feature-icon {
+            font-size: 18px;
+            filter: drop-shadow(0 0 8px var(--warning));
+        }
+
+        .feature-text {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .logagent-activity {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, rgba(255, 170, 0, 0.05) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border: 1px solid rgba(255, 170, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .logagent-activity h4 {
+            color: var(--warning);
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-log {
+            height: 200px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .log-entry {
+            margin-bottom: 8px;
+            padding: 5px 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            border-left: 3px solid var(--warning);
+        }
+
+        .log-timestamp {
+            color: var(--text-secondary);
+            margin-right: 10px;
+        }
+
+        .log-message {
+            color: var(--text-primary);
+        }
+
         /* AI Insights Section */
         .insights-section {
             background: var(--bg-card);
@@ -773,90 +940,6 @@
         .insight-button:hover {
             background: var(--accent);
             color: white;
-        }
-
-        /* Agent Coordination Panel */
-        .coordination-panel {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(15px);
-        }
-
-        .coordination-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .coordination-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .agent-flow {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            padding: 20px 0;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .agent-node {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(124, 58, 237, 0.2) 100%);
-            border: 2px solid var(--accent);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            min-width: 150px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .agent-node:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
-        }
-
-        .agent-node.main {
-            border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 255, 136, 0.2) 100%);
-        }
-
-        .agent-node-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .agent-node-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: var(--primary);
-        }
-
-        .agent-node-status {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .agent-flow-arrow {
-            font-size: 24px;
-            color: var(--accent);
-            animation: flowPulse 2s ease-in-out infinite;
-        }
-
-        @keyframes flowPulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
         }
 
         /* AI Chat Widget */
@@ -1121,6 +1204,10 @@
             .charts-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .logagent-content {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1146,19 +1233,15 @@
                 grid-template-columns: 1fr;
             }
             
-            .agent-flow {
-                flex-direction: column;
-            }
-            
-            .agent-flow-arrow {
-                transform: rotate(90deg);
-            }
-            
             .ai-chat-window {
                 width: calc(100vw - 40px);
                 height: calc(100vh - 120px);
                 right: -20px;
                 bottom: 80px;
+            }
+            
+            .logagent-content {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -1436,29 +1519,77 @@
             </div>
         </div>
 
-        <!-- Agent Coordination Panel -->
-        <div class="coordination-panel">
-            <div class="coordination-header">
-                <h2 class="coordination-title">Sub-Agent Data Flow</h2>
-                <span style="color: var(--text-secondary); font-size: 14px;">Real-time analytics coordination</span>
+        <!-- LogAgent Panel - Replacing Sub-Agent Data Flow -->
+        <div class="logagent-panel">
+            <div class="logagent-header">
+                <div class="logagent-title">
+                    <div class="logagent-icon">📝</div>
+                    <span>LogAgent Sub-Agent</span>
+                </div>
+                <span style="color: var(--text-secondary); font-size: 14px;">Securing audit trails with Dilithium signatures</span>
             </div>
-            <div class="agent-flow">
-                <div class="agent-node" onclick="showAgentDetails('ThreatScanner')">
-                    <div class="agent-node-icon">🛡️</div>
-                    <div class="agent-node-name">ThreatScanner</div>
-                    <div class="agent-node-status">147K events/sec</div>
+            <div class="logagent-content">
+                <div class="logagent-stats">
+                    <h4>📊 Performance Metrics</h4>
+                    <div class="log-metric">
+                        <span class="log-metric-label">Logs Processed Today</span>
+                        <span class="log-metric-value" id="logsProcessed">2.8M</span>
+                    </div>
+                    <div class="log-metric">
+                        <span class="log-metric-label">Dilithium Signatures</span>
+                        <span class="log-metric-value" id="signatures">100%</span>
+                    </div>
+                    <div class="log-metric">
+                        <span class="log-metric-label">Integrity Checks</span>
+                        <span class="log-metric-value">Verified</span>
+                    </div>
+                    <div class="log-metric">
+                        <span class="log-metric-label">Storage Efficiency</span>
+                        <span class="log-metric-value">94.2%</span>
+                    </div>
+                    <div class="log-metric">
+                        <span class="log-metric-label">Retention Policy</span>
+                        <span class="log-metric-value">7 Years</span>
+                    </div>
                 </div>
-                <div class="agent-flow-arrow">→</div>
-                <div class="agent-node main" onclick="showAgentDetails('MainAgent')">
-                    <div class="agent-node-icon">🤖</div>
-                    <div class="agent-node-name">Main Agent</div>
-                    <div class="agent-node-status">Orchestrating</div>
+
+                <div class="logagent-features">
+                    <h4>🔒 Security Features</h4>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔏</span>
+                        <span class="feature-text">Post-Quantum Dilithium-3 Signatures</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔗</span>
+                        <span class="feature-text">Tamper-Evident Log Chains</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">⏰</span>
+                        <span class="feature-text">High-Precision Timestamping</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🗜️</span>
+                        <span class="feature-text">Real-Time Compression</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔍</span>
+                        <span class="feature-text">AI-Powered Log Analysis</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📋</span>
+                        <span class="feature-text">Compliance Ready (SOC2/ISO27001)</span>
+                    </div>
                 </div>
-                <div class="agent-flow-arrow">→</div>
-                <div class="agent-node" onclick="showAgentDetails('AnalyticsEngine')">
-                    <div class="agent-node-icon">📊</div>
-                    <div class="agent-node-name">AnalyticsEngine</div>
-                    <div class="agent-node-status">ML Processing</div>
+
+                <div class="logagent-activity">
+                    <h4>
+                        <span>📄</span>
+                        Recent Log Activity
+                        <span class="live-dot" style="margin-left: auto;"></span>
+                    </h4>
+                    <div class="activity-log" id="logActivity">
+                        <!-- Log entries will be populated by JavaScript -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -1526,17 +1657,17 @@
                     </div>
                 </div>
 
-                <div class="insight-card" onclick="viewInsight('encryption')">
+                <div class="insight-card" onclick="viewInsight('logagent')">
                     <div class="insight-header-row">
-                        <div class="insight-icon">🔐</div>
-                        <div class="insight-type">ENCRYPTION</div>
+                        <div class="insight-icon">📝</div>
+                        <div class="insight-type">LOG ANALYSIS</div>
                     </div>
                     <div class="insight-content">
-                        Hybrid encryption performing optimally. Quantum layer (Kyber + Dilithium) adds only 2.3ms latency. All analytics data protected against future quantum threats.
+                        LogAgent detected unusual sudo access pattern. 23 privilege escalations in 2 hours from same user account. All events Dilithium signed and verified.
                     </div>
                     <div class="insight-action">
-                        <div class="insight-metric">2.3ms</div>
-                        <button class="insight-button">Status</button>
+                        <div class="insight-metric">23</div>
+                        <button class="insight-button">Investigate</button>
                     </div>
                 </div>
 
@@ -1588,7 +1719,7 @@
             </div>
             <div class="ai-chat-messages" id="aiChatMessages">
                 <div class="ai-message-bubble">
-                    Connected to Main Agent. I can route commands to AnalyticsEngine for insights, predictions, and reports. All analytics data is protected with hybrid encryption.
+                    Connected to Main Agent. I can route commands to AnalyticsEngine and LogAgent for insights, predictions, and log analysis. All data protected with hybrid encryption.
                 </div>
                 <div class="ai-message-time">Just now</div>
             </div>
@@ -1597,7 +1728,7 @@
                     type="text" 
                     class="ai-chat-input" 
                     id="aiChatInput" 
-                    placeholder="Ask for analytics, predictions, or reports..."
+                    placeholder="Ask for analytics, logs, predictions, or reports..."
                     onkeypress="handleChatKeyPress(event)"
                 >
                 <button class="ai-chat-send" onclick="sendChatMessage()">SEND</button>
@@ -1641,6 +1772,76 @@
                 bar.onclick = () => showBarDetails(i, height);
                 chartContainer.appendChild(bar);
             }
+        }
+
+        // Initialize LogAgent activity
+        function initLogActivity() {
+            const logContainer = document.getElementById('logActivity');
+            const logEntries = [
+                '[2024-07-30 14:23:47] LOGIN: user@workstation-01.local authenticated via Kerberos',
+                '[2024-07-30 14:23:52] FILE_ACCESS: config.json read by analytics-engine.exe',
+                '[2024-07-30 14:24:15] NETWORK: TLS handshake with threat-intel.sentinel-x.com',
+                '[2024-07-30 14:24:28] CRYPTO: Dilithium-3 signature verified for audit log entry',
+                '[2024-07-30 14:24:35] PROCESS: logagent.exe spawned with PID 4729',
+                '[2024-07-30 14:24:41] ALERT: Unusual sudo pattern detected - 23 escalations in 2h',
+                '[2024-07-30 14:24:58] ENCRYPTION: AES-256-GCM key rotation completed',
+                '[2024-07-30 14:25:12] BACKUP: Log archive compressed and signed'
+            ];
+
+            logEntries.forEach(entry => {
+                addLogEntry(entry);
+            });
+        }
+
+        // Add log entry to activity feed
+        function addLogEntry(entry) {
+            const logContainer = document.getElementById('logActivity');
+            const logDiv = document.createElement('div');
+            logDiv.className = 'log-entry';
+            
+            const timestampMatch = entry.match(/\[(.*?)\]/);
+            const timestamp = timestampMatch ? timestampMatch[1] : '';
+            const message = entry.replace(/\[.*?\]\s*/, '');
+            
+            logDiv.innerHTML = `
+                <span class="log-timestamp">${timestamp}</span>
+                <span class="log-message">${message}</span>
+            `;
+            
+            logContainer.insertBefore(logDiv, logContainer.firstChild);
+            
+            // Keep only last 8 entries
+            while (logContainer.children.length > 8) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
+
+        // Generate random log entries
+        const logMessages = [
+            'LOGIN: admin@server-02.local authenticated via SSH key',
+            'FILE_ACCESS: sensitive-data.xlsx accessed by user.exe',
+            'NETWORK: Blocked connection attempt from 185.220.101.47',
+            'CRYPTO: Kyber-1024 key exchange completed with client',
+            'PROCESS: threat-scanner.exe CPU usage spike detected',
+            'ALERT: Failed login attempts from multiple IPs',
+            'ENCRYPTION: Hybrid cipher suite negotiated successfully',
+            'BACKUP: Database backup signed with Dilithium-3',
+            'AUDIT: Compliance check passed for SOC2 requirements',
+            'SECURITY: Firewall rule updated for new threat signature'
+        ];
+
+        function generateRandomLogEntry() {
+            const now = new Date();
+            const timestamp = now.getFullYear() + '-' + 
+                String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(now.getDate()).padStart(2, '0') + ' ' +
+                String(now.getHours()).padStart(2, '0') + ':' +
+                String(now.getMinutes()).padStart(2, '0') + ':' +
+                String(now.getSeconds()).padStart(2, '0');
+            
+            const message = logMessages[Math.floor(Math.random() * logMessages.length)];
+            const entry = `[${timestamp}] ${message}`;
+            addLogEntry(entry);
         }
 
         // Show bar details
@@ -1693,27 +1894,6 @@
             }, 300);
         }
 
-        // Show agent details
-        function showAgentDetails(agent) {
-            if (!chatOpen) {
-                toggleChat();
-            }
-            
-            setTimeout(() => {
-                addChatMessage(`Routing to Main Agent for ${agent} information...`, false, 'system');
-                
-                setTimeout(() => {
-                    const messages = {
-                        'ThreatScanner': 'ThreatScanner is processing 147K events/second. It feeds threat data to AnalyticsEngine for pattern recognition and prediction. All data encrypted with AES-256-GCM + Kyber-1024.',
-                        'MainAgent': 'Main Agent orchestrates all sub-agents. Currently coordinating: ThreatScanner → AnalyticsEngine → DefenseOrchestrator. All communications use hybrid encryption.',
-                        'AnalyticsEngine': 'AnalyticsEngine (this sub-agent) processes 2.4M metrics/hour using ML models. Accuracy: 99.8%. Predictions protected with Dilithium-3 signatures.'
-                    };
-                    
-                    addChatMessage(`Main Agent: ${messages[agent]}`, false);
-                }, 800);
-            }, 300);
-        }
-
         // View insight details
         function viewInsight(type) {
             if (!chatOpen) {
@@ -1726,11 +1906,12 @@
                     'anomaly': 'AnalyticsEngine: Traffic originates from 185.220.101.0/24 (known Tor exit nodes). Pattern matches cryptocurrency mining botnet. DefenseOrchestrator blocking range.',
                     'optimization': 'AnalyticsEngine: Cache frequently accessed threat signatures in memory. Reduces database queries by 67%. Implementation requires 2GB RAM. No security impact.',
                     'prediction': 'AnalyticsEngine: DDoS indicators - increasing SYN packets, suspicious geographic distribution, previous attack pattern match. Confidence intervals: 82% ±5%.',
-                    'encryption': 'AnalyticsEngine: Hybrid encryption metrics - Classical: 1.5ms avg, Quantum: 2.3ms avg. Total overhead: 3.8ms. Processing 2.1M crypto operations/second.',
+                    'logagent': 'LogAgent: Unusual sudo pattern detected on server-03.local. User account \'sysadmin\' performed 23 privilege escalations in 2 hours. All events verified with Dilithium-3 signatures. Investigating potential compromise.',
                     'accuracy': 'AnalyticsEngine: Model v3.2.1 trained on 147M samples. Improvements: 47% fewer false positives, 12% faster inference. Next training: 6 hours.'
                 };
                 
-                addChatMessage(`Routing to AnalyticsEngine sub-agent...`, false, 'system');
+                const agent = type === 'logagent' ? 'LogAgent' : 'AnalyticsEngine';
+                addChatMessage(`Routing to ${agent} sub-agent...`, false, 'system');
                 setTimeout(() => {
                     addChatMessage(insights[type], false);
                 }, 800);
@@ -1758,6 +1939,11 @@
             const metrics = document.getElementById('metricsProcessed');
             const currentMetrics = parseFloat(metrics.textContent.replace('M', ''));
             metrics.textContent = (currentMetrics + 0.1).toFixed(1) + 'M';
+
+            // Update logs processed
+            const logs = document.getElementById('logsProcessed');
+            const currentLogs = parseFloat(logs.textContent.replace('M', ''));
+            logs.textContent = (currentLogs + 0.1).toFixed(1) + 'M';
         }
 
         // Modal functions
@@ -1869,9 +2055,13 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             initThreatChart();
+            initLogActivity();
             
             // Update metrics periodically
             setInterval(updateMetrics, 3000);
+            
+            // Add new log entries periodically
+            setInterval(generateRandomLogEntry, 8000);
             
             // Refresh chart
             setInterval(() => {
@@ -1882,5 +2072,4 @@
         });
     </script>
 </body>
-</html>
-                        '
+</html>          '
