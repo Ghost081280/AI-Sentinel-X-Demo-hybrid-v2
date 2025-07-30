@@ -578,7 +578,7 @@
             text-transform: uppercase;
         }
 
-        /* IP Range Manager - Adaptive */
+        /* IP Range Manager - Adaptive with Reset Button */
         .ip-range-manager {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -611,6 +611,13 @@
             letter-spacing: 1px;
         }
 
+        .ip-range-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
         .add-range-btn {
             background: var(--gradient-datacenter);
             border: none;
@@ -628,6 +635,41 @@
         .add-range-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Enhanced Reset Configuration Button */
+        .reset-config-btn {
+            background: linear-gradient(135deg, rgba(255, 170, 0, 0.1) 0%, rgba(0, 204, 255, 0.05) 100%);
+            border: 2px solid rgba(255, 170, 0, 0.4);
+            border-radius: 20px;
+            padding: 10px 20px;
+            color: var(--warning);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .reset-config-btn:hover {
+            background: linear-gradient(135deg, rgba(255, 170, 0, 0.2) 0%, rgba(0, 204, 255, 0.1) 100%);
+            border-color: var(--warning);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 170, 0, 0.3);
+        }
+
+        .reset-config-btn .icon {
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+
+        .reset-config-btn:hover .icon {
+            transform: rotate(180deg);
         }
 
         .ip-ranges-grid {
@@ -1198,98 +1240,6 @@
             }
         }
 
-        // Rescan Infrastructure Functions
-        function showRescanModal() {
-            const modal = document.getElementById('rescanModal');
-            modal.style.display = 'flex';
-        }
-
-        function closeRescanModal() {
-            const modal = document.getElementById('rescanModal');
-            modal.style.display = 'none';
-        }
-
-        function confirmRescan() {
-            closeRescanModal();
-            
-            // Show rescan progress in chat
-            if (!chatOpen) {
-                toggleChat();
-            }
-            
-            addChatMessage('🔄 Infrastructure rescan initiated...', false, 'system');
-            
-            // Simulate rescan process with realistic steps
-            setTimeout(() => {
-                addChatMessage('NetworkMapper: Stopping current discovery processes...', false, 'system');
-            }, 500);
-            
-            setTimeout(() => {
-                addChatMessage('NetworkMapper: Clearing discovery cache and resetting configuration...', false, 'system');
-            }, 1200);
-            
-            setTimeout(() => {
-                addChatMessage('NetworkMapper: Re-initializing adaptive detection engine...', false, 'system');
-            }, 2000);
-            
-            setTimeout(() => {
-                addChatMessage('NetworkMapper: Discovery process reset complete. Please reconfigure your environment.', false, 'system');
-                
-                // Reset to initial state
-                resetToInitialState();
-            }, 3000);
-        }
-
-        function resetToInitialState() {
-            // Clear saved scale preference to force re-selection
-            localStorage.removeItem('sentinel_scale');
-            
-            // Reset global state
-            currentScale = null;
-            ipRanges = [];
-            internalDevices = [];
-            deviceCounter = 1;
-            
-            // Hide all main sections
-            document.getElementById('subAgentStatus').style.display = 'none';
-            document.getElementById('ipRangeManager').style.display = 'none';
-            document.getElementById('dashboardInteractive').style.display = 'none';
-            document.getElementById('networkOverview').style.display = 'none';
-            document.getElementById('scanningGrid').style.display = 'none';
-            document.getElementById('deviceDiscovery').style.display = 'none';
-            
-            // Reset scale indicator
-            const scaleIndicator = document.getElementById('scaleIndicator');
-            const scaleIcon = document.getElementById('scaleIcon');
-            const scaleText = document.getElementById('scaleText');
-            
-            scaleIndicator.className = 'scale-indicator scale-individual';
-            scaleIcon.textContent = '🔍';
-            scaleText.textContent = 'DETECTING';
-            
-            // Remove scale class from body
-            document.body.className = '';
-            
-            // Clear scale option selections
-            const scaleOptions = document.querySelectorAll('.scale-option');
-            scaleOptions.forEach(option => {
-                option.classList.remove('selected');
-            });
-            
-            // Show environment detection
-            document.getElementById('environmentDetection').style.display = 'block';
-            
-            // Update detection title for rescan context
-            document.querySelector('.detection-title').textContent = '🔄 Network Discovery Reset';
-            document.querySelector('.detection-description').textContent = 
-                'AI Sentinel-X has reset the network discovery configuration. Please select your current infrastructure scale to restart adaptive monitoring and analysis.';
-            
-            // Add final chat message
-            setTimeout(() => {
-                addChatMessage('✅ Network discovery reset complete. Environment detection reinitialized. Please select your infrastructure scale to continue.', false, 'system');
-            }, 500);
-        }
-
         .device-card:hover {
             background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 204, 255, 0.05) 100%);
             border-color: var(--primary);
@@ -1720,6 +1670,10 @@
                 right: -20px;
                 bottom: 80px;
             }
+
+            .ip-range-controls {
+                justify-content: center;
+            }
         }
 
         /* Custom Scrollbar */
@@ -1788,8 +1742,8 @@
                 <div class="header-right">
                     <!-- Adaptive Scale Indicator -->
                     <div class="scale-indicator scale-individual" id="scaleIndicator">
-                        <span id="scaleIcon">🏠</span>
-                        <span id="scaleText">INDIVIDUAL</span>
+                        <span id="scaleIcon">🔍</span>
+                        <span id="scaleText">DETECTING</span>
                     </div>
                     
                     <!-- Encryption Badges -->
@@ -1930,12 +1884,16 @@
             </div>
         </div>
 
-        <!-- IP Range Manager -->
+        <!-- IP Range Manager with Prominent Reset Button -->
         <div class="ip-range-manager" id="ipRangeManager" style="display: none;">
             <div class="ip-range-header">
                 <h2 class="ip-range-title" id="ipRangeTitle">Network Range Management</h2>
-                <div style="display: flex; align-items: center; gap: 15px;">
+                <div class="ip-range-controls">
                     <button class="add-range-btn" onclick="showAddRangeModal()" id="addRangeBtn">Add IP Range</button>
+                    <button class="reset-config-btn" onclick="showRescanModal()" title="Reset network discovery and reconfigure environment">
+                        <span class="icon">🔄</span>
+                        <span>Reset Configuration</span>
+                    </button>
                 </div>
             </div>
             
@@ -3165,6 +3123,98 @@
                     addChatMessage(`NetworkMapper: New ${currentScale} range ${name} (${range}) added to monitoring. Initiating discovery scan across ${newRange.devices} estimated devices...`, false);
                 }, 1000);
             }
+        }
+
+        // Rescan Infrastructure Functions
+        function showRescanModal() {
+            const modal = document.getElementById('rescanModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeRescanModal() {
+            const modal = document.getElementById('rescanModal');
+            modal.style.display = 'none';
+        }
+
+        function confirmRescan() {
+            closeRescanModal();
+            
+            // Show rescan progress in chat
+            if (!chatOpen) {
+                toggleChat();
+            }
+            
+            addChatMessage('🔄 Infrastructure rescan initiated...', false, 'system');
+            
+            // Simulate rescan process with realistic steps
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Stopping current discovery processes...', false, 'system');
+            }, 500);
+            
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Clearing discovery cache and resetting configuration...', false, 'system');
+            }, 1200);
+            
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Re-initializing adaptive detection engine...', false, 'system');
+            }, 2000);
+            
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Discovery process reset complete. Please reconfigure your environment.', false, 'system');
+                
+                // Reset to initial state
+                resetToInitialState();
+            }, 3000);
+        }
+
+        function resetToInitialState() {
+            // Clear saved scale preference to force re-selection
+            localStorage.removeItem('sentinel_scale');
+            
+            // Reset global state
+            currentScale = null;
+            ipRanges = [];
+            internalDevices = [];
+            deviceCounter = 1;
+            
+            // Hide all main sections
+            document.getElementById('subAgentStatus').style.display = 'none';
+            document.getElementById('ipRangeManager').style.display = 'none';
+            document.getElementById('dashboardInteractive').style.display = 'none';
+            document.getElementById('networkOverview').style.display = 'none';
+            document.getElementById('scanningGrid').style.display = 'none';
+            document.getElementById('deviceDiscovery').style.display = 'none';
+            
+            // Reset scale indicator
+            const scaleIndicator = document.getElementById('scaleIndicator');
+            const scaleIcon = document.getElementById('scaleIcon');
+            const scaleText = document.getElementById('scaleText');
+            
+            scaleIndicator.className = 'scale-indicator scale-individual';
+            scaleIcon.textContent = '🔍';
+            scaleText.textContent = 'DETECTING';
+            
+            // Remove scale class from body
+            document.body.className = '';
+            
+            // Clear scale option selections
+            const scaleOptions = document.querySelectorAll('.scale-option');
+            scaleOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Show environment detection
+            document.getElementById('environmentDetection').style.display = 'block';
+            
+            // Update detection title for rescan context
+            document.querySelector('.detection-title').textContent = '🔄 Network Discovery Reset';
+            document.querySelector('.detection-description').textContent = 
+                'AI Sentinel-X has reset the network discovery configuration. Please select your current infrastructure scale to restart adaptive monitoring and analysis.';
+            
+            // Add final chat message
+            setTimeout(() => {
+                addChatMessage('✅ Network discovery reset complete. Environment detection reinitialized. Please select your infrastructure scale to continue.', false, 'system');
+            }, 500);
         }
 
         // Detail functions (simplified for space)
