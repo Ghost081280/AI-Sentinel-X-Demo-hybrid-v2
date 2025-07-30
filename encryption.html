@@ -1589,8 +1589,39 @@
         <div class="ai-chat-toggle" onclick="toggleChat()">🤖</div>
     </div>
 
-    <script src="shared.js"></script>
     <script>
+        // Shared functionality for processing commands
+        function processCommand(message) {
+            if (!message) return;
+            
+            // Simple command processing
+            const cmd = message.toLowerCase();
+            let response = '';
+            
+            if (cmd.includes('status') || cmd.includes('report')) {
+                response = 'EncryptionManager: All 8 algorithms operational. Classical overhead: 1.2ms avg. Quantum overhead: 2.3ms avg. Total protection coverage: 100%';
+            } else if (cmd.includes('kyber')) {
+                response = 'CRYSTALS-Kyber is our primary post-quantum key encapsulation mechanism. Currently using 1024-bit security level with 2.1ms encapsulation time.';
+            } else if (cmd.includes('aes')) {
+                response = 'AES-256-GCM provides authenticated encryption with 1.2ms latency. Hardware acceleration via AES-NI keeps performance optimal.';
+            } else if (cmd.includes('quantum') || cmd.includes('pq')) {
+                response = 'Post-quantum layer includes Kyber (KEM), Dilithium (signatures), SPHINCS+ (hash-based), and FALCON (testing). All NIST standardized.';
+            } else if (cmd.includes('help')) {
+                response = 'Available commands: status, algorithm names (aes, kyber, dilithium, etc.), "quantum", "performance", "compliance". Click algorithms for details.';
+            } else if (cmd.includes('performance')) {
+                response = 'Current performance: Classical 1.2ms, Quantum 2.3ms average. Total hybrid overhead under 5ms target. Hardware acceleration active.';
+            } else if (cmd.includes('compliance')) {
+                response = 'All algorithms NIST compliant: AES (FIPS 197), Kyber (FIPS 203), Dilithium (FIPS 204), SPHINCS+ (FIPS 205). Hybrid mode exceeds requirements.';
+            } else {
+                response = 'EncryptionManager: Processing request... For algorithm details, click any encryption panel or ask about "status", "performance", or specific algorithms.';
+            }
+            
+            // Add AI response with slight delay
+            setTimeout(() => {
+                addChatMessage(response, false);
+            }, 500 + Math.random() * 1000);
+        }
+
         // Global variables
         let chatOpen = false;
         let agentActive = true;
@@ -1630,30 +1661,76 @@
         function updateMetrics() {
             // Update crypto operations
             const cryptoOps = document.getElementById('cryptoOps');
-            const current = parseFloat(cryptoOps.textContent.replace('M', ''));
-            cryptoOps.textContent = (2.0 + Math.random() * 0.3).toFixed(1) + 'M';
+            if (cryptoOps) {
+                const current = parseFloat(cryptoOps.textContent.replace('M', ''));
+                cryptoOps.textContent = (2.0 + Math.random() * 0.3).toFixed(1) + 'M';
+            }
             
             // Update key rotations
             if (Math.random() > 0.95) {
                 const rotations = document.getElementById('keyRotations');
-                rotations.textContent = parseInt(rotations.textContent) + 1;
+                if (rotations) {
+                    rotations.textContent = parseInt(rotations.textContent) + 1;
+                }
             }
         }
 
         // Modal functions
         function showAgentShutdownModal() {
             const modal = document.getElementById('agentShutdownModal');
-            modal.style.display = 'flex';
+            if (modal) {
+                modal.style.display = 'flex';
+            }
         }
 
         function closeModal() {
             const modal = document.getElementById('agentShutdownModal');
-            modal.style.display = 'none';
+            if (modal) {
+                modal.style.display = 'none';
+            }
         }
 
         function closeModalOnOverlay(event) {
             if (event.target.classList.contains('modal-overlay')) {
                 closeModal();
+            }
+        }
+
+        function confirmAgentShutdown() {
+            agentActive = !agentActive;
+            
+            // Update header status
+            const agentStatus = document.querySelector('.agent-status');
+            const agentTitle = document.querySelector('.agent-title');
+            const agentStatusText = document.querySelector('.agent-status-text');
+            
+            if (agentActive) {
+                if (agentStatus) {
+                    agentStatus.style.background = 'rgba(0, 255, 136, 0.1)';
+                    agentStatus.style.borderColor = '#00ff88';
+                }
+                if (agentTitle) {
+                    agentTitle.textContent = 'AI Agent Active';
+                    agentTitle.style.color = 'var(--primary)';
+                }
+                if (agentStatusText) {
+                    agentStatusText.textContent = 'Autonomous with Manual Override';
+                }
+            } else {
+                if (agentStatus) {
+                    agentStatus.style.background = 'rgba(255, 170, 0, 0.1)';
+                    agentStatus.style.borderColor = '#ffaa00';
+                }
+                if (agentTitle) {
+                    agentTitle.textContent = 'AI Agent Paused';
+                    agentTitle.style.color = '#ffaa00';
+                }
+                if (agentStatusText) {
+                    agentStatusText.textContent = 'Manual Control Only';
+                }
+            }
+            
+            closeModal();
             
             // Show notification in chat
             if (chatOpen) {
@@ -1667,15 +1744,18 @@
             chatOpen = !chatOpen;
             const chatWindow = document.getElementById('aiChatWindow');
             
-            if (chatOpen) {
-                chatWindow.classList.add('active');
-            } else {
-                chatWindow.classList.remove('active');
+            if (chatWindow) {
+                if (chatOpen) {
+                    chatWindow.classList.add('active');
+                } else {
+                    chatWindow.classList.remove('active');
+                }
             }
         }
 
         function addChatMessage(message, isUser = false, type = 'normal') {
             const messagesContainer = document.getElementById('aiChatMessages');
+            if (!messagesContainer) return;
             
             const messageDiv = document.createElement('div');
             messageDiv.className = `ai-message-bubble ${isUser ? 'user' : ''} ${type}`;
@@ -1694,6 +1774,8 @@
 
         function sendChatMessage() {
             const input = document.getElementById('aiChatInput');
+            if (!input) return;
+            
             const message = input.value.trim();
             
             if (message) {
@@ -1701,7 +1783,7 @@
                 addChatMessage(message, true);
                 input.value = '';
                 
-                // Process command (using shared.js functionality)
+                // Process command
                 processCommand(message);
             }
         }
@@ -1743,29 +1825,3 @@
     </script>
 </body>
 </html>
-            }
-        }
-
-        function confirmAgentShutdown() {
-            agentActive = !agentActive;
-            
-            // Update header status
-            const agentStatus = document.querySelector('.agent-status');
-            const agentTitle = document.querySelector('.agent-title');
-            const agentStatusText = document.querySelector('.agent-status-text');
-            
-            if (agentActive) {
-                agentStatus.style.background = 'rgba(0, 255, 136, 0.1)';
-                agentStatus.style.borderColor = '#00ff88';
-                agentTitle.textContent = 'AI Agent Active';
-                agentTitle.style.color = 'var(--primary)';
-                agentStatusText.textContent = 'Autonomous with Manual Override';
-            } else {
-                agentStatus.style.background = 'rgba(255, 170, 0, 0.1)';
-                agentStatus.style.borderColor = '#ffaa00';
-                agentTitle.textContent = 'AI Agent Paused';
-                agentTitle.style.color = '#ffaa00';
-                agentStatusText.textContent = 'Manual Control Only';
-            }
-            
-            closeModal();
