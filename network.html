@@ -341,6 +341,42 @@
             transform: translateY(-2px);
         }
 
+        .rescan-btn {
+            background: transparent;
+            border: 1px solid rgba(0, 204, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px 20px;
+            color: var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rescan-btn:hover {
+            background: rgba(0, 204, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 204, 255, 0.3);
+        }
+
+        .rescan-btn span:first-child {
+            font-size: 16px;
+            animation: rotateIcon 2s linear infinite;
+        }
+
+        .rescan-btn:hover span:first-child {
+            animation-duration: 0.5s;
+        }
+
+        @keyframes rotateIcon {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         /* Navigation Tabs */
         .nav-tabs {
             display: flex;
@@ -1163,6 +1199,98 @@
             }
         }
 
+        // Rescan Infrastructure Functions
+        function showRescanModal() {
+            const modal = document.getElementById('rescanModal');
+            modal.style.display = 'flex';
+        }
+
+        function closeRescanModal() {
+            const modal = document.getElementById('rescanModal');
+            modal.style.display = 'none';
+        }
+
+        function confirmRescan() {
+            closeRescanModal();
+            
+            // Show rescan progress in chat
+            if (!chatOpen) {
+                toggleChat();
+            }
+            
+            addChatMessage('🔄 Infrastructure rescan initiated...', false, 'system');
+            
+            // Simulate rescan process with realistic steps
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Stopping current discovery processes...', false, 'system');
+            }, 500);
+            
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Clearing cached network topology...', false, 'system');
+            }, 1200);
+            
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Re-initializing adaptive configuration engine...', false, 'system');
+            }, 2000);
+            
+            setTimeout(() => {
+                addChatMessage('NetworkMapper: Restarting infrastructure discovery. Please reconfigure your environment scale.', false, 'system');
+                
+                // Reset to initial state
+                resetToInitialState();
+            }, 3000);
+        }
+
+        function resetToInitialState() {
+            // Clear saved scale preference to force re-selection
+            localStorage.removeItem('sentinel_scale');
+            
+            // Reset global state
+            currentScale = null;
+            ipRanges = [];
+            internalDevices = [];
+            deviceCounter = 1;
+            
+            // Hide all main sections
+            document.getElementById('subAgentStatus').style.display = 'none';
+            document.getElementById('ipRangeManager').style.display = 'none';
+            document.getElementById('dashboardInteractive').style.display = 'none';
+            document.getElementById('networkOverview').style.display = 'none';
+            document.getElementById('scanningGrid').style.display = 'none';
+            document.getElementById('deviceDiscovery').style.display = 'none';
+            
+            // Reset scale indicator
+            const scaleIndicator = document.getElementById('scaleIndicator');
+            const scaleIcon = document.getElementById('scaleIcon');
+            const scaleText = document.getElementById('scaleText');
+            
+            scaleIndicator.className = 'scale-indicator scale-individual';
+            scaleIcon.textContent = '🔍';
+            scaleText.textContent = 'DETECTING';
+            
+            // Remove scale class from body
+            document.body.className = '';
+            
+            // Clear scale option selections
+            const scaleOptions = document.querySelectorAll('.scale-option');
+            scaleOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Show environment detection
+            document.getElementById('environmentDetection').style.display = 'block';
+            
+            // Update detection title for rescan context
+            document.querySelector('.detection-title').textContent = '🔄 Infrastructure Discovery Restart';
+            document.querySelector('.detection-description').textContent = 
+                'AI Sentinel-X has reset the network discovery process. Please select your current infrastructure scale to begin fresh discovery and analysis.';
+            
+            // Add final chat message
+            setTimeout(() => {
+                addChatMessage('✅ Infrastructure rescan complete. Network discovery engine reset. Please select your environment scale to continue monitoring.', false, 'system');
+            }, 500);
+        }
+
         .device-card:hover {
             background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 204, 255, 0.05) 100%);
             border-color: var(--primary);
@@ -1685,6 +1813,10 @@
                         </div>
                     </div>
                     
+                    <button class="rescan-btn" onclick="showRescanModal()" title="Restart network discovery process">
+                        <span>🔄</span>
+                        <span>Rescan Infrastructure</span>
+                    </button>
                     <button class="logout-btn" onclick="handleLogout()">Logout</button>
                 </div>
             </div>
@@ -1849,6 +1981,33 @@
             
             <div class="discovery-grid" id="deviceGrid">
                 <!-- Devices will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Rescan Infrastructure Modal -->
+    <div class="modal-overlay" id="rescanModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">🔄 Infrastructure Discovery Rescan</h2>
+            </div>
+            <div class="modal-content">
+                <p><strong>Restart Network Discovery Process</strong></p>
+                <p>This will re-initialize the network discovery engine and rescan your entire infrastructure. Use this when:</p>
+                <ul style="margin: 15px 0; padding-left: 20px; color: var(--text-secondary);">
+                    <li>New network ranges or data centers have been added</li>
+                    <li>Significant infrastructure changes have occurred</li>
+                    <li>Device configurations have been updated</li>
+                    <li>Network topology has been modified</li>
+                    <li>Security policies have changed</li>
+                </ul>
+                <p style="color: var(--warning); font-size: 14px; margin-top: 20px;">
+                    ⚠️ <strong>Note:</strong> Current monitoring will continue during rescan. Discovery process typically takes 2-5 minutes depending on infrastructure scale.
+                </p>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="confirmRescan()">Start Infrastructure Rescan</button>
+                <button class="modal-btn modal-btn-secondary" onclick="closeRescanModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -3073,6 +3232,8 @@
                     closeModal();
                 } else if (event.target.id === 'addRangeModal') {
                     closeAddRangeModal();
+                } else if (event.target.id === 'rescanModal') {
+                    closeRescanModal();
                 }
             }
         }
