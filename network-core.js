@@ -363,7 +363,7 @@ function closeModalOnOverlay(event) {
             closeAddRangeModal();
         } else if (modalId === 'rescanModal') {
             closeRescanModal();
-        } else {
+        } else if (modalId === 'agentShutdownModal') {
             SentinelEventHandlers.closeModal(modalId);
         }
     }
@@ -409,7 +409,7 @@ function selectScale(scale, userSelected = true) {
     // Initialize data for scale
     initializeDataForScale(scale, config);
 
-    // CRITICAL: Show all main sections
+    // CRITICAL: Show all main sections including sub-agent status
     showMainSections();
 
     // Populate all grids and data
@@ -428,14 +428,20 @@ function selectScale(scale, userSelected = true) {
 
 // Show all main sections
 function showMainSections() {
-    const sections = ['subAgentStatus', 'dashboardInteractive', 'networkOverview', 'ipRangeManager', 'scanningGrid', 'deviceDiscovery'];
+    // IMPORTANT: Show sub-agent status
+    const subAgentStatus = document.getElementById('subAgentStatus');
+    if (subAgentStatus) {
+        subAgentStatus.style.display = 'flex';
+    }
+    
+    const sections = ['ipRangeManager', 'dashboardInteractive', 'networkOverview', 'scanningGrid', 'deviceDiscovery'];
     sections.forEach(sectionId => {
         const element = document.getElementById(sectionId);
         if (element) {
             if (sectionId === 'scanningGrid') {
                 element.style.display = 'grid';
             } else {
-                element.style.display = 'flex';
+                element.style.display = sectionId === 'subAgentStatus' ? 'flex' : 'block';
             }
         }
     });
@@ -1279,7 +1285,7 @@ function resetToInitialState() {
     internalDevices = [];
     deviceCounter = 1;
     
-    // Hide all main sections
+    // Hide all main sections INCLUDING sub-agent status
     const sections = ['subAgentStatus', 'ipRangeManager', 'dashboardInteractive', 'networkOverview', 'scanningGrid', 'deviceDiscovery'];
     sections.forEach(sectionId => {
         const element = document.getElementById(sectionId);
@@ -1398,6 +1404,19 @@ function toggleScanning() {
     }
 }
 
+// Agent shutdown modal functions
+function confirmAgentShutdown() {
+    if (window.SentinelEventHandlers) {
+        SentinelEventHandlers.confirmAgentShutdown();
+    }
+}
+
+function closeModal() {
+    if (window.SentinelEventHandlers) {
+        SentinelEventHandlers.closeModal();
+    }
+}
+
 // Chat handlers
 function handleChatKeyPress(event) {
     if (event.key === 'Enter') {
@@ -1425,7 +1444,9 @@ function handleLogout() {
 }
 
 function showAgentShutdownModal() {
-    console.log('Show agent shutdown modal');
+    if (window.SentinelEventHandlers) {
+        SentinelEventHandlers.showAgentShutdownModal();
+    }
 }
 
 function toggleChat() {
@@ -1456,6 +1477,8 @@ window.sendChatMessage = sendChatMessage;
 window.handleLogout = handleLogout;
 window.showAgentShutdownModal = showAgentShutdownModal;
 window.toggleChat = toggleChat;
+window.confirmAgentShutdown = confirmAgentShutdown;
+window.closeModal = closeModal;
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
