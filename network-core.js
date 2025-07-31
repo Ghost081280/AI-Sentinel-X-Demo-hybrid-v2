@@ -1285,14 +1285,39 @@ function resetToInitialState() {
     internalDevices = [];
     deviceCounter = 1;
     
-    // Hide all main sections INCLUDING sub-agent status
-    const sections = ['subAgentStatus', 'ipRangeManager', 'dashboardInteractive', 'networkOverview', 'scanningGrid', 'deviceDiscovery'];
+    // Hide all main sections EXCEPT sub-agent status
+    const sections = ['ipRangeManager', 'dashboardInteractive', 'networkOverview', 'scanningGrid', 'deviceDiscovery'];
     sections.forEach(sectionId => {
         const element = document.getElementById(sectionId);
         if (element) {
             element.style.display = 'none';
         }
     });
+    
+    // IMPORTANT: Keep sub-agent status visible but reset its state
+    const subAgentStatus = document.getElementById('subAgentStatus');
+    if (subAgentStatus) {
+        subAgentStatus.style.display = 'flex';
+        
+        // Reset sub-agent description to initial state
+        const subAgentDesc = document.getElementById('subAgentDescription');
+        if (subAgentDesc) {
+            subAgentDesc.textContent = 'Network discovery reset • Awaiting configuration • Reports to Main Agent';
+        }
+        
+        // Reset metrics to dashes
+        const totalNetworks = document.getElementById('totalNetworks');
+        const discoveredDevices = document.getElementById('discoveredDevices');
+        const openServices = document.getElementById('openServices');
+        const newDevices = document.getElementById('newDevices');
+        const networksLabel = document.getElementById('networksLabel');
+        
+        if (totalNetworks) totalNetworks.textContent = '-';
+        if (discoveredDevices) discoveredDevices.textContent = '-';
+        if (openServices) openServices.textContent = '-';
+        if (newDevices) newDevices.textContent = '-';
+        if (networksLabel) networksLabel.textContent = 'Scanning';
+    }
     
     // Reset scale indicator
     const scaleIndicator = document.getElementById('scaleIndicator');
