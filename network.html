@@ -384,6 +384,71 @@
             font-weight: bold;
         }
 
+        /* Sub-Agent Status - NetworkMapper */
+        .sub-agent-status {
+            background: linear-gradient(135deg, rgba(0, 204, 255, 0.1) 0%, rgba(0, 255, 136, 0.05) 100%);
+            border: 1px solid rgba(0, 204, 255, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            backdrop-filter: blur(15px);
+        }
+
+        .sub-agent-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sub-agent-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(0, 204, 255, 0.3);
+        }
+
+        .sub-agent-details h3 {
+            font-size: 18px;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .sub-agent-details p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .sub-agent-metrics {
+            display: flex;
+            gap: 30px;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
         /* Enhanced Environment Detection */
         .environment-detection {
             background: var(--bg-card);
@@ -601,6 +666,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            position: relative;
         }
 
         .scale-icon {
@@ -738,71 +804,6 @@
             text-decoration: underline;
         }
 
-        /* Sub-Agent Status - Adaptive */
-        .sub-agent-status {
-            background: linear-gradient(135deg, rgba(0, 204, 255, 0.1) 0%, rgba(0, 255, 136, 0.05) 100%);
-            border: 1px solid rgba(0, 204, 255, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            backdrop-filter: blur(15px);
-        }
-
-        .sub-agent-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .sub-agent-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient-2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 4px 20px rgba(0, 204, 255, 0.3);
-        }
-
-        .sub-agent-details h3 {
-            font-size: 18px;
-            color: var(--secondary);
-            margin-bottom: 5px;
-        }
-
-        .sub-agent-details p {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .sub-agent-metrics {
-            display: flex;
-            gap: 30px;
-        }
-
-        .metric {
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--secondary);
-        }
-
-        .metric-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-        }
-
         /* IP Range Manager */
         .ip-range-manager {
             background: var(--bg-card);
@@ -811,9 +812,6 @@
             padding: 30px;
             margin-bottom: 30px;
             backdrop-filter: blur(20px);
-        }
-
-        .ip-range-manager.hidden {
             display: none;
         }
 
@@ -901,6 +899,13 @@
             transform: rotate(180deg);
         }
 
+        /* IP Ranges Grid */
+        .ip-ranges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
         /* Interactive Dashboard */
         .dashboard-interactive {
             background: var(--bg-card);
@@ -909,6 +914,7 @@
             padding: 30px;
             margin-bottom: 30px;
             backdrop-filter: blur(20px);
+            display: none;
         }
 
         .interactive-header {
@@ -938,7 +944,7 @@
 
         /* Scanning Grid */
         .scanning-grid {
-            display: grid;
+            display: none;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 25px;
             margin-bottom: 30px;
@@ -1104,6 +1110,7 @@
             padding: 30px;
             margin-bottom: 30px;
             backdrop-filter: blur(20px);
+            display: none;
         }
 
         .overview-header {
@@ -1173,6 +1180,7 @@
             padding: 30px;
             margin-bottom: 30px;
             backdrop-filter: blur(20px);
+            display: none;
         }
 
         .discovery-header {
@@ -1358,6 +1366,142 @@
         .modal-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal Input Styles */
+        .modal-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* IP Range Card Styling */
+        .ip-range-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+        }
+
+        .ip-range-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+            border-color: var(--primary);
+        }
+
+        .range-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .range-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .range-status {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-warning {
+            background: rgba(255, 170, 0, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .status-vulnerable {
+            background: rgba(255, 0, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .range-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .range-metrics {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+        }
+
+        .range-metric {
+            text-align: center;
+            flex: 1;
+        }
+
+        .range-metric-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .range-metric-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* AI Chat Widget */
@@ -1557,6 +1701,37 @@
                 right: -20px;
                 bottom: 80px;
             }
+            
+            .ip-range-controls {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+            
+            .reset-config-btn,
+            .add-range-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .range-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .range-metrics {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .sub-agent-metrics {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .sub-agent-status {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -1671,6 +1846,35 @@
             </a>
         </nav>
 
+        <!-- Sub-Agent Status Banner -->
+        <div class="sub-agent-status" id="subAgentStatus" style="display: none;">
+            <div class="sub-agent-info">
+                <div class="sub-agent-icon">🌐</div>
+                <div class="sub-agent-details">
+                    <h3 id="subAgentTitle">NetworkMapper Sub-Agent</h3>
+                    <p id="subAgentDescription">Adaptive scanning • Reports to Main Agent</p>
+                </div>
+            </div>
+            <div class="sub-agent-metrics">
+                <div class="metric">
+                    <div class="metric-value" id="totalNetworks">1</div>
+                    <div class="metric-label" id="networksLabel">IP Range</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="discoveredDevices">15</div>
+                    <div class="metric-label">Devices</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="openServices">8</div>
+                    <div class="metric-label">Services</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value" id="newDevices">2</div>
+                    <div class="metric-label">New (24h)</div>
+                </div>
+            </div>
+        </div>
+
         <!-- Environment Detection with Auto-Scan -->
         <div class="environment-detection" id="environmentDetection">
             <div class="detection-title">🎯 Intelligent Network Discovery</div>
@@ -1755,35 +1959,6 @@
                 <p>🛡️ Your license includes the AI agent, threat detection, and basic monitoring infrastructure. Additional charges apply only for internal endpoints discovered during network scanning.</p>
                 <p>📊 You control what gets monitored - install the agent only where needed to optimize costs.</p>
                 <p>💰 Annual subscriptions available with 20% discount on license fees.</p>
-            </div>
-        </div>
-
-        <!-- Sub-Agent Status -->
-        <div class="sub-agent-status" id="subAgentStatus" style="display: none;">
-            <div class="sub-agent-info">
-                <div class="sub-agent-icon">🌐</div>
-                <div class="sub-agent-details">
-                    <h3 id="subAgentTitle">NetworkMapper Sub-Agent</h3>
-                    <p id="subAgentDescription">Adaptive scanning • Reports to Main Agent</p>
-                </div>
-            </div>
-            <div class="sub-agent-metrics">
-                <div class="metric">
-                    <div class="metric-value" id="totalNetworks">1</div>
-                    <div class="metric-label" id="networksLabel">IP Range</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value" id="discoveredDevices">15</div>
-                    <div class="metric-label">Devices</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value" id="openServices">8</div>
-                    <div class="metric-label">Services</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-value" id="newDevices">2</div>
-                    <div class="metric-label">New (24h)</div>
-                </div>
             </div>
         </div>
 
@@ -1933,7 +2108,7 @@
             </div>
             <div class="ai-chat-messages" id="aiChatMessages">
                 <div class="ai-message-bubble">
-                    Welcome to AI Sentinel-X Adaptive Network Discovery. I'm analyzing your environment to configure the optimal interface. Please select your network scale above, or I'll auto-detect based on your infrastructure.
+                    Welcome to AI Sentinel-X Adaptive Network Discovery. I'm the NetworkMapper sub-agent analyzing your environment to configure the optimal interface. Please select your network scale above, or I'll auto-detect based on your infrastructure.
                 </div>
                 <div class="ai-message-time">Just now</div>
             </div>
@@ -1950,237 +2125,6 @@
         </div>
         <div class="ai-chat-toggle" onclick="toggleChat()">🤖</div>
     </div>
-
-    <style>
-        /* Additional Modal Styles */
-        .modal-input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        .modal-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: rgba(0, 255, 136, 0.05);
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* IP Range Card Styling */
-        .ip-range-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(15px);
-        }
-
-        .ip-range-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
-            border-color: var(--primary);
-        }
-
-        .range-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .range-name {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .range-status {
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 11px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .status-secure {
-            background: rgba(0, 255, 136, 0.2);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .status-warning {
-            background: rgba(255, 170, 0, 0.2);
-            color: var(--warning);
-            border: 1px solid var(--warning);
-        }
-
-        .status-vulnerable {
-            background: rgba(255, 0, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-
-        .range-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .info-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .info-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .info-value {
-            font-size: 14px;
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .range-metrics {
-            display: flex;
-            justify-content: space-around;
-            gap: 15px;
-        }
-
-        .range-metric {
-            text-align: center;
-            flex: 1;
-        }
-
-        .range-metric-value {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .range-metric-label {
-            font-size: 11px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Threat Exposure */
-        .threat-exposure {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(20px);
-        }
-
-        .exposure-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .exposure-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .exposure-rating {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .exposure-low {
-            background: rgba(0, 255, 136, 0.2);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .exposure-medium {
-            background: rgba(255, 170, 0, 0.2);
-            color: var(--warning);
-            border: 1px solid var(--warning);
-        }
-
-        .exposure-high {
-            background: rgba(255, 0, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-
-        /* Improved responsive design */
-        @media (max-width: 768px) {
-            .ip-range-controls {
-                flex-direction: column;
-                gap: 10px;
-                width: 100%;
-            }
-            
-            .reset-config-btn,
-            .add-range-btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .range-info {
-                grid-template-columns: 1fr;
-            }
-            
-            .range-metrics {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .sub-agent-metrics {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .overview-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
 
     <script src="shared.js"></script>
     <script src="network-core.js"></script>
