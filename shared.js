@@ -27,7 +27,7 @@ const SentinelState = {
     }
 };
 
-// Scale-specific configurations for network module
+// Scale-specific configurations for network module - Updated with new pricing
 const ScaleConfigs = {
     individual: {
         icon: '🌐',
@@ -39,7 +39,9 @@ const ScaleConfigs = {
         serviceRange: [3, 12],
         description: 'Single server monitoring • Essential protection • Hybrid-resistant security',
         scanDetails: 'Server + External',
-        chatContext: 'single IP deployment with essential security monitoring'
+        chatContext: 'single IP deployment with essential security monitoring',
+        licenseFeeMo: 29,
+        endpointCostMo: 0.10
     },
     business: {
         icon: '🏢',
@@ -51,7 +53,9 @@ const ScaleConfigs = {
         serviceRange: [12, 50],
         description: 'Multi-location scanning • Business-grade security • Advanced monitoring',
         scanDetails: 'Multi-site + External',
-        chatContext: 'small business with multiple locations and enhanced security requirements'
+        chatContext: 'small business with multiple locations and enhanced security requirements',
+        licenseFeeMo: 149,
+        endpointCostMo: 0.08
     },
     enterprise: {
         icon: '🏭',
@@ -63,7 +67,9 @@ const ScaleConfigs = {
         serviceRange: [50, 200],
         description: 'Enterprise-scale scanning • Cross-DC correlation • Full data center monitoring',
         scanDetails: 'Multi-DC + Global',
-        chatContext: 'enterprise data center with distributed infrastructure and advanced threat correlation'
+        chatContext: 'enterprise data center with distributed infrastructure and advanced threat correlation',
+        licenseFeeMo: 499,
+        endpointCostMo: 0.05
     }
 };
 
@@ -352,12 +358,12 @@ class SentinelChat {
     
     getCommandContext(lowerCommand) {
         if (lowerCommand.includes('threat') || lowerCommand.includes('attack') || lowerCommand.includes('malware')) return 'threats';
-        if (lowerCommand.includes('network') || lowerCommand.includes('device') || lowerCommand.includes('scan')) return 'network';
+        if (lowerCommand.includes('network') || lowerCommand.includes('device') || lowerCommand.includes('scan') || lowerCommand.includes('endpoint')) return 'network';
         if (lowerCommand.includes('encrypt') || lowerCommand.includes('crypto') || lowerCommand.includes('quantum') || lowerCommand.includes('hybrid')) return 'encryption';
         if (lowerCommand.includes('defense') || lowerCommand.includes('response') || lowerCommand.includes('honeypot')) return 'defense';
         if (lowerCommand.includes('analytics') || lowerCommand.includes('report') || lowerCommand.includes('metric')) return 'analytics';
         if (lowerCommand.includes('log') || lowerCommand.includes('audit') || lowerCommand.includes('compliance')) return 'logs';
-        if (lowerCommand.includes('scale') || lowerCommand.includes('environment') || lowerCommand.includes('reset')) return 'network';
+        if (lowerCommand.includes('scale') || lowerCommand.includes('environment') || lowerCommand.includes('reset') || lowerCommand.includes('license') || lowerCommand.includes('pricing')) return 'network';
         return SentinelState.currentPage;
     }
     
@@ -391,21 +397,48 @@ class SentinelChat {
             return this.handleQuarantine(ipMatch);
         }
         
-        if (lowerCommand.includes('scale') || lowerCommand.includes('environment')) {
-            return this.handleScaleQuery();
+        if (lowerCommand.includes('scale') || lowerCommand.includes('environment') || lowerCommand.includes('pricing') || lowerCommand.includes('license')) {
+            return this.handleScaleQuery(lowerCommand);
+        }
+        
+        if (lowerCommand.includes('endpoint') || lowerCommand.includes('cost') || lowerCommand.includes('billing')) {
+            return this.handleEndpointPricing();
         }
         
         // Fallback to contextual responses
         return responses[Math.floor(Math.random() * responses.length)];
     }
     
-    handleScaleQuery() {
+    handleScaleQuery(lowerCommand) {
         const currentScale = SentinelState.currentScale;
         if (currentScale && ScaleConfigs[currentScale]) {
             const config = ScaleConfigs[currentScale];
+            
+            if (lowerCommand.includes('pricing') || lowerCommand.includes('cost') || lowerCommand.includes('license')) {
+                return `NetworkMapper: Current deployment: ${config.text}
+• License Fee: $${config.licenseFeeMo}/month
+• Endpoint Cost: $${config.endpointCostMo}/endpoint/month
+• Description: ${config.description}
+• Cost Model: You pay a base license fee plus per-endpoint charges for discovered internal assets.`;
+            }
+            
             return `NetworkMapper: Current deployment scale: ${config.text}. ${config.description}. Interface optimized for ${config.chatContext}.`;
         }
-        return 'NetworkMapper: Scale detection in progress. Please select your deployment type from the options above.';
+        return 'NetworkMapper: Scale detection in progress. Please select your deployment type from the options above to see pricing details.';
+    }
+    
+    handleEndpointPricing() {
+        const currentScale = SentinelState.currentScale;
+        if (currentScale && ScaleConfigs[currentScale]) {
+            const config = ScaleConfigs[currentScale];
+            return `NetworkMapper: Endpoint pricing for ${config.text} tier:
+• License Fee: $${config.licenseFeeMo}/month (includes AI agent, threat detection, basic monitoring)
+• Internal Endpoint Discovery: $${config.endpointCostMo}/endpoint/month
+• You only pay for endpoints the agent discovers during internal scanning
+• Install the agent only where you need monitoring to control costs
+• Annual subscriptions include 20% discount on license fees`;
+        }
+        return 'NetworkMapper: Please select a deployment scale first to see endpoint pricing details.';
     }
     
     getContextualResponses(context) {
@@ -418,7 +451,8 @@ class SentinelChat {
             network: [
                 'NetworkMapper: 247 devices discovered and monitored. Live discovery active with hybrid-resistant protocols.',
                 'NetworkMapper: Dual-layer scanning (external + internal) operating normally. All communications hybrid encrypted.',
-                'NetworkMapper: New device detection rate: 1 every 8-15 seconds. External threat intelligence via Shodan API.'
+                'NetworkMapper: New device detection rate: 1 every 8-15 seconds. Endpoint billing calculated monthly based on discoveries.',
+                'NetworkMapper: Agent-based internal scanning provides accurate endpoint counts for transparent billing.'
             ],
             encryption: [
                 'EncryptionManager: Hybrid mode operational. Classical: AES-256-GCM, HMAC-SHA256. Post-Quantum: Kyber-1024, Dilithium-3.',
@@ -447,7 +481,9 @@ class SentinelChat {
     
     generateStatusResponse(context) {
         const scaleText = SentinelState.currentScale ? ScaleConfigs[SentinelState.currentScale].text : 'DETECTING';
-        return `System Status - ${context.toUpperCase()} Module:
+        const config = SentinelState.currentScale ? ScaleConfigs[SentinelState.currentScale] : null;
+        
+        let statusText = `System Status - ${context.toUpperCase()} Module:
 • AI Mode: ${SentinelState.agentActive ? 'Autonomous' : 'Manual Control'}
 • Scale: ${scaleText}
 • Encryption: Hybrid Active (Classical + Post-Quantum)
@@ -456,13 +492,21 @@ class SentinelChat {
 • Discovery: ${SentinelState.discoveryActive ? 'ACTIVE' : 'PAUSED'}
 • Performance: Optimal
 • Uptime: 99.98%`;
+
+        if (config) {
+            statusText += `
+• License: $${config.licenseFeeMo}/month
+• Endpoint Rate: $${config.endpointCostMo}/endpoint/month`;
+        }
+
+        return statusText;
     }
     
     generateHelpResponse(context) {
         const commands = {
-            general: ['status', 'help', 'list threats', 'scan network', 'show encryption', 'view logs', 'scale info'],
+            general: ['status', 'help', 'list threats', 'scan network', 'show encryption', 'view logs', 'scale info', 'pricing info'],
             threats: ['list threats', 'analyze threat [ID]', 'quarantine [IP]', 'threat stats'],
-            network: ['scan network', 'list devices', 'discovery status', 'device info [IP]', 'scale info', 'reset config'],
+            network: ['scan network', 'list devices', 'discovery status', 'device info [IP]', 'scale info', 'reset config', 'endpoint pricing'],
             encryption: ['show encryption', 'key rotation', 'algorithm status', 'hybrid readiness'],
             defense: ['defense status', 'list honeypots', 'response time', 'playbook status'],
             analytics: ['analytics report', 'threat trends', 'performance metrics', 'predictions']
@@ -508,6 +552,7 @@ All commands route through appropriate sub-agents with hybrid encryption.`;
 • enable agent - Restore AI control
 • discovery status - Device discovery
 • scale info - Current scale
+• pricing info - License & endpoint costs
 • version - Show version info`,
             
             'status': `[CLI] System Status:
@@ -535,9 +580,24 @@ All commands route through appropriate sub-agents with hybrid encryption.`;
 • Type: ${currentScale.toUpperCase()}
 • Max Ranges: ${config.maxRanges}
 • Device Range: ${config.deviceRange[0]}-${config.deviceRange[1]}
+• License Fee: $${config.licenseFeeMo}/month
+• Endpoint Cost: $${config.endpointCostMo}/endpoint/month
 • Description: ${config.description}`;
                 }
                 return '[CLI] Scale: Not configured. Please select deployment type.';
+            },
+            
+            'pricing info': () => {
+                const currentScale = SentinelState.currentScale;
+                if (currentScale && ScaleConfigs[currentScale]) {
+                    const config = ScaleConfigs[currentScale];
+                    return `[CLI] ${config.text} Pricing:
+• License Fee: $${config.licenseFeeMo}/month
+• Endpoint Discovery: $${config.endpointCostMo}/endpoint/month
+• Billing: Monthly based on discovered endpoints
+• Annual discount: 20% off license fees`;
+                }
+                return '[CLI] Please select a deployment scale first.';
             },
             
             'list threats': `[CLI] Active Threats:
@@ -1010,6 +1070,117 @@ function addEnhancedCSS() {
             box-shadow: 0 5px 20px rgba(255, 170, 0, 0.3);
         }
         
+        /* IP Range Card Styling */
+        .ip-range-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+        }
+        
+        .ip-range-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .range-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .range-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .range-status {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .status-secure {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+        
+        .status-warning {
+            background: rgba(255, 170, 0, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        
+        .status-vulnerable {
+            background: rgba(255, 0, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        
+        .range-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .info-value {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .range-metrics {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+        }
+        
+        .range-metric {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .range-metric-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .range-metric-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
         /* Improved responsive design */
         @media (max-width: 768px) {
             .ip-range-controls {
@@ -1022,6 +1193,15 @@ function addEnhancedCSS() {
             .add-range-btn {
                 width: 100%;
                 justify-content: center;
+            }
+            
+            .range-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .range-metrics {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     `;
