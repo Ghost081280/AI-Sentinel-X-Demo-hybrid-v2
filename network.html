@@ -1846,30 +1846,30 @@
             </a>
         </nav>
 
-        <!-- Sub-Agent Status Banner -->
-        <div class="sub-agent-status" id="subAgentStatus" style="display: none;">
+        <!-- Sub-Agent Status Banner - VISIBLE ON LANDING -->
+        <div class="sub-agent-status" id="subAgentStatus">
             <div class="sub-agent-info">
                 <div class="sub-agent-icon">🌐</div>
                 <div class="sub-agent-details">
                     <h3 id="subAgentTitle">NetworkMapper Sub-Agent</h3>
-                    <p id="subAgentDescription">Adaptive scanning • Reports to Main Agent</p>
+                    <p id="subAgentDescription">Adaptive network discovery • Scale detection • Reports to Main Agent</p>
                 </div>
             </div>
             <div class="sub-agent-metrics">
                 <div class="metric">
-                    <div class="metric-value" id="totalNetworks">1</div>
-                    <div class="metric-label" id="networksLabel">IP Range</div>
+                    <div class="metric-value" id="totalNetworks">-</div>
+                    <div class="metric-label" id="networksLabel">Scanning</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="discoveredDevices">15</div>
-                    <div class="metric-label">Devices</div>
+                    <div class="metric-value" id="discoveredDevices">-</div>
+                    <div class="metric-label">Detecting</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="openServices">8</div>
+                    <div class="metric-value" id="openServices">-</div>
                     <div class="metric-label">Services</div>
                 </div>
                 <div class="metric">
-                    <div class="metric-value" id="newDevices">2</div>
+                    <div class="metric-value" id="newDevices">-</div>
                     <div class="metric-label">New (24h)</div>
                 </div>
             </div>
@@ -1949,184 +1949,184 @@
                         <div class="feature">✓ Custom threat modeling</div>
                         <div class="feature">✓ SOC integration & APIs</div>
                         <div class="feature">✓ Unlimited monitoring scope</div>
-                    </div>
-                    <div class="scale-pricing">$499/month License Fee</div>
-                    <div class="scale-coverage">+ $0.05/endpoint/month for internal assets discovered</div>
-                </div>
-            </div>
-            
-            <div class="solution-footer">
-                <p>🛡️ Your license includes the AI agent, threat detection, and basic monitoring infrastructure. Additional charges apply only for internal endpoints discovered during network scanning.</p>
-                <p>📊 You control what gets monitored - install the agent only where needed to optimize costs.</p>
-                <p>💰 Annual subscriptions available with 20% discount on license fees.</p>
-            </div>
-        </div>
+                   </div>
+                   <div class="scale-pricing">$499/month License Fee</div>
+                   <div class="scale-coverage">+ $0.05/endpoint/month for internal assets discovered</div>
+               </div>
+           </div>
+           
+           <div class="solution-footer">
+               <p>🛡️ Your license includes the AI agent, threat detection, and basic monitoring infrastructure. Additional charges apply only for internal endpoints discovered during network scanning.</p>
+               <p>📊 You control what gets monitored - install the agent only where needed to optimize costs.</p>
+               <p>💰 Annual subscriptions available with 20% discount on license fees.</p>
+           </div>
+       </div>
 
-        <!-- IP Range Manager -->
-        <div class="ip-range-manager" id="ipRangeManager" style="display: none;">
-            <div class="ip-range-header">
-                <h2 class="ip-range-title" id="ipRangeTitle">Network Range Management</h2>
-                <div class="ip-range-controls">
-                    <button class="add-range-btn" onclick="showAddRangeModal()" id="addRangeBtn">Add IP Range</button>
-                    <button class="reset-config-btn" onclick="showRescanModal()" title="Reset network discovery and reconfigure environment">
-                        <span class="icon">🔄</span>
-                        <span>Reset Configuration</span>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="ip-ranges-grid" id="ipRangesGrid">
-                <!-- IP ranges will be populated here -->
-            </div>
-        </div>
+       <!-- IP Range Manager -->
+       <div class="ip-range-manager" id="ipRangeManager" style="display: none;">
+           <div class="ip-range-header">
+               <h2 class="ip-range-title" id="ipRangeTitle">Network Range Management</h2>
+               <div class="ip-range-controls">
+                   <button class="add-range-btn" onclick="showAddRangeModal()" id="addRangeBtn">Add IP Range</button>
+                   <button class="reset-config-btn" onclick="showRescanModal()" title="Reset network discovery and reconfigure environment">
+                       <span class="icon">🔄</span>
+                       <span>Reset Configuration</span>
+                   </button>
+               </div>
+           </div>
+           
+           <div class="ip-ranges-grid" id="ipRangesGrid">
+               <!-- IP ranges will be populated here -->
+           </div>
+       </div>
 
-        <!-- Interactive Dashboard Section -->
-        <div class="dashboard-interactive" id="dashboardInteractive" style="display: none;">
-            <div class="interactive-header">
-                <h2 class="interactive-title" id="interactiveTitle">Network Discovery Dashboard</h2>
-                <div class="auto-scan-controls">
-                    <span style="color: var(--text-secondary); font-size: 14px;" id="scanDetails">Continuous Monitoring Active</span>
-                    <button class="reset-config-btn" onclick="showRescanModal()" title="Reset network discovery and reconfigure environment">
-                        <span class="icon">🔄</span>
-                        <span>Reset Configuration</span>
-                    </button>
-                </div>
-            </div>
-            <p style="color: var(--text-secondary); text-align: center; font-size: 14px; line-height: 1.6;" id="dashboardDescription">
-                🤖 <strong>Autonomous scanning active</strong> • Hybrid-resistant encryption • No manual intervention required
-            </p>
-        </div>
+       <!-- Interactive Dashboard Section -->
+       <div class="dashboard-interactive" id="dashboardInteractive" style="display: none;">
+           <div class="interactive-header">
+               <h2 class="interactive-title" id="interactiveTitle">Network Discovery Dashboard</h2>
+               <div class="auto-scan-controls">
+                   <span style="color: var(--text-secondary); font-size: 14px;" id="scanDetails">Continuous Monitoring Active</span>
+                   <button class="reset-config-btn" onclick="showRescanModal()" title="Reset network discovery and reconfigure environment">
+                       <span class="icon">🔄</span>
+                       <span>Reset Configuration</span>
+                   </button>
+               </div>
+           </div>
+           <p style="color: var(--text-secondary); text-align: center; font-size: 14px; line-height: 1.6;" id="dashboardDescription">
+               🤖 <strong>Autonomous scanning active</strong> • Hybrid-resistant encryption • No manual intervention required
+           </p>
+       </div>
 
-        <!-- Scanning Grid -->
-        <div class="scanning-grid" id="scanningGrid" style="display: none;">
-            <!-- Scan panels will be populated here by JavaScript -->
-        </div>
+       <!-- Scanning Grid -->
+       <div class="scanning-grid" id="scanningGrid" style="display: none;">
+           <!-- Scan panels will be populated here by JavaScript -->
+       </div>
 
-        <!-- Network Overview -->
-        <div class="network-overview" id="networkOverview" style="display: none;">
-            <div class="overview-header">
-                <h2 class="overview-title" id="overviewTitle">Network Overview</h2>
-            </div>
-            <div class="overview-grid" id="overviewGrid">
-                <!-- Overview cards will be populated here -->
-            </div>
-        </div>
+       <!-- Network Overview -->
+       <div class="network-overview" id="networkOverview" style="display: none;">
+           <div class="overview-header">
+               <h2 class="overview-title" id="overviewTitle">Network Overview</h2>
+           </div>
+           <div class="overview-grid" id="overviewGrid">
+               <!-- Overview cards will be populated here -->
+           </div>
+       </div>
 
-        <!-- Device Discovery -->
-        <div class="device-discovery" id="deviceDiscovery" style="display: none;">
-            <div class="discovery-header">
-                <h2 class="discovery-title" id="discoveryTitle">Device Discovery</h2>
-            </div>
-            <div class="device-grid" id="deviceGrid">
-                <!-- Device cards will be populated here -->
-            </div>
-        </div>
+       <!-- Device Discovery -->
+       <div class="device-discovery" id="deviceDiscovery" style="display: none;">
+           <div class="discovery-header">
+               <h2 class="discovery-title" id="discoveryTitle">Device Discovery</h2>
+           </div>
+           <div class="device-grid" id="deviceGrid">
+               <!-- Device cards will be populated here -->
+           </div>
+       </div>
 
-    </div>
+   </div>
 
-    <!-- Add Range Modal -->
-    <div class="modal-overlay" id="addRangeModal" onclick="closeModalOnOverlay(event)">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 class="modal-title" id="addRangeModalTitle">🌐 Add IP Range</h2>
-            </div>
-            <div class="modal-content">
-                <div class="input-group">
-                    <label for="rangeName">Range Name:</label>
-                    <input type="text" id="rangeName" placeholder="e.g., Main Office" class="modal-input">
-                </div>
-                <div class="input-group">
-                    <label for="ipRange">IP Range (CIDR):</label>
-                    <input type="text" id="ipRange" placeholder="e.g., 192.168.1.0/24" class="modal-input">
-                </div>
-                <div class="input-group">
-                    <label for="location">Location:</label>
-                    <input type="text" id="location" placeholder="e.g., New York, US" class="modal-input">
-                </div>
-                <div class="input-group">
-                    <label for="organization">Organization:</label>
-                    <input type="text" id="organization" placeholder="e.g., Company ISP" class="modal-input">
-                </div>
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn modal-btn-primary" onclick="addIPRange()">Add Range</button>
-                <button class="modal-btn modal-btn-secondary" onclick="closeAddRangeModal()">Cancel</button>
-            </div>
-        </div>
-    </div>
+   <!-- Add Range Modal -->
+   <div class="modal-overlay" id="addRangeModal" onclick="closeModalOnOverlay(event)">
+       <div class="modal">
+           <div class="modal-header">
+               <h2 class="modal-title" id="addRangeModalTitle">🌐 Add IP Range</h2>
+           </div>
+           <div class="modal-content">
+               <div class="input-group">
+                   <label for="rangeName">Range Name:</label>
+                   <input type="text" id="rangeName" placeholder="e.g., Main Office" class="modal-input">
+               </div>
+               <div class="input-group">
+                   <label for="ipRange">IP Range (CIDR):</label>
+                   <input type="text" id="ipRange" placeholder="e.g., 192.168.1.0/24" class="modal-input">
+               </div>
+               <div class="input-group">
+                   <label for="location">Location:</label>
+                   <input type="text" id="location" placeholder="e.g., New York, US" class="modal-input">
+               </div>
+               <div class="input-group">
+                   <label for="organization">Organization:</label>
+                   <input type="text" id="organization" placeholder="e.g., Company ISP" class="modal-input">
+               </div>
+           </div>
+           <div class="modal-actions">
+               <button class="modal-btn modal-btn-primary" onclick="addIPRange()">Add Range</button>
+               <button class="modal-btn modal-btn-secondary" onclick="closeAddRangeModal()">Cancel</button>
+           </div>
+       </div>
+   </div>
 
-    <!-- Rescan Modal -->
-    <div class="modal-overlay" id="rescanModal" onclick="closeModalOnOverlay(event)">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 class="modal-title">🔄 Reset Network Discovery</h2>
-            </div>
-            <div class="modal-content">
-                <p>This will reset the network discovery configuration and return you to the environment detection screen. All current network data will be cleared.</p>
-                <p><strong>Warning:</strong> This action cannot be undone. The AI agent will need to reconfigure your environment from scratch.</p>
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn modal-btn-primary" onclick="confirmRescan()">Reset Configuration</button>
-                <button class="modal-btn modal-btn-secondary" onclick="closeRescanModal()">Cancel</button>
-            </div>
-        </div>
-    </div>
+   <!-- Rescan Modal -->
+   <div class="modal-overlay" id="rescanModal" onclick="closeModalOnOverlay(event)">
+       <div class="modal">
+           <div class="modal-header">
+               <h2 class="modal-title">🔄 Reset Network Discovery</h2>
+           </div>
+           <div class="modal-content">
+               <p>This will reset the network discovery configuration and return you to the environment detection screen. All current network data will be cleared.</p>
+               <p><strong>Warning:</strong> This action cannot be undone. The AI agent will need to reconfigure your environment from scratch.</p>
+           </div>
+           <div class="modal-actions">
+               <button class="modal-btn modal-btn-primary" onclick="confirmRescan()">Reset Configuration</button>
+               <button class="modal-btn modal-btn-secondary" onclick="closeRescanModal()">Cancel</button>
+           </div>
+       </div>
+   </div>
 
-    <!-- Agent Shutdown Modal -->
-    <div class="modal-overlay" id="agentShutdownModal" onclick="closeModalOnOverlay(event)">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 class="modal-title">🤖 AI Agent Control</h2>
-            </div>
-            <div class="modal-content">
-                <p>The AI Agent is currently operating autonomously with manual override capabilities. You can:</p>
-                <ul>
-                    <li><strong>Keep Autonomous:</strong> Agent continues automatic threat response</li>
-                    <li><strong>Manual Control:</strong> Switch to manual-only mode with CLI fallback</li>
-                </ul>
-                <p>Note: Network protection continues regardless of mode selection.</p>
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn modal-btn-primary" onclick="confirmAgentShutdown()">Toggle Mode</button>
-                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
-            </div>
-        </div>
-    </div>
+   <!-- Agent Shutdown Modal -->
+   <div class="modal-overlay" id="agentShutdownModal" onclick="closeModalOnOverlay(event)">
+       <div class="modal">
+           <div class="modal-header">
+               <h2 class="modal-title">🤖 AI Agent Control</h2>
+           </div>
+           <div class="modal-content">
+               <p>The AI Agent is currently operating autonomously with manual override capabilities. You can:</p>
+               <ul>
+                   <li><strong>Keep Autonomous:</strong> Agent continues automatic threat response</li>
+                   <li><strong>Manual Control:</strong> Switch to manual-only mode with CLI fallback</li>
+               </ul>
+               <p>Note: Network protection continues regardless of mode selection.</p>
+           </div>
+           <div class="modal-actions">
+               <button class="modal-btn modal-btn-primary" onclick="confirmAgentShutdown()">Toggle Mode</button>
+               <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+           </div>
+       </div>
+   </div>
 
-    <!-- AI Chat Widget -->
-    <div class="ai-chat-widget">
-        <div class="ai-chat-window" id="aiChatWindow">
-            <div class="ai-chat-header">
-                <div class="ai-chat-status">
-                    <span class="chat-status-dot"></span>
-                    <span>MAIN AGENT ONLINE</span>
-                </div>
-                <span class="ai-chat-close" onclick="toggleChat()">×</span>
-            </div>
-            <div class="cli-mode-indicator" id="cliModeIndicator">
-                ⚠️ CLI MODE - Main Agent Offline
-            </div>
-            <div class="ai-chat-messages" id="aiChatMessages">
-                <div class="ai-message-bubble">
-                    Welcome to AI Sentinel-X Adaptive Network Discovery. I'm the NetworkMapper sub-agent analyzing your environment to configure the optimal interface. Please select your network scale above, or I'll auto-detect based on your infrastructure.
-                </div>
-                <div class="ai-message-time">Just now</div>
-            </div>
-            <div class="ai-chat-input-container">
-                <input 
-                    type="text" 
-                    class="ai-chat-input" 
-                    id="aiChatInput" 
-                    placeholder="Ask about network configuration, scaling, or security..."
-                    onkeypress="handleChatKeyPress(event)"
-                >
-                <button class="ai-chat-send" onclick="sendChatMessage()">SEND</button>
-            </div>
-        </div>
-        <div class="ai-chat-toggle" onclick="toggleChat()">🤖</div>
-    </div>
+   <!-- AI Chat Widget -->
+   <div class="ai-chat-widget">
+       <div class="ai-chat-window" id="aiChatWindow">
+           <div class="ai-chat-header">
+               <div class="ai-chat-status">
+                   <span class="chat-status-dot"></span>
+                   <span>MAIN AGENT ONLINE</span>
+               </div>
+               <span class="ai-chat-close" onclick="toggleChat()">×</span>
+           </div>
+           <div class="cli-mode-indicator" id="cliModeIndicator">
+               ⚠️ CLI MODE - Main Agent Offline
+           </div>
+           <div class="ai-chat-messages" id="aiChatMessages">
+               <div class="ai-message-bubble">
+                   Welcome to AI Sentinel-X Adaptive Network Discovery. I'm the NetworkMapper sub-agent analyzing your environment to configure the optimal interface. Please select your network scale above, or I'll auto-detect based on your infrastructure.
+               </div>
+               <div class="ai-message-time">Just now</div>
+           </div>
+           <div class="ai-chat-input-container">
+               <input 
+                   type="text" 
+                   class="ai-chat-input" 
+                   id="aiChatInput" 
+                   placeholder="Ask about network configuration, scaling, or security..."
+                   onkeypress="handleChatKeyPress(event)"
+               >
+               <button class="ai-chat-send" onclick="sendChatMessage()">SEND</button>
+           </div>
+       </div>
+       <div class="ai-chat-toggle" onclick="toggleChat()">🤖</div>
+   </div>
 
-    <script src="shared.js"></script>
-    <script src="network-core.js"></script>
+   <script src="shared.js"></script>
+   <script src="network-core.js"></script>
 </body>
 </html>
