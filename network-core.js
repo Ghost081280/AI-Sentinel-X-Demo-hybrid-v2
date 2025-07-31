@@ -409,6 +409,12 @@ function selectScale(scale, userSelected = true) {
     // Initialize data for scale
     initializeDataForScale(scale, config);
 
+    // CRITICAL: Show all main sections
+    showMainSections();
+
+    // Populate all grids and data
+    populateAllContent();
+
     // Save preference
     if (userSelected) {
         localStorage.setItem('sentinel_scale', scale);
@@ -418,6 +424,21 @@ function selectScale(scale, userSelected = true) {
     if (window.sentinelChat && SentinelState.chatOpen && userSelected) {
         sentinelChat.addMessage(`NetworkMapper: Configured for ${config.text.toLowerCase()} scale. Interface adapted for ${config.chatContext}. All features optimized for your environment.`, false, 'system');
     }
+}
+
+// Show all main sections
+function showMainSections() {
+    const sections = ['subAgentStatus', 'dashboardInteractive', 'networkOverview', 'ipRangeManager', 'scanningGrid', 'deviceDiscovery'];
+    sections.forEach(sectionId => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            if (sectionId === 'scanningGrid') {
+                element.style.display = 'grid';
+            } else {
+                element.style.display = 'flex';
+            }
+        }
+    });
 }
 
 // Update scale indicator
@@ -435,17 +456,6 @@ function updateScaleIndicator(config) {
 
 // Configure interface elements based on scale
 function configureInterfaceForScale(scale, config) {
-    // Show main sections
-    const sections = ['subAgentStatus', 'dashboardInteractive', 'networkOverview', 'ipRangeManager'];
-    sections.forEach(sectionId => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-            element.style.display = sectionId === 'scanningGrid' ? 'grid' : 
-                                   sectionId === 'deviceDiscovery' ? 'block' : 
-                                   'flex';
-        }
-    });
-
     // Update sub-agent description
     const subAgentDesc = document.getElementById('subAgentDescription');
     if (subAgentDesc) {
@@ -454,7 +464,7 @@ function configureInterfaceForScale(scale, config) {
 
     // Update dashboard title
     const titles = {
-        individual: 'Single IP Discovery',
+        individual: 'Single Server Discovery',
         business: 'Multi-Site Network Discovery', 
         enterprise: 'Enterprise Network Discovery'
     };
@@ -508,6 +518,28 @@ function configureInterfaceForScale(scale, config) {
         };
         networksLabel.textContent = labels[scale];
     }
+
+    // Update overview title
+    const overviewTitle = document.getElementById('overviewTitle');
+    if (overviewTitle) {
+        const overviewTitles = {
+            individual: 'Server Overview',
+            business: 'Business Network Overview',
+            enterprise: 'Enterprise Infrastructure Overview'
+        };
+        overviewTitle.textContent = overviewTitles[scale];
+    }
+
+    // Update discovery title
+    const discoveryTitle = document.getElementById('discoveryTitle');
+    if (discoveryTitle) {
+        const discoveryTitles = {
+            individual: 'Server Device Discovery',
+            business: 'Business Device Discovery',
+            enterprise: 'Enterprise Device Discovery'
+        };
+        discoveryTitle.textContent = discoveryTitles[scale];
+    }
 }
 
 // Initialize data structures for each scale
@@ -531,6 +563,21 @@ function initializeDataForScale(scale, config) {
             vulnerabilities: 0,
             bandwidth: '1Gbps'
         }];
+        
+        // Generate internal devices for individual
+        internalDevices = [
+            {
+                id: 'server-1',
+                name: 'Web Server',
+                ip: '203.0.113.42',
+                type: 'Server',
+                icon: '🖥️',
+                services: 'HTTP, HTTPS, SSH',
+                status: 'Secure',
+                encryption: 'AES-256-GCM',
+                aiStatus: 'Monitored'
+            }
+        ];
         deviceCounter = 2;
     } else if (scale === 'business') {
         ipRanges = [
@@ -569,6 +616,54 @@ function initializeDataForScale(scale, config) {
                 services: 4,
                 vulnerabilities: 0,
                 bandwidth: '300Mbps'
+            }
+        ];
+
+        // Generate internal devices for business
+        internalDevices = [
+            {
+                id: 'hq-dc-1',
+                name: 'Main Domain Controller',
+                ip: '203.0.113.10',
+                type: 'Domain Controller',
+                icon: '🏢',
+                services: 'AD, DNS, DHCP',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
+            },
+            {
+                id: 'hq-mail-1',
+                name: 'Exchange Server',
+                ip: '203.0.113.25',
+                type: 'Mail Server',
+                icon: '📧',
+                services: 'SMTP, IMAP, EWS',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
+            },
+            {
+                id: 'atl-fw-1',
+                name: 'Atlanta Firewall',
+                ip: '203.0.113.65',
+                type: 'Security Device',
+                icon: '🛡️',
+                services: 'Firewall, VPN',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
+            },
+            {
+                id: 'char-switch-1',
+                name: 'Charlotte Core Switch',
+                ip: '203.0.113.97',
+                type: 'Network Device',
+                icon: '🔀',
+                services: 'Switching, VLAN',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
             }
         ];
         deviceCounter = 128;
@@ -611,14 +706,87 @@ function initializeDataForScale(scale, config) {
                 bandwidth: '9.2GB/s'
             }
         ];
+
+        // Generate internal devices for enterprise
+        internalDevices = [
+            {
+                id: 'va-core-1',
+                name: 'VA Core Router',
+                ip: '203.0.113.1',
+                type: 'Core Router',
+                icon: '🌐',
+                services: 'BGP, OSPF, MPLS',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
+            },
+            {
+                id: 'va-lb-1',
+                name: 'Load Balancer Cluster',
+                ip: '203.0.113.10',
+                type: 'Load Balancer',
+                icon: '⚖️',
+                services: 'HTTP LB, SSL Term',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
+            },
+            {
+                id: 'or-db-1',
+                name: 'Database Cluster',
+                ip: '198.51.100.20',
+                type: 'Database',
+                icon: '🗄️',
+                services: 'PostgreSQL, Redis',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
+            },
+            {
+                id: 'de-backup-1',
+                name: 'Backup Storage',
+                ip: '192.0.2.50',
+                type: 'Storage',
+                icon: '💾',
+                services: 'Object Storage, Backup',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
+            },
+            {
+                id: 'va-security-1',
+                name: 'Security Operations',
+                ip: '203.0.113.100',
+                type: 'Security Device',
+                icon: '🛡️',
+                services: 'SIEM, IDS/IPS',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
+            },
+            {
+                id: 'or-app-1',
+                name: 'Application Server',
+                ip: '198.51.100.100',
+                type: 'Application Server',
+                icon: '🚀',
+                services: 'API Gateway, Microservices',
+                status: 'Secure',
+                encryption: 'Hybrid-resistant',
+                aiStatus: 'Monitored'
+            }
+        ];
         deviceCounter = 2848;
     }
+}
 
-    // Update metrics display
+// Populate all content grids
+function populateAllContent() {
     updateMetrics();
-    
-    // Populate IP ranges grid
     populateIPRangesGrid();
+    populateOverviewGrid();
+    populateScanningGrid();
+    populateDeviceGrid();
 }
 
 function updateMetrics() {
@@ -632,10 +800,12 @@ function updateMetrics() {
     const totalNetworks = document.getElementById('totalNetworks');
     const discoveredDevices = document.getElementById('discoveredDevices');
     const openServices = document.getElementById('openServices');
+    const newDevices = document.getElementById('newDevices');
 
     if (totalNetworks) totalNetworks.textContent = totalRanges.toString();
     if (discoveredDevices) discoveredDevices.textContent = totalDevices.toLocaleString();
     if (openServices) openServices.textContent = totalServices.toString();
+    if (newDevices) newDevices.textContent = Math.floor(Math.random() * 5 + 1).toString();
 }
 
 // Populate IP ranges grid
@@ -697,6 +867,287 @@ function populateIPRangesGrid() {
     });
 }
 
+// Populate overview grid
+function populateOverviewGrid() {
+    const grid = document.getElementById('overviewGrid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    const overviewData = getOverviewData();
+    
+    overviewData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'overview-card';
+        card.onclick = () => showOverviewDetails(item.type);
+        
+        card.innerHTML = `
+            <div class="overview-icon">${item.icon}</div>
+            <div class="overview-value">${item.value}</div>
+            <div class="overview-label">${item.label}</div>
+        `;
+        
+        grid.appendChild(card);
+    });
+}
+
+function getOverviewData() {
+    const totalDevices = ipRanges.reduce((sum, range) => sum + range.devices, 0);
+    const totalServices = ipRanges.reduce((sum, range) => sum + range.services, 0);
+    const totalVulnerabilities = ipRanges.reduce((sum, range) => sum + range.vulnerabilities, 0);
+
+    if (currentScale === 'individual') {
+        return [
+            { icon: '🖥️', value: '1', label: 'Server', type: 'serverIP' },
+            { icon: '🌐', value: totalServices.toString(), label: 'Services', type: 'serverServices' },
+            { icon: '🔒', value: 'Hybrid', label: 'Encryption', type: 'encryption' },
+            { icon: '🛡️', value: totalVulnerabilities.toString(), label: 'Threats', type: 'threats' }
+        ];
+    } else if (currentScale === 'business') {
+        return [
+            { icon: '🏢', value: ipRanges.length.toString(), label: 'Sites', type: 'businessSites' },
+            { icon: '💻', value: totalDevices.toLocaleString(), label: 'Devices', type: 'devices' },
+            { icon: '🌐', value: totalServices.toString(), label: 'Services', type: 'services' },
+            { icon: '🔐', value: 'Active', label: 'Encryption', type: 'encryption' },
+            { icon: '⚠️', value: totalVulnerabilities.toString(), label: 'Alerts', type: 'alerts' },
+            { icon: '📊', value: '99.8%', label: 'Uptime', type: 'uptime' }
+        ];
+    } else { // enterprise
+        return [
+            { icon: '🏭', value: ipRanges.length.toString(), label: 'Data Centers', type: 'enterpriseRanges' },
+            { icon: '💻', value: totalDevices.toLocaleString(), label: 'Devices', type: 'devices' },
+            { icon: '🌐', value: totalServices.toString(), label: 'Services', type: 'services' },
+            { icon: '🔐', value: 'Hybrid', label: 'Encryption', type: 'encryption' },
+            { icon: '⚠️', value: totalVulnerabilities.toString(), label: 'Critical', type: 'critical' },
+            { icon: '📊', value: '99.9%', label: 'Availability', type: 'availability' },
+            { icon: '🔄', value: '24/7', label: 'Monitoring', type: 'monitoring' },
+            { icon: '🌍', value: '3', label: 'Regions', type: 'regions' }
+        ];
+    }
+}
+
+// Populate scanning grid
+function populateScanningGrid() {
+    const grid = document.getElementById('scanningGrid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    const scanPanels = getScanPanels();
+    
+    scanPanels.forEach(panel => {
+        const panelDiv = document.createElement('div');
+        panelDiv.className = 'scan-panel';
+        
+        let servicesHTML = '';
+        if (panel.services) {
+            servicesHTML = panel.services.map(service => `
+                <div class="service-item" onclick="showServiceDetails('${service.name}')">
+                    <div class="service-info">
+                        <div class="service-name">${service.name}</div>
+                        <div class="service-details">${service.details}</div>
+                        <div class="service-encryption">${service.encryption}</div>
+                    </div>
+                    <div class="service-status ${service.statusClass}">${service.status}</div>
+                </div>
+            `).join('');
+        }
+
+        let resultsHTML = '';
+        if (panel.results) {
+            resultsHTML = panel.results.map(result => `
+                <div class="result-item">
+                    <span class="result-label">${result.label}</span>
+                    <span class="result-value">${result.value}</span>
+                </div>
+            `).join('');
+        }
+        
+        panelDiv.innerHTML = `
+            <div class="panel-header">
+                <h3 class="panel-title">${panel.title}</h3>
+                <div class="scan-status active">
+                    <div class="status-dot"></div>
+                    <span>ACTIVE</span>
+                </div>
+            </div>
+            ${resultsHTML ? `<div class="scan-results">${resultsHTML}</div>` : ''}
+            ${servicesHTML ? `<div class="service-list">${servicesHTML}</div>` : ''}
+        `;
+        
+        grid.appendChild(panelDiv);
+    });
+}
+
+function getScanPanels() {
+    if (currentScale === 'individual') {
+        return [
+            {
+                title: 'External Exposure',
+                results: [
+                    { label: 'Public IP', value: '203.0.113.42' },
+                    { label: 'Open Ports', value: '3' },
+                    { label: 'SSL Rating', value: 'A+' },
+                    { label: 'Exposure Score', value: 'Low' }
+                ]
+            },
+            {
+                title: 'Running Services',
+                services: [
+                    {
+                        name: 'HTTPS Web Server',
+                        details: 'Port 443 • TLS 1.3',
+                        encryption: 'Hybrid-resistant encryption',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    },
+                    {
+                        name: 'SSH Server',
+                        details: 'Port 22 • Key-based auth',
+                        encryption: 'Ed25519 + Post-quantum',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    },
+                    {
+                        name: 'DNS Server',
+                        details: 'Port 53 • Recursive disabled',
+                        encryption: 'DoT + DNSSEC',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    }
+                ]
+            }
+        ];
+    } else if (currentScale === 'business') {
+        return [
+            {
+                title: 'Multi-Site Status',
+                results: [
+                    { label: 'Headquarters', value: 'Online' },
+                    { label: 'Atlanta Office', value: 'Online' },
+                    { label: 'Charlotte Office', value: 'Online' },
+                    { label: 'VPN Tunnels', value: '3 Active' }
+                ]
+            },
+            {
+                title: 'Business Services',
+                services: [
+                    {
+                        name: 'Active Directory',
+                        details: 'Domain Controller • LDAPS',
+                        encryption: 'Kerberos + Hybrid',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    },
+                    {
+                        name: 'Exchange Server',
+                        details: 'Email • EWS • Mobile sync',
+                        encryption: 'S/MIME + Hybrid',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    },
+                    {
+                        name: 'File Shares',
+                        details: 'SMB 3.0 • DFS replication',
+                        encryption: 'SMB encryption + Hybrid',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    },
+                    {
+                        name: 'VPN Gateway',
+                        details: 'Site-to-site • IPSec',
+                        encryption: 'IKEv2 + Post-quantum',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    }
+                ]
+            }
+        ];
+    } else { // enterprise
+        return [
+            {
+                title: 'Global Infrastructure',
+                results: [
+                    { label: 'Primary DC (VA)', value: 'Operational' },
+                    { label: 'Secondary DC (OR)', value: 'Operational' },
+                    { label: 'Backup DC (EU)', value: 'Operational' },
+                    { label: 'Global Load Balancing', value: 'Active' }
+                ]
+            },
+            {
+                title: 'Enterprise Services',
+                services: [
+                    {
+                        name: 'Core Routing',
+                        details: 'BGP • OSPF • MPLS backbone',
+                        encryption: 'IPSec + Hybrid mesh',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    },
+                    {
+                        name: 'Load Balancer Cluster',
+                        details: 'Global • Health checks • SSL termination',
+                        encryption: 'TLS 1.3 + Post-quantum',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    },
+                    {
+                        name: 'Database Cluster',
+                        details: 'PostgreSQL HA • Read replicas',
+                        encryption: 'TDE + Hybrid at-rest',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    },
+                    {
+                        name: 'Security Operations',
+                        details: 'SIEM • IDS/IPS • Threat intelligence',
+                        encryption: 'End-to-end hybrid encryption',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    },
+                    {
+                        name: 'Backup Systems',
+                        details: 'Multi-region • Incremental • Versioned',
+                        encryption: 'AES-256 + Post-quantum',
+                        status: 'Secure',
+                        statusClass: 'status-secure'
+                    }
+                ]
+            }
+        ];
+    }
+}
+
+// Populate device grid
+function populateDeviceGrid() {
+    const grid = document.getElementById('deviceGrid');
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    internalDevices.forEach((device, index) => {
+        const card = document.createElement('div');
+        card.className = 'device-card';
+        if (index < 2) card.classList.add('new-device'); // Mark first two as new
+        
+        card.innerHTML = `
+            <div class="device-header">
+                <div class="device-icon">${device.icon}</div>
+            </div>
+            <div class="device-name">${device.name}</div>
+            <div class="device-ip">${device.ip}</div>
+            <div class="device-services">Services: ${device.services}</div>
+            <div class="device-ai-status">AI Status: ${device.aiStatus}</div>
+            <div class="device-encryption">
+                🔐 ${device.encryption}
+            </div>
+        `;
+        
+        card.onclick = () => showDeviceDetails(device);
+        grid.appendChild(card);
+    });
+}
+
 // Modal and interaction functions
 function showAddRangeModal() {
     const modal = document.getElementById('addRangeModal');
@@ -750,6 +1201,7 @@ function addIPRange() {
     ipRanges.push(newRange);
     populateIPRangesGrid();
     updateMetrics();
+    populateOverviewGrid(); // Update overview with new data
     closeAddRangeModal();
     
     // Clear form
@@ -902,7 +1354,17 @@ function showOverviewDetails(type) {
             serverIP: 'NetworkMapper: Server IP analysis - Single public address with hybrid-ready protection.',
             serverServices: 'NetworkMapper: Server services analysis - All services secured and optimized.',
             businessSites: 'NetworkMapper: Multi-site business deployment with site-to-site VPN.',
-            enterpriseRanges: 'NetworkMapper: Enterprise multi-range deployment across data centers.'
+            enterpriseRanges: 'NetworkMapper: Enterprise multi-range deployment across data centers.',
+            devices: 'NetworkMapper: Device inventory analysis - All endpoints monitored and secured.',
+            services: 'NetworkMapper: Service portfolio analysis - All services hybrid-encrypted.',
+            encryption: 'NetworkMapper: Encryption status - Hybrid-resistant protocols active across all systems.',
+            threats: 'NetworkMapper: Threat landscape analysis - Current risk level assessed.',
+            alerts: 'NetworkMapper: Alert summary - All critical alerts resolved.',
+            uptime: 'NetworkMapper: Availability metrics - System performance optimal.',
+            critical: 'NetworkMapper: Critical issue analysis - No unresolved critical issues.',
+            availability: 'NetworkMapper: High availability status - All redundancy systems operational.',
+            monitoring: 'NetworkMapper: 24/7 monitoring active - Global surveillance operational.',
+            regions: 'NetworkMapper: Multi-region deployment - Geographic redundancy active.'
         };
         sentinelChat.addMessage(messages[type] || 'NetworkMapper: Network component analysis complete.', false);
     }, 300);
@@ -911,7 +1373,7 @@ function showOverviewDetails(type) {
 function showServiceDetails(service) {
     if (!SentinelState.chatOpen) sentinelChat.toggle();
     setTimeout(() => {
-        sentinelChat.addMessage(`NetworkMapper: Service ${service} analysis - Configuration optimized for ${currentScale} deployment.`, false);
+        sentinelChat.addMessage(`NetworkMapper: Service ${service} analysis - Configuration optimized for ${currentScale} deployment. All protocols hybrid-encrypted.`, false);
     }, 300);
 }
 
@@ -1017,6 +1479,8 @@ if (typeof module !== 'undefined' && module.exports) {
         updateMetrics,
         showAddRangeModal,
         addIPRange,
-        confirmRescan
+        confirmRescan,
+        populateAllContent,
+        showMainSections
     };
 }
